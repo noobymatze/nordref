@@ -1,5 +1,10 @@
 # Nordref
 
+This application will eventually be used for managing floorball referees in 
+Schleswig-Holstein. 
+
+**Important:** This is a work in progress and mainly used to test out Elixir/Phoenix.
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`

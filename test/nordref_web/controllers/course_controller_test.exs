@@ -10,7 +10,8 @@ defmodule NordrefWeb.CourseControllerTest do
     name: "some name",
     organizer_participants: 42,
     released: true,
-    type: "some type"
+    type: "G2",
+    organizer: 0
   }
   @update_attrs %{
     date: ~D[2011-05-18],
@@ -19,7 +20,8 @@ defmodule NordrefWeb.CourseControllerTest do
     name: "some updated name",
     organizer_participants: 43,
     released: false,
-    type: "some updated type"
+    type: "F",
+    organizer: 0
   }
   @invalid_attrs %{
     date: nil,
@@ -28,7 +30,8 @@ defmodule NordrefWeb.CourseControllerTest do
     name: nil,
     organizer_participants: nil,
     released: nil,
-    type: nil
+    type: nil,
+    organizer: nil
   }
 
   def fixture(:course) do

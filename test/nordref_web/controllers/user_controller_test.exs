@@ -11,7 +11,7 @@ defmodule NordrefWeb.UserControllerTest do
     mobile: "some mobile",
     password: "some password",
     phone: "some phone",
-    role: "some role",
+    role: "SUPER_ADMIN",
     username: "some username"
   }
   @update_attrs %{
@@ -22,7 +22,7 @@ defmodule NordrefWeb.UserControllerTest do
     mobile: "some updated mobile",
     password: "some updated password",
     phone: "some updated phone",
-    role: "some updated role",
+    role: "ADMIN",
     username: "some updated username"
   }
   @invalid_attrs %{

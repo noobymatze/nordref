@@ -5,13 +5,13 @@ defmodule NordrefWeb.ClubControllerTest do
 
   @create_attrs %{
     name: "some name",
-    regional_association: "some regional_association",
-    short_name: "some short_name"
+    regional_association: "FVN",
+    short_name: "some short"
   }
   @update_attrs %{
     name: "some updated name",
-    regional_association: "some updated regional_association",
-    short_name: "some updated short_name"
+    regional_association: "FLV",
+    short_name: "updated"
   }
   @invalid_attrs %{name: nil, regional_association: nil, short_name: nil}
 
@@ -23,7 +23,7 @@ defmodule NordrefWeb.ClubControllerTest do
   describe "index" do
     test "lists all clubs", %{conn: conn} do
       conn = get(conn, Routes.club_path(conn, :index))
-      assert html_response(conn, 200) =~ "Listing Clubs"
+      assert html_response(conn, 200) =~ "Clubs"
     end
   end
 

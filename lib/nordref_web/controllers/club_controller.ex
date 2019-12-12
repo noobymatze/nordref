@@ -27,7 +27,7 @@ defmodule NordrefWeb.ClubController do
         |> redirect(to: Routes.club_path(conn, :show, club))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, "new.html", changeset: changeset, associations: Club.regional_associations())
     end
   end
 
@@ -39,7 +39,6 @@ defmodule NordrefWeb.ClubController do
   def edit(conn, %{"id" => id}) do
     club = Clubs.get_club!(id)
     changeset = Clubs.change_club(club)
-    IO.puts(Club.regional_associations())
 
     conn
     |> assign(:associations, Club.regional_associations())

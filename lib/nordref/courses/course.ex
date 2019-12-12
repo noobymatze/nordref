@@ -17,7 +17,7 @@ defmodule Nordref.Courses.Course do
 
   @doc false
   def types do
-    ["F","J","G2","G3"]
+    ["F", "J", "G2", "G3"]
   end
 
   @doc false
@@ -30,7 +30,8 @@ defmodule Nordref.Courses.Course do
       :organizer_participants,
       :type,
       :date,
-      :released
+      :released,
+      :organizer
     ])
     |> validate_required([
       :name,
@@ -39,7 +40,9 @@ defmodule Nordref.Courses.Course do
       :organizer_participants,
       :type,
       :date,
-      :released
+      :released,
+      :organizer
     ])
+    |> validate_inclusion(:type, types())
   end
 end

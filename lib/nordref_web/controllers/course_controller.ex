@@ -11,7 +11,7 @@ defmodule NordrefWeb.CourseController do
 
   def new(conn, _params) do
     changeset = Courses.change_course(%Course{})
-    render(conn, "new.html", changeset: changeset, types: Course.types)
+    render(conn, "new.html", changeset: changeset, types: Course.types())
   end
 
   def create(conn, %{"course" => course_params}) do
@@ -22,7 +22,7 @@ defmodule NordrefWeb.CourseController do
         |> redirect(to: Routes.course_path(conn, :show, course))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, "new.html", changeset: changeset, types: Course.types())
     end
   end
 
@@ -34,7 +34,7 @@ defmodule NordrefWeb.CourseController do
   def edit(conn, %{"id" => id}) do
     course = Courses.get_course!(id)
     changeset = Courses.change_course(course)
-    render(conn, "edit.html", course: course, changeset: changeset, types: Course.types)
+    render(conn, "edit.html", course: course, changeset: changeset, types: Course.types())
   end
 
   def update(conn, %{"id" => id, "course" => course_params}) do
@@ -47,7 +47,7 @@ defmodule NordrefWeb.CourseController do
         |> redirect(to: Routes.course_path(conn, :show, course))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", course: course, changeset: changeset, types: Course.types)
+        render(conn, "edit.html", course: course, changeset: changeset, types: Course.types())
     end
   end
 

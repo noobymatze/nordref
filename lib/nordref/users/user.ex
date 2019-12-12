@@ -32,6 +32,7 @@ defmodule Nordref.Users.User do
       :role
     ])
     |> validate_required([:first_name, :last_name, :email, :username, :birthday, :role])
+    |> validate_inclusion(:role, roles())
   end
 
   @doc false

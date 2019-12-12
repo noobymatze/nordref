@@ -22,7 +22,7 @@ defmodule NordrefWeb.UserController do
         |> redirect(to: Routes.user_path(conn, :show, user))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, "new.html", changeset: changeset, roles: User.roles())
     end
   end
 

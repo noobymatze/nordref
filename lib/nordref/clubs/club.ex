@@ -13,6 +13,7 @@ defmodule Nordref.Clubs.Club do
     club
     |> cast(attrs, [:name, :short_name, :regional_association])
     |> validate_required([:name, :short_name, :regional_association])
+    |> validate_length(:short_name, max: 10)
   end
 
   @doc false

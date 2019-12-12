@@ -14,7 +14,7 @@ defmodule Nordref.UsersTest do
       mobile: "some mobile",
       password: "some password",
       phone: "some phone",
-      role: "some role",
+      role: "SUPER_ADMIN",
       username: "some username"
     }
     @update_attrs %{
@@ -25,7 +25,7 @@ defmodule Nordref.UsersTest do
       mobile: "some updated mobile",
       password: "some updated password",
       phone: "some updated phone",
-      role: "some updated role",
+      role: "ADMIN",
       username: "some updated username"
     }
     @invalid_attrs %{
@@ -68,7 +68,7 @@ defmodule Nordref.UsersTest do
       assert user.mobile == "some mobile"
       assert user.password == "some password"
       assert user.phone == "some phone"
-      assert user.role == "some role"
+      assert user.role == "SUPER_ADMIN"
       assert user.username == "some username"
     end
 
@@ -86,7 +86,7 @@ defmodule Nordref.UsersTest do
       assert user.mobile == "some updated mobile"
       assert user.password == "some updated password"
       assert user.phone == "some updated phone"
-      assert user.role == "some updated role"
+      assert user.role == "ADMIN"
       assert user.username == "some updated username"
     end
 

@@ -20,12 +20,22 @@ defmodule Nordref.Users.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:first_name, :last_name, :email, :username, :password, :birthday, :mobile, :phone, :role])
+    |> cast(attrs, [
+      :first_name,
+      :last_name,
+      :email,
+      :username,
+      :password,
+      :birthday,
+      :mobile,
+      :phone,
+      :role
+    ])
     |> validate_required([:first_name, :last_name, :email, :username, :birthday, :role])
   end
 
   @doc false
   def roles do
-    ["SUPER_ADMIN","ADMIN","CLUB_ADMIN","INSTRUCTOR","USER"]
+    ["SUPER_ADMIN", "ADMIN", "CLUB_ADMIN", "INSTRUCTOR", "USER"]
   end
 end

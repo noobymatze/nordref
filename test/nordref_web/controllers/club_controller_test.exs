@@ -3,8 +3,16 @@ defmodule NordrefWeb.ClubControllerTest do
 
   alias Nordref.Clubs
 
-  @create_attrs %{name: "some name", regional_association: "some regional_association", short_name: "some short_name"}
-  @update_attrs %{name: "some updated name", regional_association: "some updated regional_association", short_name: "some updated short_name"}
+  @create_attrs %{
+    name: "some name",
+    regional_association: "some regional_association",
+    short_name: "some short_name"
+  }
+  @update_attrs %{
+    name: "some updated name",
+    regional_association: "some updated regional_association",
+    short_name: "some updated short_name"
+  }
   @invalid_attrs %{name: nil, regional_association: nil, short_name: nil}
 
   def fixture(:club) do
@@ -75,6 +83,7 @@ defmodule NordrefWeb.ClubControllerTest do
     test "deletes chosen club", %{conn: conn, club: club} do
       conn = delete(conn, Routes.club_path(conn, :delete, club))
       assert redirected_to(conn) == Routes.club_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.club_path(conn, :show, club))
       end

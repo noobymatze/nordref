@@ -6,9 +6,39 @@ defmodule Nordref.UsersTest do
   describe "users" do
     alias Nordref.Users.User
 
-    @valid_attrs %{birthday: ~D[2010-04-17], email: "some email", first_name: "some first_name", last_name: "some last_name", mobile: "some mobile", password: "some password", phone: "some phone", role: "some role", username: "some username"}
-    @update_attrs %{birthday: ~D[2011-05-18], email: "some updated email", first_name: "some updated first_name", last_name: "some updated last_name", mobile: "some updated mobile", password: "some updated password", phone: "some updated phone", role: "some updated role", username: "some updated username"}
-    @invalid_attrs %{birthday: nil, email: nil, first_name: nil, last_name: nil, mobile: nil, password: nil, phone: nil, role: nil, username: nil}
+    @valid_attrs %{
+      birthday: ~D[2010-04-17],
+      email: "some email",
+      first_name: "some first_name",
+      last_name: "some last_name",
+      mobile: "some mobile",
+      password: "some password",
+      phone: "some phone",
+      role: "some role",
+      username: "some username"
+    }
+    @update_attrs %{
+      birthday: ~D[2011-05-18],
+      email: "some updated email",
+      first_name: "some updated first_name",
+      last_name: "some updated last_name",
+      mobile: "some updated mobile",
+      password: "some updated password",
+      phone: "some updated phone",
+      role: "some updated role",
+      username: "some updated username"
+    }
+    @invalid_attrs %{
+      birthday: nil,
+      email: nil,
+      first_name: nil,
+      last_name: nil,
+      mobile: nil,
+      password: nil,
+      phone: nil,
+      role: nil,
+      username: nil
+    }
 
     def user_fixture(attrs \\ %{}) do
       {:ok, user} =

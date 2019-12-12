@@ -17,6 +17,6 @@ defmodule Nordref.Clubs.Club do
 
   @doc false
   def regional_associations do
-    ["FVN","FLV-SH","BFB","FBHH","FD"]
+    ["FVN", "FLV-SH", "BFB", "FBHH", "FD"]
   end
 end

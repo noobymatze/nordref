@@ -18,9 +18,10 @@ defmodule Nordref.Clubs do
 
   """
   def list_clubs do
-    query = from c in Club,
-            order_by: c.name,
-            select: c
+    query =
+      from c in Club,
+        order_by: c.name,
+        select: c
 
     Repo.all(query)
   end

@@ -3,9 +3,39 @@ defmodule NordrefWeb.UserControllerTest do
 
   alias Nordref.Users
 
-  @create_attrs %{birthday: ~D[2010-04-17], email: "some email", first_name: "some first_name", last_name: "some last_name", mobile: "some mobile", password: "some password", phone: "some phone", role: "some role", username: "some username"}
-  @update_attrs %{birthday: ~D[2011-05-18], email: "some updated email", first_name: "some updated first_name", last_name: "some updated last_name", mobile: "some updated mobile", password: "some updated password", phone: "some updated phone", role: "some updated role", username: "some updated username"}
-  @invalid_attrs %{birthday: nil, email: nil, first_name: nil, last_name: nil, mobile: nil, password: nil, phone: nil, role: nil, username: nil}
+  @create_attrs %{
+    birthday: ~D[2010-04-17],
+    email: "some email",
+    first_name: "some first_name",
+    last_name: "some last_name",
+    mobile: "some mobile",
+    password: "some password",
+    phone: "some phone",
+    role: "some role",
+    username: "some username"
+  }
+  @update_attrs %{
+    birthday: ~D[2011-05-18],
+    email: "some updated email",
+    first_name: "some updated first_name",
+    last_name: "some updated last_name",
+    mobile: "some updated mobile",
+    password: "some updated password",
+    phone: "some updated phone",
+    role: "some updated role",
+    username: "some updated username"
+  }
+  @invalid_attrs %{
+    birthday: nil,
+    email: nil,
+    first_name: nil,
+    last_name: nil,
+    mobile: nil,
+    password: nil,
+    phone: nil,
+    role: nil,
+    username: nil
+  }
 
   def fixture(:user) do
     {:ok, user} = Users.create_user(@create_attrs)
@@ -75,6 +105,7 @@ defmodule NordrefWeb.UserControllerTest do
     test "deletes chosen user", %{conn: conn, user: user} do
       conn = delete(conn, Routes.user_path(conn, :delete, user))
       assert redirected_to(conn) == Routes.user_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.user_path(conn, :show, user))
       end

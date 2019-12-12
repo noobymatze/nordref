@@ -6,8 +6,16 @@ defmodule Nordref.ClubsTest do
   describe "clubs" do
     alias Nordref.Clubs.Club
 
-    @valid_attrs %{name: "some name", regional_association: "some regional_association", short_name: "some short_name"}
-    @update_attrs %{name: "some updated name", regional_association: "some updated regional_association", short_name: "some updated short_name"}
+    @valid_attrs %{
+      name: "some name",
+      regional_association: "some regional_association",
+      short_name: "some short_name"
+    }
+    @update_attrs %{
+      name: "some updated name",
+      regional_association: "some updated regional_association",
+      short_name: "some updated short_name"
+    }
     @invalid_attrs %{name: nil, regional_association: nil, short_name: nil}
 
     def club_fixture(attrs \\ %{}) do

@@ -1,0 +1,43 @@
+<h1>Show Course</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @course.name %>
+  </li>
+
+  <li>
+    <strong>Max participants:</strong>
+    <%= @course.max_participants %>
+  </li>
+
+  <li>
+    <strong>Max per club:</strong>
+    <%= @course.max_per_club %>
+  </li>
+
+  <li>
+    <strong>Organizer participants:</strong>
+    <%= @course.organizer_participants %>
+  </li>
+
+  <li>
+    <strong>Type:</strong>
+    <%= @course.type %>
+  </li>
+
+  <li>
+    <strong>Date:</strong>
+    <%= @course.date %>
+  </li>
+
+  <li>
+    <strong>Released:</strong>
+    <%= @course.released %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.course_path(@conn, :edit, @course) %></span>
+<span><%= link "Back", to: Routes.course_path(@conn, :index) %></span>

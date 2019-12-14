@@ -1,0 +1,33 @@
+<h1>Listing Licenses</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>License number</th>
+      <th>License type</th>
+      <th>Year of birth</th>
+      <th>Season</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for license <- @licenses do %>
+    <tr>
+      <td><%= license.first_name %> <%= license.last_name %></td>
+      <td><%= license.license_number %></td>
+      <td><%= license.license_type %></td>
+      <td><%= license.year_of_birth %></td>
+      <td><%= license.season %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.license_path(@conn, :show, license) %></span>
+        <span><%= link "Edit", to: Routes.license_path(@conn, :edit, license) %></span>
+        <span><%= link "Delete", to: Routes.license_path(@conn, :delete, license), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New License", to: Routes.license_path(@conn, :new) %></span>

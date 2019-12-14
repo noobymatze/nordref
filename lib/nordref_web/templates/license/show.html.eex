@@ -1,0 +1,38 @@
+<h1>Show License</h1>
+
+<ul>
+
+  <li>
+    <strong>First name:</strong>
+    <%= @license.first_name %>
+  </li>
+
+  <li>
+    <strong>Last name:</strong>
+    <%= @license.last_name %>
+  </li>
+
+  <li>
+    <strong>License number:</strong>
+    <%= @license.license_number %>
+  </li>
+
+  <li>
+    <strong>License type:</strong>
+    <%= @license.license_type %>
+  </li>
+
+  <li>
+    <strong>Year of birth:</strong>
+    <%= @license.year_of_birth %>
+  </li>
+
+  <li>
+    <strong>Season:</strong>
+    <%= @license.season %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.license_path(@conn, :edit, @license) %></span>
+<span><%= link "Back", to: Routes.license_path(@conn, :index) %></span>

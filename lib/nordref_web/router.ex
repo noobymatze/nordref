@@ -21,6 +21,7 @@ defmodule NordrefWeb.Router do
     resources "/users", UserController
     resources "/courses", CourseController
     get "/courses/release/:id", CourseController, :release
+    resources "/licenses", LicenseController
   end
 
   # Other scopes may use custom stacks.

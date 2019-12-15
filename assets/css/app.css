@@ -1,3 +1,11 @@
 /* This file is for your main application css. */
 
 @import "./phoenix.css";
+
+html {
+    color: #333;
+}
+
+.column--created-at {
+    color: #666;
+}

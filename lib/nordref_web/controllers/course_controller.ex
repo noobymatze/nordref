@@ -2,6 +2,7 @@ defmodule NordrefWeb.CourseController do
   use NordrefWeb, :controller
 
   alias Nordref.Courses
+  alias Nordref.Registrations
   alias Nordref.Courses.Course
 
   def index(conn, _params) do
@@ -28,7 +29,8 @@ defmodule NordrefWeb.CourseController do
 
   def show(conn, %{"id" => id}) do
     course = Courses.get_course!(id)
-    render(conn, "show.html", course: course)
+    registrations = Courses.get_registrations(course)
+    render(conn, "show.html", course: course, registrations: registrations)
   end
 
   def edit(conn, %{"id" => id}) do

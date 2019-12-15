@@ -7,6 +7,28 @@ defmodule Nordref.Courses do
   alias Nordref.Repo
 
   alias Nordref.Courses.Course
+  alias Nordref.Registrations
+  alias Nordref.Registrations.RegistrationView
+
+  @doc """
+  Returns the list of registrations for the given course.
+
+  Returns an empty list, if the course does not exist.
+
+  ## Examples
+
+      iex> get_registrations(course)
+      {:ok, [%Registration{}]}
+
+  """
+  def get_registrations(%Course{} = course) do
+    query =
+      from r in RegistrationView,
+        where: r.course_id == ^course.id,
+        select: r
+
+    Repo.all(query)
+  end
 
   @doc """
   Returns the list of courses.
@@ -90,7 +112,7 @@ defmodule Nordref.Courses do
   end
 
   @doc """
-  Release 
+  Release
   """
   def release(%Course{} = course) do
     update_course(course, %{:released => true})

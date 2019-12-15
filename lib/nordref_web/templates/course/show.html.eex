@@ -41,3 +41,24 @@
 
 <span><%= link "Edit", to: Routes.course_path(@conn, :edit, @course) %></span>
 <span><%= link "Back", to: Routes.course_path(@conn, :index) %></span>
+
+<h2 class="mt-5">Registrations (<%= length(@registrations) %>)</h2>
+
+<table class="table">
+  <thead>
+    <th>Name</th>
+    <th>E-Mail</th>
+    <th>Verein</th>
+    <th>Angemeldet am</th>
+  </thead>
+  <tbody>
+    <%= for r <- @registrations do %>
+      <tr>
+        <td><%= r.first_name %> <%= r.last_name %></td>
+        <td><a href="mailto:<%= r.email %>"><%= r.email %></a></td>
+        <td><%= r.club_name %></td>
+        <td class="column column--created-at"><%= r.created_at %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

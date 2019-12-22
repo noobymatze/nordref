@@ -7,35 +7,125 @@ defmodule Nordref.Registrations do
   alias Nordref.Repo
 
   alias Nordref.Registrations.Registration
+  alias Nordref.Registrations.RegistrationView
+  alias Nordref.Users.User
+  alias Nordref.Courses.Course
 
   @doc """
-  Returns the list of registrations.
+  Register the given user for the given course.
+
+  The user is allowed to participate in a course iff:
+
+    1. There is a seat available.
+    2. They have not been signed up for a course
+       this season.
 
   ## Examples
 
-      iex> list_registrations()
-      [%Registration{}, ...]
+      iex> register(user, course)
+      {:ok, %Registration{}}
 
+      iex> register(user, course)
+      {:error, :not_available}
+
+      iex> register(user, course)
+      {:error, :already_registered}
+
+      iex> register(user, course)
+      {:error, :already_registered}
   """
-  def list_registrations do
-    Repo.all(Registration)
+  def register(%User{} = user, %Course{} = course) do
+    cond do
+      not seat_available?(user, course) ->
+        {:error, :not_available}
+
+      not allowed?(user, course) ->
+        {:error, :not_allowed}
+
+      true ->
+        create_registration(%{
+          user_id: user.id,
+          course_id: course.id
+        })
+    end
+  end
+
+  defp seat_available?(%User{} = user, %Course{} = course) do
+    %{true => from_organizer, false => others} =
+      course
+      |> get_for_course()
+      |> Enum.group_by(fn r -> r.club_id == course.organizer end)
+
+    from_organizer_and_allowed? =
+      user.club_id == course.organizer &&
+        length(from_organizer) < course.organizer_participants
+
+    max =
+      course.max_participants -
+        if course.released do
+          length(from_organizer) + length(others)
+        else
+          course.organizer_participants
+        end
+
+    from_others_and_allowed? =
+      user.club_id != course.organizer &&
+        length(others) < max
+
+    from_others_and_allowed? or from_organizer_and_allowed?
   end
 
   @doc """
-  Gets a single registration.
+  Check, if the user is allowed to participate in the
+  given course.
 
-  Raises `Ecto.NoResultsError` if the Registration does not exist.
+  There are two rules, to be aware of:
+
+    1. The user has not been registered yet.
+    2. The user has been registered for a course
+       AND the course is a G course AND the given
+       course is the corresponding G course.
 
   ## Examples
 
-      iex> get_registration!(123)
-      %Registration{}
+      iex> allowed?(user, 2019)
+      true
 
-      iex> get_registration!(456)
-      ** (Ecto.NoResultsError)
+      iex> allowed?(user, 2019)
+      false
+  """
+  defp allowed?(%User{} = user, %Course{} = course) do
+    query =
+      from r in Registration,
+        join: c in Course,
+        on: c.id == r.course_id,
+        where: r.user_id == ^user.id and c.season == ^course.season,
+        select: %{id: r.id, type: c.type}
+
+    registrations = Repo.all(query)
+    Enum.empty?(registrations) or (Enum.count(registrations, &isG/1) == 1 and isG(course))
+  end
+
+  defp isG(registration) do
+    registration[:type] == "G2" or registration[:type] == "G3"
+  end
+
+  @doc """
+  Returns the list of registrations for the given course.
+
+  ## Examples
+
+      iex> get_registrations(course)
+      [%RegistrationView{}, ...]
 
   """
-  def get_registration!(id), do: Repo.get!(Registration, id)
+  def get_for_course(%Course{} = course) do
+    query =
+      from r in RegistrationView,
+        where: r.course_id == ^course.id
+
+    Repo.all(query)
+  end
 
   @doc """
   Creates a registration.
@@ -49,30 +139,12 @@ defmodule Nordref.Registrations do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_registration(attrs \\ %{}) do
+  defp create_registration(attrs \\ %{}) do
     registration =
       %Registration{}
       |> Registration.changeset(attrs)
 
     registration |> Repo.insert()
-  end
-
-  @doc """
-  Updates a registration.
-
-  ## Examples
-
-      iex> update_registration(registration, %{field: new_value})
-      {:ok, %Registration{}}
-
-      iex> update_registration(registration, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_registration(%Registration{} = registration, attrs) do
-    registration
-    |> Registration.changeset(attrs)
-    |> Repo.update()
   end
 
   @doc """
@@ -89,18 +161,5 @@ defmodule Nordref.Registrations do
   """
   def delete_registration(%Registration{} = registration) do
     Repo.delete(registration)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking registration changes.
-
-  ## Examples
-
-      iex> change_registration(registration)
-      %Ecto.Changeset{source: %Registration{}}
-
-  """
-  def change_registration(%Registration{} = registration) do
-    Registration.changeset(registration, %{})
   end
 end

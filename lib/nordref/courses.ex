@@ -7,74 +7,20 @@ defmodule Nordref.Courses do
   alias Nordref.Repo
 
   alias Nordref.Courses.Course
-  alias Nordref.Registrations
-  alias Nordref.Registrations.Registration
-  alias Nordref.Registrations.RegistrationView
-  alias Nordref.Users.User
 
   @doc """
-  Register a user for a course.
+  Release the given course.
 
-  **Important note:** This only works, if a user has not
-  been registered yet for the season or
-  This will only work, if a user has not been registered yet
-  for the season of the course.
-  """
-  def register(%User{} = user, %Course{} = course) do
-    course
-    |> available_for?(user)
-
-    registration = %{
-      :user_id => user.id,
-      :course_id => course.id
-    }
-
-    Registrations.create_registration(registration)
-  end
-
-  defp available_for?(%Course{} = course, %User{} = user) do
-    %{true => from_organizer, false => others} =
-      course
-      |> get_registrations
-      |> Enum.group_by(fn r -> r.club_id == course.organizer end)
-
-    from_organizer_and_allowed? =
-      user.club_id == course.organizer &&
-        length(from_organizer) < course.organizer_participants
-
-    max =
-      course.max_participants -
-        if course.released do
-          length(from_organizer) + length(others)
-        else
-          course.organizer_participants
-        end
-
-    from_others_and_allowed? =
-      user.club_id != course.organizer &&
-        length(others) < max
-
-    from_others_and_allowed? || from_organizer_and_allowed?
-  end
-
-  @doc """
-  Returns the list of registrations for the given course.
-
-  Returns an empty list, if the course does not exist.
+  This means, all previously reserved seats for the organizer
+  of the course will be available for everyone else.
 
   ## Examples
 
-      iex> get_registrations(course)
-      {:ok, [%RegistrationView{}]}
-
+      iex> release(course)
+      {:ok, %Course{}}
   """
-  def get_registrations(%Course{} = course) do
-    query =
-      from r in RegistrationView,
-        where: r.course_id == ^course.id,
-        select: r
-
-    Repo.all(query)
+  def release(%Course{} = course) do
+    update_course(course, %{:released => true})
   end
 
   @doc """
@@ -156,13 +102,6 @@ defmodule Nordref.Courses do
   """
   def delete_course(%Course{} = course) do
     Repo.delete(course)
-  end
-
-  @doc """
-  Release
-  """
-  def release(%Course{} = course) do
-    update_course(course, %{:released => true})
   end
 
   @doc """

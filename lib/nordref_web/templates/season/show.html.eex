@@ -1,0 +1,33 @@
+<h1>Show Season</h1>
+
+<ul>
+
+  <li>
+    <strong>Year:</strong>
+    <%= @season.year %>
+  </li>
+
+  <li>
+    <strong>Start:</strong>
+    <%= @season.start %>
+  </li>
+
+  <li>
+    <strong>End:</strong>
+    <%= @season.end %>
+  </li>
+
+  <li>
+    <strong>Start registration:</strong>
+    <%= @season.start_registration %>
+  </li>
+
+  <li>
+    <strong>End registration:</strong>
+    <%= @season.end_registration %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.season_path(@conn, :edit, @season) %></span>
+<span><%= link "Back", to: Routes.season_path(@conn, :index) %></span>

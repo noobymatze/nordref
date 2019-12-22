@@ -6,7 +6,25 @@ defmodule Nordref.Users do
   import Ecto.Query, warn: false
   alias Nordref.Repo
 
+  alias Nordref.Registrations.Registration
   alias Nordref.Users.User
+
+  @doc """
+  Check, if the user has already been registered for this season.
+
+  ## Examples
+
+      iex> registered_for_season(user)
+      true
+  """
+  def registered_for_season?(%User{} = user) do
+    query =
+      from r in Registration,
+        where: r.user_id == ^user.id,
+        select: count(r.id)
+
+    Repo.one(query) > 0
+  end
 
   @doc """
   Returns the list of users.

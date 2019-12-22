@@ -50,9 +50,11 @@ defmodule Nordref.Registrations do
 
   """
   def create_registration(attrs \\ %{}) do
-    %Registration{}
-    |> Registration.changeset(attrs)
-    |> Repo.insert()
+    registration =
+      %Registration{}
+      |> Registration.changeset(attrs)
+
+    registration |> Repo.insert()
   end
 
   @doc """

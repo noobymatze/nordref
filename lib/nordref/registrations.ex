@@ -10,6 +10,7 @@ defmodule Nordref.Registrations do
   alias Nordref.Registrations.RegistrationView
   alias Nordref.Users.User
   alias Nordref.Courses.Course
+  alias Nordref.Registrations.Register
 
   @doc """
   Register the given user for the given course.
@@ -18,7 +19,7 @@ defmodule Nordref.Registrations do
 
     1. There is a seat available.
     2. They have not been signed up for a course
-       this season.
+       this season, except it is a G-course.
 
   ## Examples
 
@@ -26,20 +27,17 @@ defmodule Nordref.Registrations do
       {:ok, %Registration{}}
 
       iex> register(user, course)
+      {:error, :not_allowed}
+
+      iex> register(user, course)
       {:error, :not_available}
-
-      iex> register(user, course)
-      {:error, :already_registered}
-
-      iex> register(user, course)
-      {:error, :already_registered}
   """
   def register(%User{} = user, %Course{} = course) do
     cond do
-      not seat_available?(user, course) ->
+      not Register.seat_available?(user, course, registrations_for_course(course)) ->
         {:error, :not_available}
 
-      not allowed?(user, course) ->
+      not Register.allowed?(user, course) ->
         {:error, :not_allowed}
 
       true ->
@@ -48,66 +46,6 @@ defmodule Nordref.Registrations do
           course_id: course.id
         })
     end
-  end
-
-  defp seat_available?(%User{} = user, %Course{} = course) do
-    %{true => from_organizer, false => others} =
-      course
-      |> get_for_course()
-      |> Enum.group_by(fn r -> r.club_id == course.organizer end)
-
-    from_organizer_and_allowed? =
-      user.club_id == course.organizer &&
-        length(from_organizer) < course.organizer_participants
-
-    max =
-      course.max_participants -
-        if course.released do
-          length(from_organizer) + length(others)
-        else
-          course.organizer_participants
-        end
-
-    from_others_and_allowed? =
-      user.club_id != course.organizer &&
-        length(others) < max
-
-    from_others_and_allowed? or from_organizer_and_allowed?
-  end
-
-  @doc """
-  Check, if the user is allowed to participate in the
-  given course.
-
-  There are two rules, to be aware of:
-
-    1. The user has not been registered yet.
-    2. The user has been registered for a course
-       AND the course is a G course AND the given
-       course is the corresponding G course.
-
-  ## Examples
-
-      iex> allowed?(user, 2019)
-      true
-
-      iex> allowed?(user, 2019)
-      false
-  """
-  defp allowed?(%User{} = user, %Course{} = course) do
-    query =
-      from r in Registration,
-        join: c in Course,
-        on: c.id == r.course_id,
-        where: r.user_id == ^user.id and c.season == ^course.season,
-        select: %{id: r.id, type: c.type}
-
-    registrations = Repo.all(query)
-    Enum.empty?(registrations) or (Enum.count(registrations, &isG/1) == 1 and isG(course))
-  end
-
-  defp isG(registration) do
-    registration[:type] == "G2" or registration[:type] == "G3"
   end
 
   @doc """
@@ -119,7 +57,7 @@ defmodule Nordref.Registrations do
       [%RegistrationView{}, ...]
 
   """
-  def get_for_course(%Course{} = course) do
+  def registrations_for_course(%Course{} = course) do
     query =
       from r in RegistrationView,
         where: r.course_id == ^course.id
@@ -139,7 +77,7 @@ defmodule Nordref.Registrations do
       {:error, %Ecto.Changeset{}}
 
   """
-  defp create_registration(attrs \\ %{}) do
+  def create_registration(attrs \\ %{}) do
     registration =
       %Registration{}
       |> Registration.changeset(attrs)
@@ -161,5 +99,79 @@ defmodule Nordref.Registrations do
   """
   def delete_registration(%Registration{} = registration) do
     Repo.delete(registration)
+  end
+
+  defmodule Register do
+    @moduledoc false
+
+    @doc """
+    Check, if a seat is available for the user for the given course.
+    """
+    def seat_available?(%User{} = user, %Course{} = course, course_registrations) do
+      %{true => from_organizer, false => others} =
+        course_registrations
+        |> Enum.group_by(fn r -> r.club_id == course.organizer end)
+
+      from_organizer_and_allowed? =
+        user.club_id == course.organizer &&
+          length(from_organizer) < course.organizer_participants
+
+      max =
+        course.max_participants -
+          if course.released do
+            length(from_organizer) + length(others)
+          else
+            course.organizer_participants
+          end
+
+      from_others_and_allowed? =
+        user.club_id != course.organizer &&
+          length(others) < max
+
+      from_others_and_allowed? or from_organizer_and_allowed?
+    end
+
+    @doc """
+    Check, if the user is allowed to participate in the
+    given course.
+
+    There are two rules, to be aware of:
+
+      1. The user has not been registered yet.
+      2. The user has been registered for a course
+         AND the course is a G course AND the given
+         course is the corresponding G course.
+
+    ## Examples
+
+        iex> allowed?(user, 2019)
+        true
+
+        iex> allowed?(user, 2019)
+        false
+    """
+    def allowed?(%User{} = user, %Course{} = course) do
+      query =
+        from r in Registration,
+          join: c in Course,
+          on: c.id == r.course_id,
+          where: r.user_id == ^user.id and c.season == ^course.season,
+          select: %{id: r.id, type: c.type}
+
+      registrations = Repo.all(query)
+      not registered?(registrations) or (one?(registrations, &g?/1) and g?(course))
+    end
+
+    defp registered?(registrations) do
+      not Enum.empty?(registrations)
+    end
+
+    defp one?(list, pred) do
+      Enum.count(list, pred) == 1
+    end
+
+    defp g?(registration) do
+      registration[:type] == "G2" or registration[:type] == "G3"
+    end
   end
 end

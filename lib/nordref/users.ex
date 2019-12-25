@@ -6,7 +6,6 @@ defmodule Nordref.Users do
   import Ecto.Query, warn: false
   alias Nordref.Repo
 
-  alias Nordref.Registrations.Registration
   alias Nordref.Users.User
 
   @doc """

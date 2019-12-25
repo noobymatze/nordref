@@ -29,7 +29,7 @@ defmodule NordrefWeb.CourseController do
 
   def show(conn, %{"id" => id}) do
     course = Courses.get_course!(id)
-    registrations = Registrations.get_for_course(course)
+    registrations = Registrations.registrations_for_course(course)
     render(conn, "show.html", course: course, registrations: registrations)
   end
 

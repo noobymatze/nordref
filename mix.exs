@@ -13,7 +13,13 @@ defmodule Nordref.MixProject do
       deps: deps(),
 
       # Docs
-      docs: [main: "Nordref", extras: ["README.md"], groups_for_modules: groups_for_modules()]
+      docs: [
+        main: "Nordref",
+        extras: ["README.md"],
+        groups_for_modules: groups_for_modules(),
+        source_url: "https://github.com/noobymatze/nordref",
+        homepage_url: "https://noobymatze.github.io/nordref"
+      ]
     ]
   end
 

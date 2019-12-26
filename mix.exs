@@ -5,12 +5,15 @@ defmodule Nordref.MixProject do
     [
       app: :nordref,
       version: "0.1.0",
-      elixir: "~> 1.5",
+      elixir: "~> 1.9",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+
+      # Docs
+      docs: [main: "Nordref", extras: ["README.md"], groups_for_modules: groups_for_modules()]
     ]
   end
 
@@ -33,7 +36,7 @@ defmodule Nordref.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.4.9"},
+      {:phoenix, "~> 1.4.11"},
       {:phoenix_pubsub, "~> 1.1"},
       {:phoenix_ecto, "~> 4.0"},
       {:ecto_sql, "~> 3.1"},
@@ -42,7 +45,8 @@ defmodule Nordref.MixProject do
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+      {:ex_doc, "~> 0.21", only: :dev, runtime: false}
     ]
   end
 
@@ -57,6 +61,46 @@ defmodule Nordref.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate", "test"]
+    ]
+  end
+
+  defp groups_for_modules do
+    [
+      Clubs: [
+        Nordref.Clubs,
+        Nordref.Clubs.Club,
+        NordrefWeb.ClubController,
+        NordrefWeb.ClubView
+      ],
+      Courses: [
+        Nordref.Courses,
+        Nordref.Courses.Course,
+        NordrefWeb.CourseController,
+        NordrefWeb.CourseView
+      ],
+      Seasons: [
+        Nordref.Seasons,
+        Nordref.Seasons.Season,
+        NordrefWeb.SeasonController,
+        NordrefWeb.SeasonView
+      ],
+      Users: [
+        Nordref.Users,
+        Nordref.Users.User,
+        NordrefWeb.UserController,
+        NordrefWeb.UserView
+      ],
+      Registration: [
+        Nordref.Registrations,
+        Nordref.Registrations.Registration,
+        Nordref.Registrations.RegistrationView
+      ],
+      Licenses: [
+        Nordref.Licenses,
+        Nordref.Licenses.License,
+        NordrefWeb.LicenseController,
+        NordrefWeb.LicenseView
+      ]
     ]
   end
 end

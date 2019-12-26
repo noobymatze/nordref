@@ -19,7 +19,8 @@ defmodule Nordref.Registrations do
 
     1. There is a seat available.
     2. They have not been signed up for a course
-       this season, except it is a G-course.
+       this season, except it is a G-course and the
+       given course is the corresponding G-course.
 
   ## Examples
 

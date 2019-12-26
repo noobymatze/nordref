@@ -1,4 +1,4 @@
-# Nordref
+# Getting started
 
 This application will eventually be used for managing floorball referees in 
 Schleswig-Holstein. 
@@ -8,7 +8,7 @@ Schleswig-Holstein.
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
+  * Create and migrate your database with `mix ecto.load && mix ecto.setup`
   * Install Node.js dependencies with `cd assets && npm install`
   * Start Phoenix endpoint with `mix phx.server`
 

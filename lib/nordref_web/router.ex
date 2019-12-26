@@ -16,7 +16,7 @@ defmodule NordrefWeb.Router do
   scope "/", NordrefWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/", UserController, :index
     resources "/clubs", ClubController
     resources "/users", UserController
     resources "/courses", CourseController

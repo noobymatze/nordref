@@ -16,12 +16,19 @@ defmodule NordrefWeb.Router do
   scope "/", NordrefWeb do
     pipe_through :browser
 
+    get "/login", SessionController, :index
+    post "/login", SessionController, :login
+    resources "/licenses", LicenseController
+  end
+
+  scope "/", NordrefWeb do
+    pipe_through [:browser, NordrefWeb.Plugs.Auth]
+
     get "/", UserController, :index
     resources "/clubs", ClubController
     resources "/users", UserController
     resources "/courses", CourseController
     get "/courses/release/:id", CourseController, :release
-    resources "/licenses", LicenseController
     resources "/seasons", SeasonController
   end
 

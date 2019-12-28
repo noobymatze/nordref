@@ -4,9 +4,12 @@ defmodule Nordref.Users do
   """
 
   import Ecto.Query, warn: false
+  import Ecto.Changeset
   alias Nordref.Repo
 
   alias Nordref.Users.User
+  alias Nordref.Users.Security
+  alias Nordref.Users.Login
 
   @doc """
   Returns the list of users.
@@ -100,5 +103,91 @@ defmodule Nordref.Users do
   """
   def change_user(%User{} = user) do
     User.changeset(user, %{})
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking login changes.
+
+  ## Examples
+
+      iex> change_login(login)
+      %Ecto.Changeset{source: %Login{}}
+  """
+  def change_login(%Login{} = login) do
+    Login.changeset(login, %{})
+  end
+
+  @doc """
+  Returns a User by their user_id or nil, if none
+  exists.
+
+  ## Examples
+
+      iex> get_by_id(1)
+      %Ecto.User{}
+
+      iex> get_by_username(999999)
+      nil
+  """
+  def get_by_id(user_id) do
+    query =
+      from u in User,
+        where: u.id == ^user_id
+
+    Repo.one(query)
+  end
+
+  @doc """
+  Returns a User by their username or nil, if none
+  could be found.
+
+  ## Examples
+
+      iex> get_by_username("test")
+      %Ecto.User{}
+
+      iex> get_by_username("not_existing")
+      nil
+  """
+  def get_by_username(username) do
+    query =
+      from u in User,
+        where: u.username == ^username
+
+    Repo.one(query)
+  end
+
+  @doc """
+  Authenticate a user by their username and password.
+
+  ## Examples
+
+      iex> authenticate(%Login{username: "test", password: "secret"})
+      {:ok, %Ecto.User{}}
+
+      iex> authenticate(%Login{username: "don_t_exist", password: "secret"})
+      {:error, %Ecto.Changeset{}}
+
+      iex> authenticate(%Login{username: "test", password: "wrong"})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def authenticate(login_params) do
+    changeset = Login.changeset(%Login{}, login_params)
+
+    with {:ok, login} <- apply_action(changeset, :login),
+         %User{} = user <- get_by_username(login.username),
+         true <- Security.verify(login.password, user.password) do
+      {:ok, user}
+    else
+      {:error, %Ecto.Changeset{} = changes} ->
+        {:error, changes}
+
+      false ->
+        {:error, {:invalid_username_or_password, changeset}}
+
+      _ ->
+        {:error, {:invalid_username_or_password, changeset}}
+    end
   end
 end

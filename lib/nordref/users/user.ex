@@ -29,9 +29,10 @@ defmodule Nordref.Users.User do
       :birthday,
       :mobile,
       :phone,
-      :role
+      :role,
+      :club_id
     ])
-    |> validate_required([:first_name, :last_name, :email, :username, :birthday, :role])
+    |> validate_required([:first_name, :last_name, :email, :username, :birthday, :role, :club_id])
     |> validate_inclusion(:role, roles())
   end
 

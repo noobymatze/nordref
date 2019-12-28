@@ -12,7 +12,8 @@ defmodule NordrefWeb.UserControllerTest do
     password: "some password",
     phone: "some phone",
     role: "SUPER_ADMIN",
-    username: "some username"
+    username: "some username",
+    club_id: 1
   }
   @update_attrs %{
     birthday: ~D[2011-05-18],
@@ -23,7 +24,8 @@ defmodule NordrefWeb.UserControllerTest do
     password: "some updated password",
     phone: "some updated phone",
     role: "ADMIN",
-    username: "some updated username"
+    username: "some updated username",
+    club_id: 1
   }
   @invalid_attrs %{
     birthday: nil,

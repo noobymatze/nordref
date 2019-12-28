@@ -2,6 +2,7 @@ defmodule NordrefWeb.LicenseControllerTest do
   use NordrefWeb.ConnCase
 
   alias Nordref.Licenses
+  alias Nordref.Seasons
 
   @create_attrs %{
     first_name: "some first_name",
@@ -28,6 +29,21 @@ defmodule NordrefWeb.LicenseControllerTest do
     year_of_birth: nil
   }
 
+  def season_fixture(attrs \\ %{}) do
+    {:ok, season} =
+      attrs
+      |> Enum.into(%{
+        end: ~N[2010-04-17 14:00:00],
+        end_registration: ~N[2010-04-17 14:00:00],
+        start: ~N[2010-04-17 14:00:00],
+        start_registration: ~N[2010-04-17 14:00:00],
+        year: 42
+      })
+      |> Seasons.create_season()
+
+    season
+  end
+
   def fixture(:license) do
     {:ok, license} = Licenses.create_license(@create_attrs)
     license
@@ -49,6 +65,7 @@ defmodule NordrefWeb.LicenseControllerTest do
 
   describe "create license" do
     test "redirects to show when data is valid", %{conn: conn} do
+      season_fixture()
       conn = post(conn, Routes.license_path(conn, :create), license: @create_attrs)
 
       assert %{id: id} = redirected_params(conn)
@@ -104,6 +121,8 @@ defmodule NordrefWeb.LicenseControllerTest do
   end
 
   defp create_license(_) do
+    season_fixture()
+    season_fixture(%{year: 43})
     license = fixture(:license)
     {:ok, license: license}
   end

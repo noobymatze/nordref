@@ -22,7 +22,11 @@ defmodule NordrefWeb.Router do
   end
 
   scope "/", NordrefWeb do
-    pipe_through [:browser, NordrefWeb.Plugs.Auth]
+    if Mix.env() == :test do
+      pipe_through :browser
+    else
+      pipe_through [:browser, NordrefWeb.Plugs.Auth]
+    end
 
     get "/", UserController, :index
     resources "/clubs", ClubController

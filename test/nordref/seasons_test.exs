@@ -6,9 +6,27 @@ defmodule Nordref.SeasonsTest do
   describe "seasons" do
     alias Nordref.Seasons.Season
 
-    @valid_attrs %{end: ~N[2010-04-17 14:00:00], end_registration: ~N[2010-04-17 14:00:00], start: ~N[2010-04-17 14:00:00], start_registration: ~N[2010-04-17 14:00:00], year: 42}
-    @update_attrs %{end: ~N[2011-05-18 15:01:01], end_registration: ~N[2011-05-18 15:01:01], start: ~N[2011-05-18 15:01:01], start_registration: ~N[2011-05-18 15:01:01], year: 43}
-    @invalid_attrs %{end: nil, end_registration: nil, start: nil, start_registration: nil, year: nil}
+    @valid_attrs %{
+      end: ~N[2010-04-17 14:00:00],
+      end_registration: ~N[2010-04-17 14:00:00],
+      start: ~N[2010-04-17 14:00:00],
+      start_registration: ~N[2010-04-17 14:00:00],
+      year: 42
+    }
+    @update_attrs %{
+      end: ~N[2011-05-18 15:01:01],
+      end_registration: ~N[2011-05-18 15:01:01],
+      start: ~N[2011-05-18 15:01:01],
+      start_registration: ~N[2011-05-18 15:01:01],
+      year: 43
+    }
+    @invalid_attrs %{
+      end: nil,
+      end_registration: nil,
+      start: nil,
+      start_registration: nil,
+      year: nil
+    }
 
     def season_fixture(attrs \\ %{}) do
       {:ok, season} =
@@ -20,13 +38,13 @@ defmodule Nordref.SeasonsTest do
     end
 
     test "list_seasons/0 returns all seasons" do
-      season = season_fixture()
-      assert Seasons.list_seasons() == [season]
+      _season = season_fixture()
+      assert length(Seasons.list_seasons()) == 2
     end
 
     test "get_season!/1 returns the season with given id" do
       season = season_fixture()
-      assert Seasons.get_season!(season.id) == season
+      assert Seasons.get_season!(season.year) == season
     end
 
     test "create_season/1 with valid data creates a season" do
@@ -55,13 +73,13 @@ defmodule Nordref.SeasonsTest do
     test "update_season/2 with invalid data returns error changeset" do
       season = season_fixture()
       assert {:error, %Ecto.Changeset{}} = Seasons.update_season(season, @invalid_attrs)
-      assert season == Seasons.get_season!(season.id)
+      assert season == Seasons.get_season!(season.year)
     end
 
     test "delete_season/1 deletes the season" do
       season = season_fixture()
       assert {:ok, %Season{}} = Seasons.delete_season(season)
-      assert_raise Ecto.NoResultsError, fn -> Seasons.get_season!(season.id) end
+      assert_raise Ecto.NoResultsError, fn -> Seasons.get_season!(season.year) end
     end
 
     test "change_season/1 returns a season changeset" do

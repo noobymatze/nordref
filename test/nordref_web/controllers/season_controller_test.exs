@@ -3,9 +3,27 @@ defmodule NordrefWeb.SeasonControllerTest do
 
   alias Nordref.Seasons
 
-  @create_attrs %{end: ~N[2010-04-17 14:00:00], end_registration: ~N[2010-04-17 14:00:00], start: ~N[2010-04-17 14:00:00], start_registration: ~N[2010-04-17 14:00:00], year: 42}
-  @update_attrs %{end: ~N[2011-05-18 15:01:01], end_registration: ~N[2011-05-18 15:01:01], start: ~N[2011-05-18 15:01:01], start_registration: ~N[2011-05-18 15:01:01], year: 43}
-  @invalid_attrs %{end: nil, end_registration: nil, start: nil, start_registration: nil, year: nil}
+  @create_attrs %{
+    end: ~N[2010-04-17 14:00:00],
+    end_registration: ~N[2010-04-17 14:00:00],
+    start: ~N[2010-04-17 14:00:00],
+    start_registration: ~N[2010-04-17 14:00:00],
+    year: 42
+  }
+  @update_attrs %{
+    end: ~N[2011-05-18 15:01:01],
+    end_registration: ~N[2011-05-18 15:01:01],
+    start: ~N[2011-05-18 15:01:01],
+    start_registration: ~N[2011-05-18 15:01:01],
+    year: 42
+  }
+  @invalid_attrs %{
+    end: nil,
+    end_registration: nil,
+    start: nil,
+    start_registration: nil,
+    year: nil
+  }
 
   def fixture(:season) do
     {:ok, season} = Seasons.create_season(@create_attrs)
@@ -75,6 +93,7 @@ defmodule NordrefWeb.SeasonControllerTest do
     test "deletes chosen season", %{conn: conn, season: season} do
       conn = delete(conn, Routes.season_path(conn, :delete, season))
       assert redirected_to(conn) == Routes.season_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.season_path(conn, :show, season))
       end

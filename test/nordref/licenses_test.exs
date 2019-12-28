@@ -2,6 +2,7 @@ defmodule Nordref.LicensesTest do
   use Nordref.DataCase
 
   alias Nordref.Licenses
+  alias Nordref.Seasons
 
   describe "licenses" do
     alias Nordref.Licenses.License
@@ -31,7 +32,25 @@ defmodule Nordref.LicensesTest do
       year_of_birth: nil
     }
 
+    def season_fixture(attrs \\ %{}) do
+      {:ok, season} =
+        attrs
+        |> Enum.into(%{
+          end: ~N[2010-04-17 14:00:00],
+          end_registration: ~N[2010-04-17 14:00:00],
+          start: ~N[2010-04-17 14:00:00],
+          start_registration: ~N[2010-04-17 14:00:00],
+          year: 42
+        })
+        |> Seasons.create_season()
+
+      season
+    end
+
     def license_fixture(attrs \\ %{}) do
+      _season42 = season_fixture()
+      _season43 = season_fixture(%{year: 43})
+
       {:ok, license} =
         attrs
         |> Enum.into(@valid_attrs)
@@ -51,6 +70,7 @@ defmodule Nordref.LicensesTest do
     end
 
     test "create_license/1 with valid data creates a license" do
+      season_fixture()
       assert {:ok, %License{} = license} = Licenses.create_license(@valid_attrs)
       assert license.first_name == "some first_name"
       assert license.last_name == "some last_name"

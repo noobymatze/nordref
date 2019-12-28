@@ -15,7 +15,8 @@ defmodule Nordref.UsersTest do
       password: "some password",
       phone: "some phone",
       role: "SUPER_ADMIN",
-      username: "some username"
+      username: "some username",
+      club_id: 1
     }
     @update_attrs %{
       birthday: ~D[2011-05-18],
@@ -26,7 +27,8 @@ defmodule Nordref.UsersTest do
       password: "some updated password",
       phone: "some updated phone",
       role: "ADMIN",
-      username: "some updated username"
+      username: "some updated username",
+      club_id: 1
     }
     @invalid_attrs %{
       birthday: nil,
@@ -37,7 +39,8 @@ defmodule Nordref.UsersTest do
       password: nil,
       phone: nil,
       role: nil,
-      username: nil
+      username: nil,
+      club_id: nil
     }
 
     def user_fixture(attrs \\ %{}) do
@@ -105,6 +108,15 @@ defmodule Nordref.UsersTest do
     test "change_user/1 returns a user changeset" do
       user = user_fixture()
       assert %Ecto.Changeset{} = Users.change_user(user)
+    end
+
+    test "get_by_username/1 returns a user" do
+      user = user_fixture(%{username: "tester"})
+      assert user == Users.get_by_username(user.username)
+    end
+
+    test "get_by_username/1 returns nil without user" do
+      assert nil == Users.get_by_username("tester")
     end
   end
 end

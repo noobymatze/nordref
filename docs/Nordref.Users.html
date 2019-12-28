@@ -8,7 +8,7 @@
     <meta name="project" content="nordref v0.1.0">
     <title>Nordref.Users — nordref v0.1.0</title>
     <link rel="stylesheet" href="dist/html-de2388dc2f8074b0a4db.css" />
-    <script src="dist/sidebar_items-a06154b02a.js"></script>
+    <script src="dist/sidebar_items-1b6ec1e93c.js"></script>
       <script src="docs_config.js"></script>
     <script async src="dist/html-de2388dc2f8074b0a4db.js"></script>
   </head>
@@ -90,6 +90,18 @@ Nordref.Users          <a href="https://github.com/noobymatze/nordref/blob/maste
     </h2>
 <div class="summary-row">
   <div class="summary-signature">
+    <a href="#authenticate/1">authenticate(login_params)</a>
+  </div>
+    <div class="summary-synopsis"><p>Authenticate a user by their username and password.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#change_login/1">change_login(login)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking login changes.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
     <a href="#change_user/1">change_user(user)</a>
   </div>
     <div class="summary-synopsis"><p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking user changes.</p></div>
@@ -105,6 +117,13 @@ Nordref.Users          <a href="https://github.com/noobymatze/nordref/blob/maste
     <a href="#delete_user/1">delete_user(user)</a>
   </div>
     <div class="summary-synopsis"><p>Deletes a User.</p></div>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_by_username/1">get_by_username(username)</a>
+  </div>
+    <div class="summary-synopsis"><p>Returns a User by their username or nil, if none
+could be found.</p></div>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -135,6 +154,58 @@ Nordref.Users          <a href="https://github.com/noobymatze/nordref/blob/maste
             </a>
 Functions          </h1>
           <div class="functions-list">
+<section class="detail" id="authenticate/1">
+  <div class="detail-header">
+    <a href="#authenticate/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">authenticate(login_params)</h1>
+      <a href="https://github.com/noobymatze/nordref/blob/master/lib/nordref/users.ex#L155" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+  <section class="docstring">
+<p>Authenticate a user by their username and password.</p>
+<h2 id="authenticate/1-examples" class="section-heading">
+  <a href="#authenticate/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">authenticate</span><span class="p" data-group-id="4706686512-1">(</span><span class="p" data-group-id="4706686512-2">%</span><span class="nc" data-group-id="4706686512-2">Login</span><span class="p" data-group-id="4706686512-2">{</span><span class="ss">username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;test&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;secret&quot;</span><span class="p" data-group-id="4706686512-2">}</span><span class="p" data-group-id="4706686512-1">)</span><span class="w">
+</span><span class="p" data-group-id="4706686512-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4706686512-4">%</span><span class="nc" data-group-id="4706686512-4">Ecto.User</span><span class="p" data-group-id="4706686512-4">{</span><span class="p" data-group-id="4706686512-4">}</span><span class="p" data-group-id="4706686512-3">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">authenticate</span><span class="p" data-group-id="4706686512-5">(</span><span class="p" data-group-id="4706686512-6">%</span><span class="nc" data-group-id="4706686512-6">Login</span><span class="p" data-group-id="4706686512-6">{</span><span class="ss">username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;don_t_exist&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;secret&quot;</span><span class="p" data-group-id="4706686512-6">}</span><span class="p" data-group-id="4706686512-5">)</span><span class="w">
+</span><span class="p" data-group-id="4706686512-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4706686512-8">%</span><span class="nc" data-group-id="4706686512-8">Ecto.Changeset</span><span class="p" data-group-id="4706686512-8">{</span><span class="p" data-group-id="4706686512-8">}</span><span class="p" data-group-id="4706686512-7">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">authenticate</span><span class="p" data-group-id="4706686512-9">(</span><span class="p" data-group-id="4706686512-10">%</span><span class="nc" data-group-id="4706686512-10">Login</span><span class="p" data-group-id="4706686512-10">{</span><span class="ss">username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;test&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;wrong&quot;</span><span class="p" data-group-id="4706686512-10">}</span><span class="p" data-group-id="4706686512-9">)</span><span class="w">
+</span><span class="p" data-group-id="4706686512-11">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4706686512-12">%</span><span class="nc" data-group-id="4706686512-12">Ecto.Changeset</span><span class="p" data-group-id="4706686512-12">{</span><span class="p" data-group-id="4706686512-12">}</span><span class="p" data-group-id="4706686512-11">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="change_login/1">
+  <div class="detail-header">
+    <a href="#change_login/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">change_login(login)</h1>
+      <a href="https://github.com/noobymatze/nordref/blob/master/lib/nordref/users.ex#L116" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+  <section class="docstring">
+<p>Returns an <code class="inline">%Ecto.Changeset{}</code> for tracking login changes.</p>
+<h2 id="change_login/1-examples" class="section-heading">
+  <a href="#change_login/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">change_login</span><span class="p" data-group-id="3212911507-1">(</span><span class="n">login</span><span class="p" data-group-id="3212911507-1">)</span><span class="w">
+</span><span class="p" data-group-id="3212911507-2">%</span><span class="nc" data-group-id="3212911507-2">Ecto.Changeset</span><span class="p" data-group-id="3212911507-2">{</span><span class="ss">source</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="3212911507-3">%</span><span class="nc" data-group-id="3212911507-3">Login</span><span class="p" data-group-id="3212911507-3">{</span><span class="p" data-group-id="3212911507-3">}</span><span class="p" data-group-id="3212911507-2">}</span></code></pre>
+  </section>
+</section>
 <section class="detail" id="change_user/1">
   <div class="detail-header">
     <a href="#change_user/1" class="detail-link" title="Link to this function">
@@ -142,7 +213,7 @@ Functions          </h1>
       <span class="sr-only">Link to this function</span>
     </a>
     <h1 class="signature">change_user(user)</h1>
-      <a href="https://github.com/noobymatze/nordref/blob/master/lib/nordref/users.ex#L101" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/noobymatze/nordref/blob/master/lib/nordref/users.ex#L104" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -154,8 +225,8 @@ Functions          </h1>
   Examples
 </h2>
 
-<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">change_user</span><span class="p" data-group-id="4007678175-1">(</span><span class="n">user</span><span class="p" data-group-id="4007678175-1">)</span><span class="w">
-</span><span class="p" data-group-id="4007678175-2">%</span><span class="nc" data-group-id="4007678175-2">Ecto.Changeset</span><span class="p" data-group-id="4007678175-2">{</span><span class="ss">source</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="4007678175-3">%</span><span class="nc" data-group-id="4007678175-3">User</span><span class="p" data-group-id="4007678175-3">{</span><span class="p" data-group-id="4007678175-3">}</span><span class="p" data-group-id="4007678175-2">}</span></code></pre>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">change_user</span><span class="p" data-group-id="2312581333-1">(</span><span class="n">user</span><span class="p" data-group-id="2312581333-1">)</span><span class="w">
+</span><span class="p" data-group-id="2312581333-2">%</span><span class="nc" data-group-id="2312581333-2">Ecto.Changeset</span><span class="p" data-group-id="2312581333-2">{</span><span class="ss">source</span><span class="p">:</span><span class="w"> </span><span class="p" data-group-id="2312581333-3">%</span><span class="nc" data-group-id="2312581333-3">User</span><span class="p" data-group-id="2312581333-3">{</span><span class="p" data-group-id="2312581333-3">}</span><span class="p" data-group-id="2312581333-2">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="create_user/1">
@@ -166,7 +237,7 @@ Functions          </h1>
       <span class="sr-only">Link to this function</span>
     </a>
     <h1 class="signature">create_user(attrs \\ %{})</h1>
-      <a href="https://github.com/noobymatze/nordref/blob/master/lib/nordref/users.ex#L52" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/noobymatze/nordref/blob/master/lib/nordref/users.ex#L55" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -178,11 +249,11 @@ Functions          </h1>
   Examples
 </h2>
 
-<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">create_user</span><span class="p" data-group-id="2315096929-1">(</span><span class="p" data-group-id="2315096929-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="2315096929-2">}</span><span class="p" data-group-id="2315096929-1">)</span><span class="w">
-</span><span class="p" data-group-id="2315096929-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2315096929-4">%</span><span class="nc" data-group-id="2315096929-4">User</span><span class="p" data-group-id="2315096929-4">{</span><span class="p" data-group-id="2315096929-4">}</span><span class="p" data-group-id="2315096929-3">}</span><span class="w">
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">create_user</span><span class="p" data-group-id="9988960786-1">(</span><span class="p" data-group-id="9988960786-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">value</span><span class="p" data-group-id="9988960786-2">}</span><span class="p" data-group-id="9988960786-1">)</span><span class="w">
+</span><span class="p" data-group-id="9988960786-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9988960786-4">%</span><span class="nc" data-group-id="9988960786-4">User</span><span class="p" data-group-id="9988960786-4">{</span><span class="p" data-group-id="9988960786-4">}</span><span class="p" data-group-id="9988960786-3">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="n">create_user</span><span class="p" data-group-id="2315096929-5">(</span><span class="p" data-group-id="2315096929-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="2315096929-6">}</span><span class="p" data-group-id="2315096929-5">)</span><span class="w">
-</span><span class="p" data-group-id="2315096929-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2315096929-8">%</span><span class="nc" data-group-id="2315096929-8">Ecto.Changeset</span><span class="p" data-group-id="2315096929-8">{</span><span class="p" data-group-id="2315096929-8">}</span><span class="p" data-group-id="2315096929-7">}</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="n">create_user</span><span class="p" data-group-id="9988960786-5">(</span><span class="p" data-group-id="9988960786-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="9988960786-6">}</span><span class="p" data-group-id="9988960786-5">)</span><span class="w">
+</span><span class="p" data-group-id="9988960786-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="9988960786-8">%</span><span class="nc" data-group-id="9988960786-8">Ecto.Changeset</span><span class="p" data-group-id="9988960786-8">{</span><span class="p" data-group-id="9988960786-8">}</span><span class="p" data-group-id="9988960786-7">}</span></code></pre>
   </section>
 </section>
 <section class="detail" id="delete_user/1">
@@ -192,7 +263,7 @@ Functions          </h1>
       <span class="sr-only">Link to this function</span>
     </a>
     <h1 class="signature">delete_user(user)</h1>
-      <a href="https://github.com/noobymatze/nordref/blob/master/lib/nordref/users.ex#L88" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/noobymatze/nordref/blob/master/lib/nordref/users.ex#L91" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -204,11 +275,38 @@ Functions          </h1>
   Examples
 </h2>
 
-<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">delete_user</span><span class="p" data-group-id="4938677570-1">(</span><span class="n">user</span><span class="p" data-group-id="4938677570-1">)</span><span class="w">
-</span><span class="p" data-group-id="4938677570-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4938677570-3">%</span><span class="nc" data-group-id="4938677570-3">User</span><span class="p" data-group-id="4938677570-3">{</span><span class="p" data-group-id="4938677570-3">}</span><span class="p" data-group-id="4938677570-2">}</span><span class="w">
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">delete_user</span><span class="p" data-group-id="2793289257-1">(</span><span class="n">user</span><span class="p" data-group-id="2793289257-1">)</span><span class="w">
+</span><span class="p" data-group-id="2793289257-2">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2793289257-3">%</span><span class="nc" data-group-id="2793289257-3">User</span><span class="p" data-group-id="2793289257-3">{</span><span class="p" data-group-id="2793289257-3">}</span><span class="p" data-group-id="2793289257-2">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_user</span><span class="p" data-group-id="4938677570-4">(</span><span class="n">user</span><span class="p" data-group-id="4938677570-4">)</span><span class="w">
-</span><span class="p" data-group-id="4938677570-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="4938677570-6">%</span><span class="nc" data-group-id="4938677570-6">Ecto.Changeset</span><span class="p" data-group-id="4938677570-6">{</span><span class="p" data-group-id="4938677570-6">}</span><span class="p" data-group-id="4938677570-5">}</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="n">delete_user</span><span class="p" data-group-id="2793289257-4">(</span><span class="n">user</span><span class="p" data-group-id="2793289257-4">)</span><span class="w">
+</span><span class="p" data-group-id="2793289257-5">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2793289257-6">%</span><span class="nc" data-group-id="2793289257-6">Ecto.Changeset</span><span class="p" data-group-id="2793289257-6">{</span><span class="p" data-group-id="2793289257-6">}</span><span class="p" data-group-id="2793289257-5">}</span></code></pre>
+  </section>
+</section>
+<section class="detail" id="get_by_username/1">
+  <div class="detail-header">
+    <a href="#get_by_username/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">get_by_username(username)</h1>
+      <a href="https://github.com/noobymatze/nordref/blob/master/lib/nordref/users.ex#L132" class="view-source" rel="help" title="View Source">
+       <span class="icon-code" aria-hidden="true"></span>
+       <span class="sr-only">View Source</span>
+     </a>
+  </div>
+  <section class="docstring">
+<p>Returns a User by their username or nil, if none
+could be found.</p>
+<h2 id="get_by_username/1-examples" class="section-heading">
+  <a href="#get_by_username/1-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Examples
+</h2>
+
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">get_by_username</span><span class="p" data-group-id="0211568280-1">(</span><span class="s">&quot;test&quot;</span><span class="p" data-group-id="0211568280-1">)</span><span class="w">
+</span><span class="p" data-group-id="0211568280-2">%</span><span class="nc" data-group-id="0211568280-2">Ecto.User</span><span class="p" data-group-id="0211568280-2">{</span><span class="p" data-group-id="0211568280-2">}</span><span class="w">
+
+</span><span class="gp unselectable">iex&gt; </span><span class="n">get_by_username</span><span class="p" data-group-id="0211568280-3">(</span><span class="s">&quot;not_existing&quot;</span><span class="p" data-group-id="0211568280-3">)</span><span class="w">
+</span><span class="no">nil</span></code></pre>
   </section>
 </section>
 <section class="detail" id="get_user!/1">
@@ -218,7 +316,7 @@ Functions          </h1>
       <span class="sr-only">Link to this function</span>
     </a>
     <h1 class="signature">get_user!(id)</h1>
-      <a href="https://github.com/noobymatze/nordref/blob/master/lib/nordref/users.ex#L38" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/noobymatze/nordref/blob/master/lib/nordref/users.ex#L41" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -231,10 +329,10 @@ Functions          </h1>
   Examples
 </h2>
 
-<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">get_user!</span><span class="p" data-group-id="6484917151-1">(</span><span class="mi">123</span><span class="p" data-group-id="6484917151-1">)</span><span class="w">
-</span><span class="p" data-group-id="6484917151-2">%</span><span class="nc" data-group-id="6484917151-2">User</span><span class="p" data-group-id="6484917151-2">{</span><span class="p" data-group-id="6484917151-2">}</span><span class="w">
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">get_user!</span><span class="p" data-group-id="3025191329-1">(</span><span class="mi">123</span><span class="p" data-group-id="3025191329-1">)</span><span class="w">
+</span><span class="p" data-group-id="3025191329-2">%</span><span class="nc" data-group-id="3025191329-2">User</span><span class="p" data-group-id="3025191329-2">{</span><span class="p" data-group-id="3025191329-2">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="n">get_user!</span><span class="p" data-group-id="6484917151-3">(</span><span class="mi">456</span><span class="p" data-group-id="6484917151-3">)</span><span class="w">
+</span><span class="gp unselectable">iex&gt; </span><span class="n">get_user!</span><span class="p" data-group-id="3025191329-3">(</span><span class="mi">456</span><span class="p" data-group-id="3025191329-3">)</span><span class="w">
 </span><span class="gt">** (Ecto.NoResultsError)</span></code></pre>
   </section>
 </section>
@@ -245,7 +343,7 @@ Functions          </h1>
       <span class="sr-only">Link to this function</span>
     </a>
     <h1 class="signature">list_users()</h1>
-      <a href="https://github.com/noobymatze/nordref/blob/master/lib/nordref/users.ex#L20" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/noobymatze/nordref/blob/master/lib/nordref/users.ex#L23" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -257,8 +355,8 @@ Functions          </h1>
   Examples
 </h2>
 
-<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">list_users</span><span class="p" data-group-id="5027268520-1">(</span><span class="p" data-group-id="5027268520-1">)</span><span class="w">
-</span><span class="p" data-group-id="5027268520-2">[</span><span class="p" data-group-id="5027268520-3">%</span><span class="nc" data-group-id="5027268520-3">User</span><span class="p" data-group-id="5027268520-3">{</span><span class="p" data-group-id="5027268520-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="5027268520-2">]</span></code></pre>
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">list_users</span><span class="p" data-group-id="0410186292-1">(</span><span class="p" data-group-id="0410186292-1">)</span><span class="w">
+</span><span class="p" data-group-id="0410186292-2">[</span><span class="p" data-group-id="0410186292-3">%</span><span class="nc" data-group-id="0410186292-3">User</span><span class="p" data-group-id="0410186292-3">{</span><span class="p" data-group-id="0410186292-3">}</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p" data-group-id="0410186292-2">]</span></code></pre>
   </section>
 </section>
 <section class="detail" id="update_user/2">
@@ -268,7 +366,7 @@ Functions          </h1>
       <span class="sr-only">Link to this function</span>
     </a>
     <h1 class="signature">update_user(user, attrs)</h1>
-      <a href="https://github.com/noobymatze/nordref/blob/master/lib/nordref/users.ex#L70" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/noobymatze/nordref/blob/master/lib/nordref/users.ex#L73" class="view-source" rel="help" title="View Source">
        <span class="icon-code" aria-hidden="true"></span>
        <span class="sr-only">View Source</span>
      </a>
@@ -280,11 +378,11 @@ Functions          </h1>
   Examples
 </h2>
 
-<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">update_user</span><span class="p" data-group-id="2291308225-1">(</span><span class="n">user</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2291308225-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="2291308225-2">}</span><span class="p" data-group-id="2291308225-1">)</span><span class="w">
-</span><span class="p" data-group-id="2291308225-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2291308225-4">%</span><span class="nc" data-group-id="2291308225-4">User</span><span class="p" data-group-id="2291308225-4">{</span><span class="p" data-group-id="2291308225-4">}</span><span class="p" data-group-id="2291308225-3">}</span><span class="w">
+<pre><code class="nohighlight makeup elixir"><span class="gp unselectable">iex&gt; </span><span class="n">update_user</span><span class="p" data-group-id="3742871698-1">(</span><span class="n">user</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3742871698-2">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">new_value</span><span class="p" data-group-id="3742871698-2">}</span><span class="p" data-group-id="3742871698-1">)</span><span class="w">
+</span><span class="p" data-group-id="3742871698-3">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3742871698-4">%</span><span class="nc" data-group-id="3742871698-4">User</span><span class="p" data-group-id="3742871698-4">{</span><span class="p" data-group-id="3742871698-4">}</span><span class="p" data-group-id="3742871698-3">}</span><span class="w">
 
-</span><span class="gp unselectable">iex&gt; </span><span class="n">update_user</span><span class="p" data-group-id="2291308225-5">(</span><span class="n">user</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2291308225-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="2291308225-6">}</span><span class="p" data-group-id="2291308225-5">)</span><span class="w">
-</span><span class="p" data-group-id="2291308225-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="2291308225-8">%</span><span class="nc" data-group-id="2291308225-8">Ecto.Changeset</span><span class="p" data-group-id="2291308225-8">{</span><span class="p" data-group-id="2291308225-8">}</span><span class="p" data-group-id="2291308225-7">}</span></code></pre>
+</span><span class="gp unselectable">iex&gt; </span><span class="n">update_user</span><span class="p" data-group-id="3742871698-5">(</span><span class="n">user</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3742871698-6">%{</span><span class="ss">field</span><span class="p">:</span><span class="w"> </span><span class="n">bad_value</span><span class="p" data-group-id="3742871698-6">}</span><span class="p" data-group-id="3742871698-5">)</span><span class="w">
+</span><span class="p" data-group-id="3742871698-7">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3742871698-8">%</span><span class="nc" data-group-id="3742871698-8">Ecto.Changeset</span><span class="p" data-group-id="3742871698-8">{</span><span class="p" data-group-id="3742871698-8">}</span><span class="p" data-group-id="3742871698-7">}</span></code></pre>
   </section>
 </section>
           </div>

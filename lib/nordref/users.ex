@@ -118,26 +118,6 @@ defmodule Nordref.Users do
   end
 
   @doc """
-  Returns a User by their user_id or nil, if none
-  exists.
-
-  ## Examples
-
-      iex> get_by_id(1)
-      %Ecto.User{}
-
-      iex> get_by_username(999999)
-      nil
-  """
-  def get_by_id(user_id) do
-    query =
-      from u in User,
-        where: u.id == ^user_id
-
-    Repo.one(query)
-  end
-
-  @doc """
   Returns a User by their username or nil, if none
   could be found.
 

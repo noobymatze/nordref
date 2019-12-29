@@ -53,7 +53,8 @@ defmodule Nordref.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:ex_doc, "~> 0.21", only: :dev, runtime: false},
-      {:bcrypt_elixir, "~> 2.0"}
+      {:bcrypt_elixir, "~> 2.0"},
+      {:csv, "~> 2.3"}
     ]
   end
 

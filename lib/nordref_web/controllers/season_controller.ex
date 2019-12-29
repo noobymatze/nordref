@@ -3,6 +3,7 @@ defmodule NordrefWeb.SeasonController do
 
   alias Nordref.Seasons
   alias Nordref.Seasons.Season
+  alias Nordref.Registrations
 
   def index(conn, _params) do
     seasons = Seasons.list_seasons()
@@ -29,6 +30,13 @@ defmodule NordrefWeb.SeasonController do
   def show(conn, %{"id" => id}) do
     season = Seasons.get_season!(id)
     render(conn, "show.html", season: season)
+  end
+
+  def download_registrations(conn, %{"year" => year}) do
+    csv = Registrations.export_for_season(year, :csv)
+
+    conn
+    |> send_download({:binary, csv}, filename: "registrations_#{year}.csv", charset: "utf-8")
   end
 
   def edit(conn, %{"id" => id}) do

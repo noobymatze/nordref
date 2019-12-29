@@ -31,3 +31,4 @@
 
 <span><%= link "Edit", to: Routes.season_path(@conn, :edit, @season) %></span>
 <span><%= link "Back", to: Routes.season_path(@conn, :index) %></span>
+<span><%= link "Download Registrations", to: Routes.season_path(@conn, :download_registrations, @season.year) %></span>

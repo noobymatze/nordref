@@ -102,6 +102,28 @@ defmodule Nordref.Registrations do
     Repo.delete(registration)
   end
 
+  @doc """
+  Export all registrations for the given season as CSV.
+
+  ## Examples
+
+      iex> export_for_season(2019, :csv)
+      "id,first_name,last_name,birthday,club_name,course_name" <> ...
+
+
+  """
+  def export_for_season(season, :csv) do
+    query =
+      from r in RegistrationView,
+        where: r.season == ^season
+
+    query
+    |> Repo.all()
+    |> Enum.map(&RegistrationView.to_public_map/1)
+    |> CSV.encode(headers: true, separator: ?,)
+    |> Enum.into("")
+  end
+
   defmodule Register do
     @moduledoc false
 

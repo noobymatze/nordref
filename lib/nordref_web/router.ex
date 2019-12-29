@@ -34,6 +34,7 @@ defmodule NordrefWeb.Router do
     resources "/courses", CourseController
     get "/courses/release/:id", CourseController, :release
     resources "/seasons", SeasonController
+    get "/seasons/:year/registrations", SeasonController, :download_registrations
   end
 
   # Other scopes may use custom stacks.

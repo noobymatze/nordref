@@ -42,6 +42,7 @@ defmodule NordrefWeb do
       import NordrefWeb.ErrorHelpers
       import NordrefWeb.Gettext
       alias NordrefWeb.Router.Helpers, as: Routes
+      alias NordrefWeb.View.Helpers
     end
   end
 

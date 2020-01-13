@@ -2,10 +2,34 @@
 
 @import "./phoenix.css";
 
+* {
+    box-sizing: border-box;
+}
+
 html {
     color: #333;
 }
 
 .column--created-at {
     color: #666;
+}
+
+/* header */
+
+header {
+    border-bottom: 1px solid #eee;
+}
+
+.nav {
+    display: flex;
+
+}
+
+nav ul {
+    list-style: none;
+}
+
+.nav a {
+    padding: 12px;
+    display: block;
 }

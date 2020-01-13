@@ -26,4 +26,10 @@ defmodule NordrefWeb.SessionController do
         |> render("login.html", changeset: changeset)
     end
   end
+
+  def logout(conn, _params) do
+    conn
+    |> put_session(:current_user_id, nil)
+    |> redirect(to: "/login")
+  end
 end

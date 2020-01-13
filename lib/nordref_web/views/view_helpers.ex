@@ -1,5 +1,5 @@
 defmodule NordrefWeb.View.Helpers do
-  alias Nordref.Permissions
+  import Nordref.Permissions
   import Phoenix.HTML.Link
 
   @doc """
@@ -12,7 +12,7 @@ defmodule NordrefWeb.View.Helpers do
       nil
   """
   def guarded_link(text, current_user, action, opts) do
-    if current_user != nil and Permissions.can_access?(current_user, action) do
+    if current_user != nil and can_access?(current_user, action) do
       link(text, opts)
     else
       nil

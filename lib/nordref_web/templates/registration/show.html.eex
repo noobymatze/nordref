@@ -1,0 +1,32 @@
+<h1>Show registration</h1>
+
+<ul>
+
+  <li>
+    <strong>First name:</strong>
+    <%= @registration.first_name %>
+  </li>
+
+  <li>
+    <strong>Last name:</strong>
+    <%= @registration.last_name %>
+  </li>
+
+  <li>
+    <strong>registration number:</strong>
+    <%= @registration.registration_number %>
+  </li>
+  <li>
+    <strong>Year of birth:</strong>
+    <%= @registration.year_of_birth %>
+  </li>
+
+  <li>
+    <strong>Season:</strong>
+    <%= @registration.season %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.registration_path(@conn, :edit, @registration) %></span>
+<span><%= link "Back", to: Routes.registration_path(@conn, :index) %></span>

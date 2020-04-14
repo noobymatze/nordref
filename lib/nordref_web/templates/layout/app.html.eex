@@ -13,6 +13,7 @@
         <nav role="navigation">
         <ul class="nav">
           <li class="nav-link"><%= link "Courses", to: Routes.course_path(@conn, :index) %></li>
+          <li class="nav-link"><%= link "Registration", to: Routes.registration_path(@conn, :index) %></li>
           <li class="nav-link"><%= link "Seasons", to: Routes.season_path(@conn, :index) %></li>
           <li class="nav-link"><%= link "Clubs", to: Routes.club_path(@conn, :index) %></li>
           <li class="nav-link"><%= link "Users", to: Routes.user_path(@conn, :index) %></li>

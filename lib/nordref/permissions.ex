@@ -23,7 +23,7 @@ defmodule Nordref.Permissions do
       :show_season ->
         User.super_admin?(user) || User.admin?(user)
 
-      true ->
+      _ ->
         true
     end
   end

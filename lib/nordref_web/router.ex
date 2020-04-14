@@ -33,6 +33,7 @@ defmodule NordrefWeb.Router do
     resources "/users", UserController
     resources "/courses", CourseController
     get "/courses/release/:id", CourseController, :release
+    resources "/registrations", RegistrationController
     resources "/seasons", SeasonController
     get "/seasons/:year/registrations", SeasonController, :download_registrations
     get "/logout", SessionController, :logout

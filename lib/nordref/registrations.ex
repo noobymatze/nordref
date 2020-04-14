@@ -12,6 +12,13 @@ defmodule Nordref.Registrations do
   alias Nordref.Courses.Course
   alias Nordref.Registrations.Register
 
+
+  def list_registrations do
+    Repo.all(RegistrationView)
+  end
+
+  def get_registration!(id), do: Repo.get!(Registration, id)
+
   @doc """
   Register the given user for the given course.
 

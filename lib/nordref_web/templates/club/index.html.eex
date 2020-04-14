@@ -1,5 +1,7 @@
 <h1>Clubs</h1>
 
+<span><%= link "New Club", to: Routes.club_path(@conn, :new) %></span>
+
 <table>
   <thead>
     <tr>
@@ -27,4 +29,4 @@
   </tbody>
 </table>
 
-<span><%= link "New Club", to: Routes.club_path(@conn, :new) %></span>
+

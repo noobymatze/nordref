@@ -4,8 +4,9 @@ use Mix.Config
 config :nordref, Nordref.Repo,
   username: "root",
   password: "sql",
-  database: "nordref",
+  database: "nordref_dev",
   hostname: "localhost",
+  port: 4306,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 

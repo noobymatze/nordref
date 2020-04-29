@@ -17,7 +17,7 @@ defmodule Nordref.Repo.Migrations.CreateCourses do
       add :max_per_club, :integer, null: false, default: 6
       add :max_organizer_participants, :integer, null: false, default: 6
       add :organizer_id, references(:clubs), null: false
-      add :season_id, references(:seasons, column: :year), null: false
+      add :season, references(:seasons, column: :year), null: false
       add :date, :naive_datetime, null: false
       add :released, :boolean
 

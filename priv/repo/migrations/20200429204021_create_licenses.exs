@@ -10,7 +10,8 @@ defmodule Nordref.Repo.Migrations.CreateLicenses do
 
     create table(:licenses, prefix: :nordref) do
       add :number, :integer, null: false
-      add :season_id, references(:seasons, column: :year), null: false
+      add :season, references(:seasons, column: :year), null: false
+      add :user_id, references(:users), null: false
       timestamps()
     end
 
@@ -19,5 +20,6 @@ defmodule Nordref.Repo.Migrations.CreateLicenses do
 
   def down do
     drop_if_exists table(:licenses, prefix: :nordref)
+    execute "DROP TYPE IF EXISTS nordref.license_type"
   end
 end

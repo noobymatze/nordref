@@ -1,5 +1,6 @@
 defmodule NordrefWeb.Router do
   use NordrefWeb, :router
+  import Phoenix.LiveDashboard.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -28,6 +29,7 @@ defmodule NordrefWeb.Router do
       pipe_through [:browser, NordrefWeb.Plugs.Auth]
     end
 
+    live_dashboard "/dashboard"
     get "/", UserController, :index
     resources "/clubs", ClubController
     resources "/users", UserController

@@ -1,18 +1,18 @@
 version: '3.7'
 
 services:
-   db:
-     image: mysql:5.7
+   nordref-db:
+     image: postgres:12.2
      volumes:
-       - nordref_data:/var/lib/mysql
+       - nordref_data:/var/lib/postgresql/data
      ports:
-       - 4306:3306
+       - 4306:5432
      restart: always
      environment:
-       MYSQL_ROOT_PASSWORD: sql
-       MYSQL_DATABASE: nordref_dev
-       MYSQL_USER: root
-       MYSQL_PASSWORD: sql
+       POSTGRES_USER: nordref
+       POSTGRES_PASSWORD: sql
+       POSTGRES_DB: nordref_dev
 
 volumes:
-    nordref_data: {}
+    nordref_data:
+      driver: local

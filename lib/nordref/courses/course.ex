@@ -11,6 +11,7 @@ defmodule Nordref.Courses.Course do
     field :released, :boolean, default: false
     field :type, :string
     field :organizer, :id
+    field :season, :integer
 
     timestamps(inserted_at: :created_at)
   end

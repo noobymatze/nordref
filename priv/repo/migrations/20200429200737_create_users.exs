@@ -18,7 +18,7 @@ defmodule Nordref.Repo.Migrations.CreateUsers do
       add :email, :text
       add :username, :text, null: false
       add :password, :text
-      add :birthday, :naive_datetime
+      add :birthday, :date
       add :mobile, :text
       add :phone, :text
       add :club_id, references(:clubs)

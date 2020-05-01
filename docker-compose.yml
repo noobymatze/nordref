@@ -13,6 +13,20 @@ services:
        POSTGRES_PASSWORD: sql
        POSTGRES_DB: nordref_dev
 
+   nordref-db-test:
+     image: postgres:12.2
+     volumes:
+       - nordref_data_test:/var/lib/postgresql/data
+     ports:
+       - 4307:5432
+     restart: always
+     environment:
+       POSTGRES_USER: nordref
+       POSTGRES_PASSWORD: sql
+       POSTGRES_DB: nordref_test
+
 volumes:
     nordref_data:
+      driver: local
+    nordref_data_test:
       driver: local

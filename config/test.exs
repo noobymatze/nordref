@@ -2,10 +2,11 @@ use Mix.Config
 
 # Configure your database
 config :nordref, Nordref.Repo,
-  username: "root",
+  username: "nordref",
   password: "sql",
   database: "nordref_test",
   hostname: "localhost",
+  port: 4307,
   pool: Ecto.Adapters.SQL.Sandbox
 
 # We don't run a server during test. If one is required,

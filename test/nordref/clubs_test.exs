@@ -8,15 +8,15 @@ defmodule Nordref.ClubsTest do
 
     @valid_attrs %{
       name: "some name",
-      regional_association: "FVN",
+      regional_association_id: 1,
       short_name: "some short"
     }
     @update_attrs %{
       name: "some updated name",
-      regional_association: "FLV",
+      regional_association_id: 1,
       short_name: "updated"
     }
-    @invalid_attrs %{name: nil, regional_association: nil, short_name: nil}
+    @invalid_attrs %{name: nil, regional_association_id: nil, short_name: nil}
 
     def club_fixture(attrs \\ %{}) do
       {:ok, club} =
@@ -40,7 +40,7 @@ defmodule Nordref.ClubsTest do
     test "create_club/1 with valid data creates a club" do
       assert {:ok, %Club{} = club} = Clubs.create_club(@valid_attrs)
       assert club.name == "some name"
-      assert club.regional_association == "FVN"
+      assert club.regional_association_id == 1
       assert club.short_name == "some short"
     end
 

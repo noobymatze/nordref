@@ -17,16 +17,16 @@
   <%= number_input f, :max_per_club %>
   <%= error_tag f, :max_per_club %>
 
-  <%= label f, :organizer_participants %>
-  <%= number_input f, :organizer_participants %>
-  <%= error_tag f, :organizer_participants %>
+  <%= label f, :max_organizer_participants %>
+  <%= number_input f, :max_organizer_participants %>
+  <%= error_tag f, :max_organizer_participants %>
 
   <%= label f, :type %>
   <%= select f, :type, @types, prompt: "Bitte wähle einen Typen" %>
   <%= error_tag f, :type %>
 
   <%= label f, :date %>
-  <%= date_select f, :date %>
+  <%= datetime_select f, :date %>
   <%= error_tag f, :date %>
 
   <%= label f, :released %>

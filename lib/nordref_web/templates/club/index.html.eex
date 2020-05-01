@@ -17,7 +17,7 @@
     <tr>
       <td><%= club.name %></td>
       <td><%= club.short_name %></td>
-      <td><%= club.regional_association %></td>
+      <td><%= Map.get(@regional_associations, club.regional_association_id) %></td>
 
       <td>
         <span><%= link "Show", to: Routes.club_path(@conn, :show, club) %></span>

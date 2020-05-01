@@ -3,16 +3,12 @@ defmodule Nordref.Licenses.License do
   import Ecto.Changeset
 
   schema "licenses" do
-    field :first_name, :string
-    field :last_name, :string
-    field :license_number, :integer
-    field :license_type, :string
+    field :number, :integer
+    field :type, :string
     field :season, :integer
-    field :year_of_birth, :integer
-    field :club_id, :id
     field :user_id, :id
 
-    timestamps(inserted_at: :created_at, updated_at: false)
+    timestamps()
   end
 
   @doc false
@@ -24,14 +20,12 @@ defmodule Nordref.Licenses.License do
   def changeset(license, attrs) do
     license
     |> cast(attrs, [
-      :first_name,
-      :last_name,
-      :license_number,
-      :license_type,
-      :year_of_birth,
-      :season
+      :number,
+      :type,
+      :season,
+      :user_id
     ])
-    |> validate_required([:license_number, :license_type, :year_of_birth, :season])
-    |> validate_inclusion(:license_type, types())
+    |> validate_required([:number, :type, :season, :user_id])
+    |> validate_inclusion(:type, types())
   end
 end

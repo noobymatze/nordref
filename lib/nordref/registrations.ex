@@ -12,7 +12,6 @@ defmodule Nordref.Registrations do
   alias Nordref.Courses.Course
   alias Nordref.Registrations.Register
 
-
   def list_registrations do
     Repo.all(RegistrationView)
   end

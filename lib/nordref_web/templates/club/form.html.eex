@@ -14,7 +14,7 @@
   <%= error_tag f, :short_name %>
 
   <%= label f, :regional_association %>
-  <%= select f, :regional_association, @associations, prompt: "Bitte wähle den Verband aus." %>
+  <%= select f, :regional_association_id, @associations, prompt: "Bitte wähle den Verband aus." %>
   <%= error_tag f, :regional_association %>
 
   <div>

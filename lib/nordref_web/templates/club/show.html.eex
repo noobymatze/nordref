@@ -14,7 +14,7 @@
 
   <li>
     <strong>Regional association:</strong>
-    <%= @club.regional_association %>
+    <%= Map.get(@regional_associations, @club.regional_association_id) %>
   </li>
 
 </ul>

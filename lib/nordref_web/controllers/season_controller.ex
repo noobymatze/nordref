@@ -5,11 +5,11 @@ defmodule NordrefWeb.SeasonController do
   alias Nordref.Seasons.Season
   alias Nordref.Registrations
 
-  plug NordrefWeb.Plugs.Authorization,
-    index: :view_seasons,
-    new: :create_season,
-    create: :create_season,
-    edit: :view_season
+  # plug NordrefWeb.Plugs.Authorization,
+  #   index: :view_seasons,
+  #   new: :create_season,
+  #   create: :create_season,
+  #   edit: :view_season
 
   def index(conn, _params) do
     seasons = Seasons.list_seasons()

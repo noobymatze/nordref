@@ -4,17 +4,21 @@ defmodule NordrefWeb.ClubController do
   import Plug.Conn
   alias Nordref.Clubs
   alias Nordref.Clubs.Club
+  alias Nordref.RegionalAssociations
 
   def index(conn, _params) do
     clubs = Clubs.list_clubs()
-    render(conn, "index.html", clubs: clubs)
+    associations = regional_association_map()
+
+    render(conn, "index.html", clubs: clubs, regional_associations: associations)
   end
 
   def new(conn, _params) do
     changeset = Clubs.change_club(%Club{})
+    associations = regional_association_options()
 
     conn
-    |> assign(:associations, Club.regional_associations())
+    |> assign(:associations, associations)
     |> assign(:changeset, changeset)
     |> render("new.html")
   end
@@ -27,21 +31,26 @@ defmodule NordrefWeb.ClubController do
         |> redirect(to: Routes.club_path(conn, :show, club))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset, associations: Club.regional_associations())
+        render(conn, "new.html",
+          changeset: changeset,
+          associations: regional_association_options()
+        )
     end
   end
 
   def show(conn, %{"id" => id}) do
     club = Clubs.get_club!(id)
-    render(conn, "show.html", club: club)
+    associations = regional_association_map()
+    render(conn, "show.html", club: club, regional_associations: associations)
   end
 
   def edit(conn, %{"id" => id}) do
     club = Clubs.get_club!(id)
     changeset = Clubs.change_club(club)
+    associations = regional_association_options()
 
     conn
-    |> assign(:associations, Club.regional_associations())
+    |> assign(:associations, associations)
     |> assign(:changeset, changeset)
     |> assign(:club, club)
     |> render("edit.html")
@@ -57,10 +66,12 @@ defmodule NordrefWeb.ClubController do
         |> redirect(to: Routes.club_path(conn, :show, club))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html",
+        render(
+          conn,
+          "edit.html",
           club: club,
           changeset: changeset,
-          associations: Club.regional_associations()
+          associations: regional_association_options()
         )
     end
   end
@@ -72,5 +83,15 @@ defmodule NordrefWeb.ClubController do
     conn
     |> put_flash(:info, "Club deleted successfully.")
     |> redirect(to: Routes.club_path(conn, :index))
+  end
+
+  defp regional_association_map do
+    RegionalAssociations.list_regional_associations()
+    |> Enum.reduce(%{}, fn ra, acc -> Map.put(acc, ra.id, ra.name) end)
+  end
+
+  defp regional_association_options do
+    RegionalAssociations.list_regional_associations()
+    |> Enum.reduce(%{}, fn ra, acc -> Map.put(acc, ra.name, ra.id) end)
   end
 end

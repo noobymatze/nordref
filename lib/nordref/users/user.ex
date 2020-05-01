@@ -14,7 +14,7 @@ defmodule Nordref.Users.User do
     field :username, :string
     field :club_id, :id
 
-    timestamps(inserted_at: :created_at)
+    timestamps()
   end
 
   @doc false

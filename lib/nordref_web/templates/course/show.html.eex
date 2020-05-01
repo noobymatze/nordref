@@ -19,7 +19,7 @@
 
   <li>
     <strong>Organizer participants:</strong>
-    <%= @course.organizer_participants %>
+    <%= @course.max_organizer_participants %>
   </li>
 
   <li>
@@ -57,7 +57,7 @@
         <td><%= r.first_name %> <%= r.last_name %></td>
         <td><a href="mailto:<%= r.email %>"><%= r.email %></a></td>
         <td><%= r.club_name %></td>
-        <td class="column column--created-at"><%= r.created_at %></td>
+        <td class="column column--created-at"><%= r.inserted_at %></td>
       </tr>
     <% end %>
   </tbody>

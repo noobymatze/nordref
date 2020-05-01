@@ -3,28 +3,13 @@
 <ul>
 
   <li>
-    <strong>First name:</strong>
-    <%= @license.first_name %>
-  </li>
-
-  <li>
-    <strong>Last name:</strong>
-    <%= @license.last_name %>
-  </li>
-
-  <li>
     <strong>License number:</strong>
-    <%= @license.license_number %>
+    <%= @license.number %>
   </li>
 
   <li>
     <strong>License type:</strong>
-    <%= @license.license_type %>
-  </li>
-
-  <li>
-    <strong>Year of birth:</strong>
-    <%= @license.year_of_birth %>
+    <%= @license.type %>
   </li>
 
   <li>

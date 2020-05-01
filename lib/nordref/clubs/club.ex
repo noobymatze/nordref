@@ -4,8 +4,8 @@ defmodule Nordref.Clubs.Club do
 
   schema "clubs" do
     field :name, :string
-    field :regional_association_id, :id
     field :short_name, :string
+    field :association_id, :id
 
     timestamps()
   end
@@ -13,8 +13,8 @@ defmodule Nordref.Clubs.Club do
   @doc false
   def changeset(club, attrs) do
     club
-    |> cast(attrs, [:name, :short_name, :regional_association_id])
-    |> validate_required([:name, :short_name, :regional_association_id])
+    |> cast(attrs, [:name, :short_name, :association_id])
+    |> validate_required([:name, :short_name, :association_id])
     |> validate_length(:short_name, max: 10)
   end
 end

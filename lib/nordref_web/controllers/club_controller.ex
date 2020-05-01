@@ -4,18 +4,18 @@ defmodule NordrefWeb.ClubController do
   import Plug.Conn
   alias Nordref.Clubs
   alias Nordref.Clubs.Club
-  alias Nordref.RegionalAssociations
+  alias Nordref.Associations
 
   def index(conn, _params) do
     clubs = Clubs.list_clubs()
-    associations = regional_association_map()
+    associations = association_map()
 
-    render(conn, "index.html", clubs: clubs, regional_associations: associations)
+    render(conn, "index.html", clubs: clubs, associations: associations)
   end
 
   def new(conn, _params) do
     changeset = Clubs.change_club(%Club{})
-    associations = regional_association_options()
+    associations = association_options()
 
     conn
     |> assign(:associations, associations)
@@ -33,21 +33,21 @@ defmodule NordrefWeb.ClubController do
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html",
           changeset: changeset,
-          associations: regional_association_options()
+          associations: association_options()
         )
     end
   end
 
   def show(conn, %{"id" => id}) do
     club = Clubs.get_club!(id)
-    associations = regional_association_map()
-    render(conn, "show.html", club: club, regional_associations: associations)
+    associations = association_map()
+    render(conn, "show.html", club: club, associations: associations)
   end
 
   def edit(conn, %{"id" => id}) do
     club = Clubs.get_club!(id)
     changeset = Clubs.change_club(club)
-    associations = regional_association_options()
+    associations = association_options()
 
     conn
     |> assign(:associations, associations)
@@ -71,7 +71,7 @@ defmodule NordrefWeb.ClubController do
           "edit.html",
           club: club,
           changeset: changeset,
-          associations: regional_association_options()
+          associations: association_options()
         )
     end
   end
@@ -85,13 +85,13 @@ defmodule NordrefWeb.ClubController do
     |> redirect(to: Routes.club_path(conn, :index))
   end
 
-  defp regional_association_map do
-    RegionalAssociations.list_regional_associations()
+  defp association_map do
+    Associations.list_associations()
     |> Enum.reduce(%{}, fn ra, acc -> Map.put(acc, ra.id, ra.name) end)
   end
 
-  defp regional_association_options do
-    RegionalAssociations.list_regional_associations()
+  defp association_options do
+    Associations.list_associations()
     |> Enum.reduce(%{}, fn ra, acc -> Map.put(acc, ra.name, ra.id) end)
   end
 end

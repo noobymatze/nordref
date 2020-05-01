@@ -53,6 +53,7 @@ defmodule NordrefWeb.UserControllerTest do
 
   def club_fixture(attrs \\ %{}) do
     association = regional_association_fixture()
+
     {:ok, club} =
       attrs
       |> Enum.into(%{name: "some name", short_name: "T", regional_association_id: association.id})
@@ -63,7 +64,7 @@ defmodule NordrefWeb.UserControllerTest do
 
   def fixture(:user) do
     club = club_fixture()
-    {:ok, user} = Users.create_user(%{ @create_attrs | club_id: club.id})
+    {:ok, user} = Users.create_user(%{@create_attrs | club_id: club.id})
     user
   end
 
@@ -84,7 +85,9 @@ defmodule NordrefWeb.UserControllerTest do
   describe "create user" do
     test "redirects to show when data is valid", %{conn: conn} do
       club = club_fixture()
-      conn = post(conn, Routes.user_path(conn, :create), user: %{@create_attrs | club_id: club.id})
+
+      conn =
+        post(conn, Routes.user_path(conn, :create), user: %{@create_attrs | club_id: club.id})
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.user_path(conn, :show, id)
@@ -95,7 +98,10 @@ defmodule NordrefWeb.UserControllerTest do
 
     test "renders errors when data is invalid", %{conn: conn} do
       club = club_fixture()
-      conn = post(conn, Routes.user_path(conn, :create), user: %{@invalid_attrs | club_id: club.id})
+
+      conn =
+        post(conn, Routes.user_path(conn, :create), user: %{@invalid_attrs | club_id: club.id})
+
       assert html_response(conn, 200) =~ "New User"
     end
   end
@@ -113,7 +119,11 @@ defmodule NordrefWeb.UserControllerTest do
     setup [:create_user]
 
     test "redirects when data is valid", %{conn: conn, user: user} do
-      conn = put(conn, Routes.user_path(conn, :update, user), user: %{ @update_attrs | club_id: user.club_id})
+      conn =
+        put(conn, Routes.user_path(conn, :update, user),
+          user: %{@update_attrs | club_id: user.club_id}
+        )
+
       assert redirected_to(conn) == Routes.user_path(conn, :show, user)
 
       conn = get(conn, Routes.user_path(conn, :show, user))
@@ -121,7 +131,11 @@ defmodule NordrefWeb.UserControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, user: user} do
-      conn = put(conn, Routes.user_path(conn, :update, user), user: %{ @invalid_attrs | club_id: user.club_id})
+      conn =
+        put(conn, Routes.user_path(conn, :update, user),
+          user: %{@invalid_attrs | club_id: user.club_id}
+        )
+
       assert html_response(conn, 200) =~ "Edit User"
     end
   end

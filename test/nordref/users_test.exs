@@ -56,6 +56,7 @@ defmodule Nordref.UsersTest do
 
     def club_fixture(attrs \\ %{}) do
       association = regional_association_fixture()
+
       {:ok, club} =
         attrs
         |> Enum.into(%{name: "Bla", short_name: "Test", regional_association_id: association.id})
@@ -63,8 +64,10 @@ defmodule Nordref.UsersTest do
 
       club
     end
+
     def user_fixture(attrs \\ %{}) do
       club = club_fixture()
+
       {:ok, user} =
         attrs
         |> Enum.into(%{@valid_attrs | club_id: club.id})
@@ -103,7 +106,10 @@ defmodule Nordref.UsersTest do
 
     test "update_user/2 with valid data updates the user" do
       user = user_fixture()
-      assert {:ok, %User{} = user} = Users.update_user(user, %{@update_attrs | club_id: user.club_id})
+
+      assert {:ok, %User{} = user} =
+               Users.update_user(user, %{@update_attrs | club_id: user.club_id})
+
       assert user.birthday == ~D[2011-05-18]
       assert user.email == "some updated email"
       assert user.first_name == "some updated first_name"

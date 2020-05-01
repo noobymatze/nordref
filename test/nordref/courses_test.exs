@@ -46,7 +46,12 @@ defmodule Nordref.CoursesTest do
     def season_fixture(attrs \\ %{}) do
       {:ok, season} =
         attrs
-        |> Enum.into(%{name: "Test", year: 2019, start: ~N[2011-05-18 00:00:00], end: ~N[2011-05-18 00:00:00]})
+        |> Enum.into(%{
+          name: "Test",
+          year: 2019,
+          start: ~N[2011-05-18 00:00:00],
+          end: ~N[2011-05-18 00:00:00]
+        })
         |> Seasons.create_season()
 
       season
@@ -63,9 +68,14 @@ defmodule Nordref.CoursesTest do
 
     def club_fixture(attrs \\ %{}) do
       association = regional_association_fixture()
+
       {:ok, club} =
         attrs
-        |> Enum.into(%{name: "some name", short_name: "T", regional_association_id: association.id})
+        |> Enum.into(%{
+          name: "some name",
+          short_name: "T",
+          regional_association_id: association.id
+        })
         |> Clubs.create_club()
 
       club
@@ -78,10 +88,10 @@ defmodule Nordref.CoursesTest do
       {:ok, course} =
         attrs
         |> Enum.into(
-        @valid_attrs
-             |> Map.replace!(:organizer_id, club.id)
-             |> Map.replace!(:season, season.year)
-           )
+          @valid_attrs
+          |> Map.replace!(:organizer_id, club.id)
+          |> Map.replace!(:season, season.year)
+        )
         |> Courses.create_course()
 
       course
@@ -122,7 +132,14 @@ defmodule Nordref.CoursesTest do
 
     test "update_course/2 with valid data updates the course" do
       course = course_fixture()
-      assert {:ok, %Course{} = course} = Courses.update_course(course, %{@update_attrs | organizer_id: course.organizer_id, season: course.season})
+
+      assert {:ok, %Course{} = course} =
+               Courses.update_course(course, %{
+                 @update_attrs
+                 | organizer_id: course.organizer_id,
+                   season: course.season
+               })
+
       assert course.date == ~N[2011-05-18 00:00:00]
       assert course.max_participants == 43
       assert course.max_per_club == 43
@@ -134,7 +151,14 @@ defmodule Nordref.CoursesTest do
 
     test "update_course/2 with invalid data returns error changeset" do
       course = course_fixture()
-      assert {:error, %Ecto.Changeset{}} = Courses.update_course(course, %{@invalid_attrs | organizer_id: course.organizer_id, season: course.season})
+
+      assert {:error, %Ecto.Changeset{}} =
+               Courses.update_course(course, %{
+                 @invalid_attrs
+                 | organizer_id: course.organizer_id,
+                   season: course.season
+               })
+
       assert course == Courses.get_course!(course.id)
     end
 

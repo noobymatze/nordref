@@ -48,7 +48,11 @@ defmodule NordrefWeb.ClubControllerTest do
   describe "create club" do
     test "redirects to show when data is valid", %{conn: conn} do
       association = regional_association_fixture()
-      conn = post(conn, Routes.club_path(conn, :create), club: %{ @create_attrs | regional_association_id: association.id})
+
+      conn =
+        post(conn, Routes.club_path(conn, :create),
+          club: %{@create_attrs | regional_association_id: association.id}
+        )
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.club_path(conn, :show, id)
@@ -59,7 +63,12 @@ defmodule NordrefWeb.ClubControllerTest do
 
     test "renders errors when data is invalid", %{conn: conn} do
       association = regional_association_fixture()
-      conn = post(conn, Routes.club_path(conn, :create), club: %{ @invalid_attrs | regional_association_id: association.id })
+
+      conn =
+        post(conn, Routes.club_path(conn, :create),
+          club: %{@invalid_attrs | regional_association_id: association.id}
+        )
+
       assert html_response(conn, 200) =~ "New Club"
     end
   end
@@ -77,7 +86,11 @@ defmodule NordrefWeb.ClubControllerTest do
     setup [:create_club]
 
     test "redirects when data is valid", %{conn: conn, club: club} do
-      conn = put(conn, Routes.club_path(conn, :update, club), club: %{@update_attrs | regional_association_id: club.regional_association_id})
+      conn =
+        put(conn, Routes.club_path(conn, :update, club),
+          club: %{@update_attrs | regional_association_id: club.regional_association_id}
+        )
+
       assert redirected_to(conn) == Routes.club_path(conn, :show, club)
 
       conn = get(conn, Routes.club_path(conn, :show, club))

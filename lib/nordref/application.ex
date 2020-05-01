@@ -13,7 +13,7 @@ defmodule Nordref.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Nordref.PubSub},
       # Start the endpoint when the application starts
-      NordrefWeb.Endpoint,
+      NordrefWeb.Endpoint
       # Starts a worker by calling: Nordref.Worker.start_link(arg)
       # {Nordref.Worker, arg},
     ]

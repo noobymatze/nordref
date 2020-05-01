@@ -51,7 +51,10 @@ defmodule Nordref.ClubsTest do
 
     test "create_club/1 with valid data creates a club" do
       association = regional_association_fixture()
-      assert {:ok, %Club{} = club} = Clubs.create_club(%{ @valid_attrs | regional_association_id: association.id })
+
+      assert {:ok, %Club{} = club} =
+               Clubs.create_club(%{@valid_attrs | regional_association_id: association.id})
+
       assert club.name == "some name"
       assert club.regional_association_id == association.id
       assert club.short_name == "some short"
@@ -64,7 +67,10 @@ defmodule Nordref.ClubsTest do
     test "update_club/2 with valid data updates the club" do
       association = regional_association_fixture()
       club = club_fixture(%{regional_association_id: association.id})
-      assert {:ok, %Club{} = club} = Clubs.update_club(club, %{ @update_attrs | regional_association_id: association.id })
+
+      assert {:ok, %Club{} = club} =
+               Clubs.update_club(club, %{@update_attrs | regional_association_id: association.id})
+
       assert club.name == "some updated name"
       assert club.regional_association_id == association.id
       assert club.short_name == "updated"
@@ -73,7 +79,10 @@ defmodule Nordref.ClubsTest do
     test "update_club/2 with invalid data returns error changeset" do
       association = regional_association_fixture()
       club = club_fixture(%{regional_association_id: association.id})
-      assert {:error, %Ecto.Changeset{}} = Clubs.update_club(club, %{ @invalid_attrs | regional_association_id: association.id })
+
+      assert {:error, %Ecto.Changeset{}} =
+               Clubs.update_club(club, %{@invalid_attrs | regional_association_id: association.id})
+
       club2 = Clubs.get_club!(club.id)
       assert club == club2
     end

@@ -43,7 +43,12 @@ defmodule NordrefWeb.CourseControllerTest do
   def season_fixture(attrs \\ %{}) do
     {:ok, season} =
       attrs
-      |> Enum.into(%{name: "Test", year: 2019, start: ~N[2011-05-18 00:00:00], end: ~N[2011-05-18 00:00:00]})
+      |> Enum.into(%{
+        name: "Test",
+        year: 2019,
+        start: ~N[2011-05-18 00:00:00],
+        end: ~N[2011-05-18 00:00:00]
+      })
       |> Seasons.create_season()
 
     season
@@ -60,6 +65,7 @@ defmodule NordrefWeb.CourseControllerTest do
 
   def club_fixture(attrs \\ %{}) do
     association = regional_association_fixture()
+
     {:ok, club} =
       attrs
       |> Enum.into(%{name: "some name", short_name: "T", regional_association_id: association.id})
@@ -71,7 +77,10 @@ defmodule NordrefWeb.CourseControllerTest do
   def fixture(:course) do
     season = season_fixture()
     club = club_fixture()
-    {:ok, course} = Courses.create_course(%{ @create_attrs | organizer_id: club.id, season: season.year})
+
+    {:ok, course} =
+      Courses.create_course(%{@create_attrs | organizer_id: club.id, season: season.year})
+
     course
   end
 
@@ -93,7 +102,11 @@ defmodule NordrefWeb.CourseControllerTest do
     test "redirects to show when data is valid", %{conn: conn} do
       season = season_fixture()
       club = club_fixture()
-      conn = post(conn, Routes.course_path(conn, :create), course: %{@create_attrs | organizer_id: club.id, season: season.year})
+
+      conn =
+        post(conn, Routes.course_path(conn, :create),
+          course: %{@create_attrs | organizer_id: club.id, season: season.year}
+        )
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.course_path(conn, :show, id)
@@ -105,7 +118,12 @@ defmodule NordrefWeb.CourseControllerTest do
     test "renders errors when data is invalid", %{conn: conn} do
       season = season_fixture()
       club = club_fixture()
-      conn = post(conn, Routes.course_path(conn, :create), course: %{@invalid_attrs | season: season.year, organizer_id: club.id})
+
+      conn =
+        post(conn, Routes.course_path(conn, :create),
+          course: %{@invalid_attrs | season: season.year, organizer_id: club.id}
+        )
+
       assert html_response(conn, 200) =~ "New Course"
     end
   end
@@ -123,7 +141,11 @@ defmodule NordrefWeb.CourseControllerTest do
     setup [:create_course]
 
     test "redirects when data is valid", %{conn: conn, course: course} do
-      conn = put(conn, Routes.course_path(conn, :update, course), course: %{ @update_attrs | organizer_id: course.organizer_id, season: course.season})
+      conn =
+        put(conn, Routes.course_path(conn, :update, course),
+          course: %{@update_attrs | organizer_id: course.organizer_id, season: course.season}
+        )
+
       assert redirected_to(conn) == Routes.course_path(conn, :show, course)
 
       conn = get(conn, Routes.course_path(conn, :show, course))
@@ -131,7 +153,11 @@ defmodule NordrefWeb.CourseControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, course: course} do
-      conn = put(conn, Routes.course_path(conn, :update, course), course: %{ @invalid_attrs | organizer_id: course.organizer_id, season: course.season})
+      conn =
+        put(conn, Routes.course_path(conn, :update, course),
+          course: %{@invalid_attrs | organizer_id: course.organizer_id, season: course.season}
+        )
+
       assert html_response(conn, 200) =~ "Edit Course"
     end
   end

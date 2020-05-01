@@ -31,21 +31,21 @@ defmodule NordrefWeb.RegistrationController do
     end
   end
 
-  #def show(conn, %{"id" => id}) do
-    #registration = Registrations.get_registration!(id)
-    #render(conn, "show.html", registration: registration)
-  #end
+  # def show(conn, %{"id" => id}) do
+  # registration = Registrations.get_registration!(id)
+  # render(conn, "show.html", registration: registration)
+  # end
 
-  #def edit(conn, %{"id" => id}) do
-    #license = Licenses.get_license!(id)
-    #changeset = Licenses.change_license(license)
+  # def edit(conn, %{"id" => id}) do
+  # license = Licenses.get_license!(id)
+  # changeset = Licenses.change_license(license)
 
-    #render(conn, "edit.html",
-     # license: license,
-      #changeset: changeset,
-      #license_types: License.types()
-    #)
-  #end
+  # render(conn, "edit.html",
+  # license: license,
+  # changeset: changeset,
+  # license_types: License.types()
+  # )
+  # end
 
   def update(conn, %{"id" => id, "license" => license_params}) do
     license = Licenses.get_license!(id)

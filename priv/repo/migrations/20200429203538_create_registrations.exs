@@ -7,6 +7,5 @@ defmodule Nordref.Repo.Migrations.CreateRegistrations do
       add :course_id, references(:courses)
       timestamps()
     end
-
   end
 end

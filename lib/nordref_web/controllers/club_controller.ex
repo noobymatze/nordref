@@ -31,7 +31,10 @@ defmodule NordrefWeb.ClubController do
         |> redirect(to: Routes.club_path(conn, :show, club))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset, associations: regional_association_options())
+        render(conn, "new.html",
+          changeset: changeset,
+          associations: regional_association_options()
+        )
     end
   end
 

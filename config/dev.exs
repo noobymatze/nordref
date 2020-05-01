@@ -2,7 +2,7 @@ use Mix.Config
 
 # Configure your database
 config :nordref, Nordref.Repo,
-  username: "root",
+  username: "nordref",
   password: "sql",
   database: "nordref_dev",
   hostname: "localhost",

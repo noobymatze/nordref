@@ -20,7 +20,7 @@
       <td><%= course.name %></td>
       <td><%= course.max_participants %></td>
       <td><%= course.max_per_club %></td>
-      <td><%= course.organizer_participants %></td>
+      <td><%= course.max_organizer_participants %></td>
       <td><%= course.type %></td>
       <td><%= course.date %></td>
       <td><%= course.released %></td>

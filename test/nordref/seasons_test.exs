@@ -39,7 +39,7 @@ defmodule Nordref.SeasonsTest do
 
     test "list_seasons/0 returns all seasons" do
       _season = season_fixture()
-      assert length(Seasons.list_seasons()) == 2
+      assert length(Seasons.list_seasons()) == 1
     end
 
     test "get_season!/1 returns the season with given id" do

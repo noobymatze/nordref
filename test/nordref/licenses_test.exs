@@ -3,34 +3,73 @@ defmodule Nordref.LicensesTest do
 
   alias Nordref.Licenses
   alias Nordref.Seasons
+  alias Nordref.RegionalAssociations
+  alias Nordref.Users
+  alias Nordref.Clubs
 
   describe "licenses" do
     alias Nordref.Licenses.License
 
     @valid_attrs %{
-      first_name: "some first_name",
-      last_name: "some last_name",
-      license_number: 42,
-      license_type: "LJ",
+      number: 42,
+      type: "LJ",
       season: 42,
-      year_of_birth: 42
+      user_id: 0
     }
     @update_attrs %{
-      first_name: "some updated first_name",
-      last_name: "some updated last_name",
-      license_number: 43,
-      license_type: "L2",
+      number: 43,
+      type: "L2",
       season: 43,
-      year_of_birth: 43
+      user_id: 0
     }
     @invalid_attrs %{
-      first_name: nil,
-      last_name: nil,
-      license_number: nil,
-      license_type: nil,
+      number: nil,
+      type: nil,
       season: nil,
-      year_of_birth: nil
+      user_id: nil
     }
+
+    def regional_association_fixture(attrs \\ %{}) do
+      {:ok, regional_association} =
+        attrs
+        |> Enum.into(%{name: "Bla"})
+        |> RegionalAssociations.create_regional_association()
+
+      regional_association
+    end
+
+    def club_fixture(attrs \\ %{}) do
+      association = regional_association_fixture()
+
+      {:ok, club} =
+        attrs
+        |> Enum.into(%{name: "Bla", short_name: "Test", regional_association_id: association.id})
+        |> Clubs.create_club()
+
+      club
+    end
+
+    def user_fixture(attrs \\ %{}) do
+      club = club_fixture()
+
+      {:ok, user} =
+        attrs
+        |> Enum.into(%{
+          birthday: ~D[2010-04-17],
+          email: "some email",
+          first_name: "some first_name",
+          last_name: "some last_name",
+          mobile: "some mobile",
+          password: "some password",
+          phone: "some phone",
+          role: "SUPER_ADMIN",
+          username: "some username",
+          club_id: club.id
+        })
+        |> Users.create_user()
+
+      user
+    end
 
     def season_fixture(attrs \\ %{}) do
       {:ok, season} =
@@ -50,10 +89,11 @@ defmodule Nordref.LicensesTest do
     def license_fixture(attrs \\ %{}) do
       _season42 = season_fixture()
       _season43 = season_fixture(%{year: 43})
+      user = user_fixture()
 
       {:ok, license} =
         attrs
-        |> Enum.into(@valid_attrs)
+        |> Enum.into(%{@valid_attrs | user_id: user.id})
         |> Licenses.create_license()
 
       license
@@ -70,34 +110,41 @@ defmodule Nordref.LicensesTest do
     end
 
     test "create_license/1 with valid data creates a license" do
+      user = user_fixture()
       season_fixture()
-      assert {:ok, %License{} = license} = Licenses.create_license(@valid_attrs)
-      assert license.first_name == "some first_name"
-      assert license.last_name == "some last_name"
-      assert license.license_number == 42
-      assert license.license_type == "LJ"
+
+      assert {:ok, %License{} = license} =
+               Licenses.create_license(%{@valid_attrs | user_id: user.id})
+
+      assert license.number == 42
+      assert license.type == "LJ"
       assert license.season == 42
-      assert license.year_of_birth == 42
     end
 
     test "create_license/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Licenses.create_license(@invalid_attrs)
+      user = user_fixture()
+
+      assert {:error, %Ecto.Changeset{}} =
+               Licenses.create_license(%{@invalid_attrs | user_id: user.id})
     end
 
     test "update_license/2 with valid data updates the license" do
       license = license_fixture()
-      assert {:ok, %License{} = license} = Licenses.update_license(license, @update_attrs)
-      assert license.first_name == "some updated first_name"
-      assert license.last_name == "some updated last_name"
-      assert license.license_number == 43
-      assert license.license_type == "L2"
+
+      assert {:ok, %License{} = license} =
+               Licenses.update_license(license, %{@update_attrs | user_id: license.user_id})
+
+      assert license.number == 43
+      assert license.type == "L2"
       assert license.season == 43
-      assert license.year_of_birth == 43
     end
 
     test "update_license/2 with invalid data returns error changeset" do
       license = license_fixture()
-      assert {:error, %Ecto.Changeset{}} = Licenses.update_license(license, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Licenses.update_license(license, %{@invalid_attrs | user_id: license.user_id})
+
       assert license == Licenses.get_license!(license.id)
     end
 

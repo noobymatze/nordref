@@ -2,6 +2,8 @@ defmodule Nordref.UsersTest do
   use Nordref.DataCase
 
   alias Nordref.Users
+  alias Nordref.RegionalAssociations
+  alias Nordref.Clubs
 
   describe "users" do
     alias Nordref.Users.User
@@ -43,10 +45,32 @@ defmodule Nordref.UsersTest do
       club_id: nil
     }
 
+    def regional_association_fixture(attrs \\ %{}) do
+      {:ok, regional_association} =
+        attrs
+        |> Enum.into(%{name: "Bla"})
+        |> RegionalAssociations.create_regional_association()
+
+      regional_association
+    end
+
+    def club_fixture(attrs \\ %{}) do
+      association = regional_association_fixture()
+
+      {:ok, club} =
+        attrs
+        |> Enum.into(%{name: "Bla", short_name: "Test", regional_association_id: association.id})
+        |> Clubs.create_club()
+
+      club
+    end
+
     def user_fixture(attrs \\ %{}) do
+      club = club_fixture()
+
       {:ok, user} =
         attrs
-        |> Enum.into(@valid_attrs)
+        |> Enum.into(%{@valid_attrs | club_id: club.id})
         |> Users.create_user()
 
       user
@@ -63,7 +87,8 @@ defmodule Nordref.UsersTest do
     end
 
     test "create_user/1 with valid data creates a user" do
-      assert {:ok, %User{} = user} = Users.create_user(@valid_attrs)
+      club = club_fixture()
+      assert {:ok, %User{} = user} = Users.create_user(%{@valid_attrs | club_id: club.id})
       assert user.birthday == ~D[2010-04-17]
       assert user.email == "some email"
       assert user.first_name == "some first_name"
@@ -81,7 +106,10 @@ defmodule Nordref.UsersTest do
 
     test "update_user/2 with valid data updates the user" do
       user = user_fixture()
-      assert {:ok, %User{} = user} = Users.update_user(user, @update_attrs)
+
+      assert {:ok, %User{} = user} =
+               Users.update_user(user, %{@update_attrs | club_id: user.club_id})
+
       assert user.birthday == ~D[2011-05-18]
       assert user.email == "some updated email"
       assert user.first_name == "some updated first_name"

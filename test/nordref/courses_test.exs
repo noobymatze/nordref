@@ -3,45 +3,79 @@ defmodule Nordref.CoursesTest do
 
   alias Nordref.Courses
   alias Nordref.Clubs
+  alias Nordref.RegionalAssociations
+  alias Nordref.Seasons
 
   describe "courses" do
     alias Nordref.Courses.Course
 
     @valid_attrs %{
-      date: ~D[2010-04-17],
+      date: ~N[2010-04-17 00:00:00],
       max_participants: 42,
       max_per_club: 42,
       name: "some name",
-      organizer_participants: 42,
+      max_organizer_participants: 42,
       released: true,
       type: "G2",
-      organizer: 0
+      organizer_id: 0,
+      season: 0
     }
     @update_attrs %{
-      date: ~D[2011-05-18],
+      date: ~N[2011-05-18 00:00:00],
       max_participants: 43,
       max_per_club: 43,
       name: "some updated name",
-      organizer_participants: 43,
+      max_organizer_participants: 43,
       released: false,
       type: "F",
-      organizer: 0
+      organizer_id: 0,
+      season: 0
     }
     @invalid_attrs %{
       date: nil,
       max_participants: nil,
       max_per_club: nil,
       name: nil,
-      organizer_participants: nil,
+      max_organizer_participants: nil,
       released: nil,
       type: nil,
-      organizer: nil
+      organizer_id: nil,
+      season: 0
     }
 
+    def season_fixture(attrs \\ %{}) do
+      {:ok, season} =
+        attrs
+        |> Enum.into(%{
+          name: "Test",
+          year: 2019,
+          start: ~N[2011-05-18 00:00:00],
+          end: ~N[2011-05-18 00:00:00]
+        })
+        |> Seasons.create_season()
+
+      season
+    end
+
+    def regional_association_fixture(attrs \\ %{}) do
+      {:ok, regional_association} =
+        attrs
+        |> Enum.into(%{name: "Bla"})
+        |> RegionalAssociations.create_regional_association()
+
+      regional_association
+    end
+
     def club_fixture(attrs \\ %{}) do
+      association = regional_association_fixture()
+
       {:ok, club} =
         attrs
-        |> Enum.into(%{name: "some name", short_name: "T", regional_association: "FLV"})
+        |> Enum.into(%{
+          name: "some name",
+          short_name: "T",
+          regional_association_id: association.id
+        })
         |> Clubs.create_club()
 
       club
@@ -49,10 +83,15 @@ defmodule Nordref.CoursesTest do
 
     def course_fixture(attrs \\ %{}) do
       club = club_fixture()
+      season = season_fixture()
 
       {:ok, course} =
         attrs
-        |> Enum.into(Map.replace!(@valid_attrs, :organizer, club.id))
+        |> Enum.into(
+          @valid_attrs
+          |> Map.replace!(:organizer_id, club.id)
+          |> Map.replace!(:season, season.year)
+        )
         |> Courses.create_course()
 
       course
@@ -70,15 +109,19 @@ defmodule Nordref.CoursesTest do
 
     test "create_course/1 with valid data creates a course" do
       club = club_fixture()
+      season = season_fixture()
 
       assert {:ok, %Course{} = course} =
-               Courses.create_course(Map.replace!(@valid_attrs, :organizer, club.id))
+               @valid_attrs
+               |> Map.replace!(:organizer_id, club.id)
+               |> Map.replace!(:season, season.year)
+               |> Courses.create_course()
 
-      assert course.date == ~D[2010-04-17]
+      assert course.date == ~N[2010-04-17 00:00:00]
       assert course.max_participants == 42
       assert course.max_per_club == 42
       assert course.name == "some name"
-      assert course.organizer_participants == 42
+      assert course.max_organizer_participants == 42
       assert course.released == true
       assert course.type == "G2"
     end
@@ -89,19 +132,33 @@ defmodule Nordref.CoursesTest do
 
     test "update_course/2 with valid data updates the course" do
       course = course_fixture()
-      assert {:ok, %Course{} = course} = Courses.update_course(course, @update_attrs)
-      assert course.date == ~D[2011-05-18]
+
+      assert {:ok, %Course{} = course} =
+               Courses.update_course(course, %{
+                 @update_attrs
+                 | organizer_id: course.organizer_id,
+                   season: course.season
+               })
+
+      assert course.date == ~N[2011-05-18 00:00:00]
       assert course.max_participants == 43
       assert course.max_per_club == 43
       assert course.name == "some updated name"
-      assert course.organizer_participants == 43
+      assert course.max_organizer_participants == 43
       assert course.released == false
       assert course.type == "F"
     end
 
     test "update_course/2 with invalid data returns error changeset" do
       course = course_fixture()
-      assert {:error, %Ecto.Changeset{}} = Courses.update_course(course, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Courses.update_course(course, %{
+                 @invalid_attrs
+                 | organizer_id: course.organizer_id,
+                   season: course.season
+               })
+
       assert course == Courses.get_course!(course.id)
     end
 

@@ -17,7 +17,7 @@ defmodule Nordref.Registrations.RegistrationView do
     field :season, :integer
     field :current_license_number, :integer
     field :previous_license_number, :integer
-    field :created_at, :naive_datetime
+    field :inserted_at, :naive_datetime
     field :updated_at, :naive_datetime
   end
 

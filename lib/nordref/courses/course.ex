@@ -3,16 +3,17 @@ defmodule Nordref.Courses.Course do
   import Ecto.Changeset
 
   schema "courses" do
-    field :date, :date
+    field :date, :naive_datetime
     field :max_participants, :integer
     field :max_per_club, :integer
     field :name, :string
-    field :organizer_participants, :integer
+    field :max_organizer_participants, :integer
     field :released, :boolean, default: false
     field :type, :string
-    field :organizer, :id
+    field :organizer_id, :id
+    field :season, :id
 
-    timestamps(inserted_at: :created_at)
+    timestamps()
   end
 
   @doc false
@@ -27,21 +28,23 @@ defmodule Nordref.Courses.Course do
       :name,
       :max_participants,
       :max_per_club,
-      :organizer_participants,
+      :max_organizer_participants,
       :type,
       :date,
       :released,
-      :organizer
+      :organizer_id,
+      :season
     ])
     |> validate_required([
       :name,
       :max_participants,
       :max_per_club,
-      :organizer_participants,
+      :max_organizer_participants,
       :type,
       :date,
       :released,
-      :organizer
+      :organizer_id,
+      :season
     ])
     |> validate_inclusion(:type, types())
   end

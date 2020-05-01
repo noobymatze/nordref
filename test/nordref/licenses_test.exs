@@ -8,29 +8,32 @@ defmodule Nordref.LicensesTest do
     alias Nordref.Licenses.License
 
     @valid_attrs %{
-      first_name: "some first_name",
-      last_name: "some last_name",
-      license_number: 42,
-      license_type: "LJ",
+      number: 42,
+      type: "LJ",
       season: 42,
-      year_of_birth: 42
+      user_id: 0
     }
     @update_attrs %{
-      first_name: "some updated first_name",
-      last_name: "some updated last_name",
-      license_number: 43,
-      license_type: "L2",
+      number: 43,
+      type: "L2",
       season: 43,
-      year_of_birth: 43
+      user_id: 0
     }
     @invalid_attrs %{
-      first_name: nil,
-      last_name: nil,
-      license_number: nil,
-      license_type: nil,
+      number: nil,
+      type: nil,
       season: nil,
-      year_of_birth: nil
+      user_id: nil
     }
+
+    def user_fixture(attrs \\ %{}) do
+      {:ok, user} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Users.create_user()
+
+      user
+    end
 
     def season_fixture(attrs \\ %{}) do
       {:ok, season} =
@@ -72,12 +75,9 @@ defmodule Nordref.LicensesTest do
     test "create_license/1 with valid data creates a license" do
       season_fixture()
       assert {:ok, %License{} = license} = Licenses.create_license(@valid_attrs)
-      assert license.first_name == "some first_name"
-      assert license.last_name == "some last_name"
-      assert license.license_number == 42
-      assert license.license_type == "LJ"
+      assert license.number == 42
+      assert license.type == "LJ"
       assert license.season == 42
-      assert license.year_of_birth == 42
     end
 
     test "create_license/1 with invalid data returns error changeset" do
@@ -87,12 +87,9 @@ defmodule Nordref.LicensesTest do
     test "update_license/2 with valid data updates the license" do
       license = license_fixture()
       assert {:ok, %License{} = license} = Licenses.update_license(license, @update_attrs)
-      assert license.first_name == "some updated first_name"
-      assert license.last_name == "some updated last_name"
-      assert license.license_number == 43
-      assert license.license_type == "L2"
+      assert license.number == 43
+      assert license.type == "L2"
       assert license.season == 43
-      assert license.year_of_birth == 43
     end
 
     test "update_license/2 with invalid data returns error changeset" do

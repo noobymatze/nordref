@@ -18,6 +18,6 @@ defmodule Nordref.Seasons.Season do
   def changeset(season, attrs) do
     season
     |> cast(attrs, [:year, :start, :end, :start_registration, :end_registration])
-    |> validate_required([:year, :start, :end, :start_registration, :end_registration])
+    |> validate_required([:year, :start, :end])
   end
 end

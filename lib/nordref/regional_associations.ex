@@ -21,4 +21,21 @@ defmodule Nordref.RegionalAssociations do
     Repo.all(RegionalAssociation)
   end
 
+  @doc """
+  Creates a regional association.
+
+  ## Examples
+
+      iex> create_regional_association(%{field: value})
+      {:ok, %RegionalAssociation{}}
+
+      iex> create_regional_association(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_regional_association(attrs \\ %{}) do
+    %RegionalAssociation{}
+    |> RegionalAssociation.changeset(attrs)
+    |> Repo.insert()
+  end
 end

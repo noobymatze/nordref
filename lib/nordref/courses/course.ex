@@ -11,7 +11,7 @@ defmodule Nordref.Courses.Course do
     field :released, :boolean, default: false
     field :type, :string
     field :organizer_id, :id
-    field :season, :integer
+    field :season, :id
 
     timestamps()
   end
@@ -32,7 +32,8 @@ defmodule Nordref.Courses.Course do
       :type,
       :date,
       :released,
-      :organizer_id
+      :organizer_id,
+      :season
     ])
     |> validate_required([
       :name,
@@ -42,7 +43,8 @@ defmodule Nordref.Courses.Course do
       :type,
       :date,
       :released,
-      :organizer_id
+      :organizer_id,
+      :season
     ])
     |> validate_inclusion(:type, types())
   end

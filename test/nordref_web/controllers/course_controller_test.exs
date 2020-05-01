@@ -11,27 +11,27 @@ defmodule NordrefWeb.CourseControllerTest do
     organizer_participants: 42,
     released: true,
     type: "G2",
-    organizer: 0
+    organizer_id: 0
   }
   @update_attrs %{
     date: ~D[2011-05-18],
     max_participants: 43,
     max_per_club: 43,
     name: "some updated name",
-    organizer_participants: 43,
+    max_organizer_participants: 43,
     released: false,
     type: "F",
-    organizer: 0
+    organizer_id: 0
   }
   @invalid_attrs %{
     date: nil,
     max_participants: nil,
     max_per_club: nil,
     name: nil,
-    organizer_participants: nil,
+    max_organizer_participants: nil,
     released: nil,
     type: nil,
-    organizer: nil
+    organizer_id: nil
   }
 
   def fixture(:course) do

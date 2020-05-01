@@ -8,4 +8,11 @@ defmodule Nordref.RegionalAssociations.RegionalAssociation do
 
     timestamps()
   end
+
+  @doc false
+  def changeset(club, attrs) do
+    club
+    |> cast(attrs, [:name, :email])
+    |> validate_required([:name])
+  end
 end

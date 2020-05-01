@@ -3,7 +3,7 @@ defmodule Nordref.CoursesTest do
 
   alias Nordref.Courses
   alias Nordref.Clubs
-  alias Nordref.RegionalAssociations
+  alias Nordref.Associations
   alias Nordref.Seasons
 
   describe "courses" do
@@ -57,24 +57,24 @@ defmodule Nordref.CoursesTest do
       season
     end
 
-    def regional_association_fixture(attrs \\ %{}) do
-      {:ok, regional_association} =
+    def association_fixture(attrs \\ %{}) do
+      {:ok, association} =
         attrs
         |> Enum.into(%{name: "Bla"})
-        |> RegionalAssociations.create_regional_association()
+        |> Associations.create_association()
 
-      regional_association
+      association
     end
 
     def club_fixture(attrs \\ %{}) do
-      association = regional_association_fixture()
+      association = association_fixture()
 
       {:ok, club} =
         attrs
         |> Enum.into(%{
           name: "some name",
           short_name: "T",
-          regional_association_id: association.id
+          association_id: association.id
         })
         |> Clubs.create_club()
 

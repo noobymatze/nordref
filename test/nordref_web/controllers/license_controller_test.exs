@@ -3,30 +3,27 @@ defmodule NordrefWeb.LicenseControllerTest do
 
   alias Nordref.Licenses
   alias Nordref.Seasons
+  alias Nordref.RegionalAssociations
+  alias Nordref.Users
+  alias Nordref.Clubs
 
   @create_attrs %{
-    first_name: "some first_name",
-    last_name: "some last_name",
-    license_number: 42,
-    license_type: "L2",
-    season: 42,
-    year_of_birth: 42
+    number: 42,
+    type: "L2",
+    season: 100,
+    user_id: 0
   }
   @update_attrs %{
-    first_name: "some updated first_name",
-    last_name: "some updated last_name",
-    license_number: 43,
-    license_type: "LJ",
-    season: 43,
-    year_of_birth: 43
+    number: 43,
+    type: "LJ",
+    season: 101,
+    user_id: 0
   }
   @invalid_attrs %{
-    first_name: nil,
-    last_name: nil,
-    license_number: nil,
-    license_type: nil,
+    number: nil,
+    type: nil,
     season: nil,
-    year_of_birth: nil
+    user_id: nil
   }
 
   def season_fixture(attrs \\ %{}) do
@@ -37,15 +34,56 @@ defmodule NordrefWeb.LicenseControllerTest do
         end_registration: ~N[2010-04-17 14:00:00],
         start: ~N[2010-04-17 14:00:00],
         start_registration: ~N[2010-04-17 14:00:00],
-        year: 42
+        year: 100
       })
       |> Seasons.create_season()
 
     season
   end
 
+  def regional_association_fixture(attrs \\ %{}) do
+    {:ok, regional_association} =
+      attrs
+      |> Enum.into(%{name: "Bla"})
+      |> RegionalAssociations.create_regional_association()
+
+    regional_association
+  end
+
+  def club_fixture(attrs \\ %{}) do
+    association = regional_association_fixture()
+    {:ok, club} =
+      attrs
+      |> Enum.into(%{name: "Bla", short_name: "Test", regional_association_id: association.id})
+      |> Clubs.create_club()
+
+    club
+  end
+
+  def user_fixture(attrs \\ %{}) do
+    club = club_fixture()
+    {:ok, user} =
+      attrs
+      |> Enum.into(%{
+        birthday: ~D[2010-04-17],
+        email: "some email",
+        first_name: "some first_name",
+        last_name: "some last_name",
+        mobile: "some mobile",
+        password: "some password",
+        phone: "some phone",
+        role: "SUPER_ADMIN",
+        username: "some username",
+        club_id: club.id
+      })
+      |> Users.create_user()
+
+    user
+  end
+
   def fixture(:license) do
-    {:ok, license} = Licenses.create_license(@create_attrs)
+    user = user_fixture()
+    {:ok, license} = Licenses.create_license(%{@create_attrs | user_id: user.id})
     license
   end
 
@@ -65,8 +103,9 @@ defmodule NordrefWeb.LicenseControllerTest do
 
   describe "create license" do
     test "redirects to show when data is valid", %{conn: conn} do
-      season_fixture()
-      conn = post(conn, Routes.license_path(conn, :create), license: @create_attrs)
+      season = season_fixture(%{year: 102})
+      user = user_fixture()
+      conn = post(conn, Routes.license_path(conn, :create), license: %{@create_attrs | user_id: user.id, season: season.year})
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.license_path(conn, :show, id)
@@ -76,7 +115,9 @@ defmodule NordrefWeb.LicenseControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.license_path(conn, :create), license: @invalid_attrs)
+      season = season_fixture(%{year: 103})
+      user = user_fixture()
+      conn = post(conn, Routes.license_path(conn, :create), license: %{@invalid_attrs | user_id: user.id, season: season.year})
       assert html_response(conn, 200) =~ "New License"
     end
   end
@@ -94,15 +135,16 @@ defmodule NordrefWeb.LicenseControllerTest do
     setup [:create_license]
 
     test "redirects when data is valid", %{conn: conn, license: license} do
-      conn = put(conn, Routes.license_path(conn, :update, license), license: @update_attrs)
+      season = season_fixture(%{year: 101})
+      conn = put(conn, Routes.license_path(conn, :update, license), license: %{@update_attrs | user_id: license.user_id, season: season.year })
       assert redirected_to(conn) == Routes.license_path(conn, :show, license)
 
       conn = get(conn, Routes.license_path(conn, :show, license))
-      assert html_response(conn, 200) =~ "some updated first_name"
+      assert html_response(conn, 200) =~ "101"
     end
 
     test "renders errors when data is invalid", %{conn: conn, license: license} do
-      conn = put(conn, Routes.license_path(conn, :update, license), license: @invalid_attrs)
+      conn = put(conn, Routes.license_path(conn, :update, license), license: %{@invalid_attrs | user_id: license.user_id })
       assert html_response(conn, 200) =~ "Edit License"
     end
   end

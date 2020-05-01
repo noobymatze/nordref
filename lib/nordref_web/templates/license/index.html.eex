@@ -14,10 +14,8 @@
   <tbody>
 <%= for license <- @licenses do %>
     <tr>
-      <td><%= license.first_name %> <%= license.last_name %></td>
-      <td><%= license.license_number %></td>
-      <td><%= license.license_type %></td>
-      <td><%= license.year_of_birth %></td>
+      <td><%= license.number %></td>
+      <td><%= license.type %></td>
       <td><%= license.season %></td>
 
       <td>

@@ -22,9 +22,10 @@ defmodule Nordref.Licenses.License do
     |> cast(attrs, [
       :number,
       :type,
-      :season
+      :season,
+      :user_id
     ])
-    |> validate_required([:number, :type, :season])
+    |> validate_required([:number, :type, :season, :user_id])
     |> validate_inclusion(:type, types())
   end
 end

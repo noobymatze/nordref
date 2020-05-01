@@ -5,25 +5,13 @@
     </div>
   <% end %>
 
-  <%= label f, :first_name %>
-  <%= text_input f, :first_name %>
-  <%= error_tag f, :first_name %>
+  <%= label f, :number %>
+  <%= number_input f, :number %>
+  <%= error_tag f, :number %>
 
-  <%= label f, :last_name %>
-  <%= text_input f, :last_name %>
-  <%= error_tag f, :last_name %>
-
-  <%= label f, :license_number %>
-  <%= number_input f, :license_number %>
-  <%= error_tag f, :license_number %>
-
-  <%= label f, :license_type %>
-  <%= select f, :license_type, @license_types, prompt: "Bitte wähle eine Lizenzart" %>
-  <%= error_tag f, :license_type %>
-
-  <%= label f, :year_of_birth %>
-  <%= number_input f, :year_of_birth %>
-  <%= error_tag f, :year_of_birth %>
+  <%= label f, :type %>
+  <%= select f, :type, @license_types, prompt: "Bitte wähle eine Lizenzart" %>
+  <%= error_tag f, :type %>
 
   <%= label f, :season %>
   <%= number_input f, :season %>

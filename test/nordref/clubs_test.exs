@@ -7,10 +7,6 @@ defmodule Nordref.ClubsTest do
   describe "clubs" do
     alias Nordref.Clubs.Club
 
-    @valid_regional_attrs %{
-      name: "some name",
-    }
-
     @valid_attrs %{
       name: "some name",
       regional_association_id: 0,
@@ -26,7 +22,7 @@ defmodule Nordref.ClubsTest do
     def regional_association_fixture(attrs \\ %{}) do
       {:ok, regional_association} =
         attrs
-        |> Enum.into(@valid_regional_attrs)
+        |> Enum.into(%{name: "Bla"})
         |> RegionalAssociations.create_regional_association()
 
       regional_association

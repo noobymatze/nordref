@@ -20,6 +20,7 @@ defmodule NordrefWeb do
   def controller do
     quote do
       use Phoenix.Controller, namespace: NordrefWeb
+      import Phoenix.LiveView.Controller
 
       import Plug.Conn
       import NordrefWeb.Gettext
@@ -35,6 +36,7 @@ defmodule NordrefWeb do
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 1, get_flash: 2, view_module: 1]
+      import Phoenix.LiveView.Helpers
 
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
@@ -51,6 +53,7 @@ defmodule NordrefWeb do
       use Phoenix.Router
       import Plug.Conn
       import Phoenix.Controller
+      import Phoenix.LiveView.Router
     end
   end
 

@@ -5,9 +5,10 @@ defmodule NordrefWeb.Router do
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
-    plug :fetch_flash
+    plug :fetch_live_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :put_root_layout, {NordrefWeb.LayoutView, :root}
   end
 
   pipeline :api do
@@ -30,6 +31,7 @@ defmodule NordrefWeb.Router do
     end
 
     live_dashboard "/dashboard"
+    live "/courses/registration", Live.CourseRegistrationLive
     get "/", UserController, :index
     resources "/clubs", ClubController
     get "/users/instructors", UserController, :instructors

@@ -32,11 +32,14 @@ defmodule NordrefWeb.Router do
     live_dashboard "/dashboard"
     get "/", UserController, :index
     resources "/clubs", ClubController
-    resources "/users", UserController
+    get "/users/instructors", UserController, :instructors
+    resources "/users", UserController 
+    get "/administration", AdministrationController, :index
     resources "/courses", CourseController
     get "/courses/release/:id", CourseController, :release
     resources "/registrations", RegistrationController
     resources "/seasons", SeasonController
+    resources "/associations", AssociationController
     get "/seasons/:year/registrations", SeasonController, :download_registrations
     get "/logout", SessionController, :logout
   end

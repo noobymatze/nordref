@@ -11,6 +11,8 @@ defmodule Nordref.Users do
   alias Nordref.Users.Security
   alias Nordref.Users.Login
 
+  alias Nordref.Clubs.Club
+
   @doc """
   Returns the list of users.
 
@@ -23,6 +25,43 @@ defmodule Nordref.Users do
   def list_users do
     Repo.all(User)
   end
+
+
+  def list_admins_and_instructors() do
+    query =
+    from usr in User,
+      order_by: usr.last_name,
+      where: usr.role == "ADMIN" or usr.role == "INSTRUCTOR",
+      select: usr
+
+    Repo.all(query)
+  end
+
+  def list_admins_and_instructors(id) do
+    query =
+    from usr in User,
+      join: c in Club, on: c.id == usr.club_id,
+      order_by: usr.last_name,
+      where: (usr.role == "ADMIN" or usr.role == "INSTRUCTOR") and c.association_id == ^id,
+      select: usr
+
+    Repo.all(query)
+  end
+
+  @doc """
+  def list_users_by_roles([]) do 
+    list_users()
+  end
+
+  def list_users_by_roles(roles) do
+    query =
+    from usr in User,
+      order_by: usr.last_name,
+      where: Enum.reduce(fn role, role_acc -> role_acc or role == usr.role end, roles),
+      select: usr
+    Repo.all(query)
+  end
+  """
 
   @doc """
   Gets a single user.

@@ -1,0 +1,25 @@
+<h1>Listing Associations</h1>
+
+
+<span><%= link "New Association", to: Routes.association_path(@conn, :new) %></span>
+<table>
+  <thead>
+    <tr>
+      <th>Verband</th>
+      <th>Mailadresse</th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for association <- @associations do %>
+    <tr>
+      <td><%= association.name %></td>
+      <td><%= association.email %></td>
+      <td>
+        <span><%= link "Show", to: Routes.association_path(@conn, :show, association) %></span>
+        <span><%= link "Edit", to: Routes.association_path(@conn, :edit, association) %></span>
+        <span><%= link "Delete", to: Routes.association_path(@conn, :delete, association), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

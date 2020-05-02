@@ -1,0 +1,25 @@
+<h2><%= @association.name %></h2>
+
+<%= if @user_mails != "" do %>
+    <div><a href="mailto:<%= @user_mails%>">Mail An alle</a></div>
+<% end %>
+
+<h3>Admins</h3>
+<ul>
+    <%= for r <- @administrators do %>
+      <li>
+        <%= r.first_name %> <%= r.last_name %>, <a href="mailto:<%= r.email %>"><%= r.email %> </a>
+      </li>
+    <% end %>
+</ul>
+
+<h3>Instruktoren</h3>
+<ul>
+    <%= for r <- @instructors do %>
+      <li>
+        <%= r.first_name %> <%= r.last_name %>, <a href="mailto:<%= r.email %>"><%= r.email %> </a>
+      </li>
+    <% end %>
+</ul>
+<span><%= link "Edit", to: Routes.association_path(@conn, :edit, @association) %></span>
+<span><%= link "Back", to: Routes.association_path(@conn, :index) %></span>

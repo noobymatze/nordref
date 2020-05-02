@@ -17,7 +17,8 @@
           <li class="nav-link"><%= link "Seasons", to: Routes.season_path(@conn, :index) %></li>
           <li class="nav-link"><%= link "Clubs", to: Routes.club_path(@conn, :index) %></li>
           <li class="nav-link"><%= link "Users", to: Routes.user_path(@conn, :index) %></li>
-          <li class="nav-link"><%= link "Administration", to: Routes.club_path(@conn, :index) %></li>
+          <li class="nav-link"><%= link "Association", to: Routes.association_path(@conn, :index) %></li>
+          <li class="nav-link"><%= link "Administration", to: Routes.administration_path(@conn, :index) %></li>
           <li class="nav-link"><%= link "Logout", to: Routes.session_path(@conn, :logout) %></li>
         </ul>
         </nav>

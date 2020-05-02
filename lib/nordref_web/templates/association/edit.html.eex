@@ -1,0 +1,5 @@
+<h1>Edit Association</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.association_path(@conn, :update, @association)) %>
+
+<span><%= link "Back", to: Routes.association_path(@conn, :index) %></span>

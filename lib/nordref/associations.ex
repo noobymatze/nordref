@@ -18,7 +18,12 @@ defmodule Nordref.Associations do
 
   """
   def list_associations do
-    Repo.all(Association)
+    query =
+    from c in Association,
+      order_by: c.name,
+      select: c
+
+    Repo.all(query)
   end
 
   @doc """
@@ -37,5 +42,65 @@ defmodule Nordref.Associations do
     %Association{}
     |> Association.changeset(attrs)
     |> Repo.insert()
+  end
+
+  @doc """
+  Gets a single association.
+
+  Raises if the Association does not exist.
+
+  ## Examples
+
+      iex> get_association!(123)
+      %Association{}
+
+  """
+  def get_association!(id), do: Repo.get!(Association, id)
+
+  @doc """
+  Updates a association.
+
+  ## Examples
+
+      iex> update_association(association, %{field: new_value})
+      {:ok, %Association{}}
+
+      iex> update_association(association, %{field: bad_value})
+      {:error, ...}
+
+  """
+  def update_association(%Association{} = association, attrs) do
+    association
+    |> Association.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a Association.
+
+  ## Examples
+
+      iex> delete_association(association)
+      {:ok, %Association{}}
+
+      iex> delete_association(association)
+      {:error, ...}
+
+  """
+  def delete_association(%Association{} = association) do
+    Repo.delete(association)
+  end
+
+  @doc """
+  Returns a data structure for tracking association changes.
+
+  ## Examples
+
+      iex> change_association(association)
+      %Todo{...}
+
+  """
+  def change_association(%Association{} = association, _attrs \\ %{}) do
+    Association.changeset(association, %{})
   end
 end

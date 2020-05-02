@@ -10,8 +10,8 @@ defmodule Nordref.Associations.Association do
   end
 
   @doc false
-  def changeset(club, attrs) do
-    club
+  def changeset(association, attrs) do
+    association
     |> cast(attrs, [:name, :email])
     |> validate_required([:name])
   end

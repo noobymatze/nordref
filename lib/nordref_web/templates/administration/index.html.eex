@@ -1,0 +1,4 @@
+<h1>Administration Centre</h1>
+
+<div><%= link "Instruktoren", to: Routes.user_path(@conn, :instructors) %></div>
+<div><%= link "Dashboard", to: Routes.live_dashboard_path(@conn, :home) %></div>

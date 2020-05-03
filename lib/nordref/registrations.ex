@@ -139,22 +139,22 @@ defmodule Nordref.Registrations do
     def seat_available?(%User{} = user, %Course{} = course, course_registrations) do
       %{true => from_organizer, false => others} =
         course_registrations
-        |> Enum.group_by(fn r -> r.club_id == course.organizer end)
+        |> Enum.group_by(fn r -> r.club_id == course.organizer_id end)
 
       from_organizer_and_allowed? =
-        user.club_id == course.organizer &&
-          length(from_organizer) < course.organizer_participants
+        user.club_id == course.organizer_id &&
+          length(from_organizer) < course.max_organizer_participants
 
       max =
         course.max_participants -
           if course.released do
             length(from_organizer) + length(others)
           else
-            course.organizer_participants
+            course.max_organizer_participants
           end
 
       from_others_and_allowed? =
-        user.club_id != course.organizer &&
+        user.club_id != course.organizer_id &&
           length(others) < max
 
       from_others_and_allowed? or from_organizer_and_allowed?

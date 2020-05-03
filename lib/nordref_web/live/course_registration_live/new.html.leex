@@ -6,18 +6,21 @@
 </p>
 
 <ul class="courses">
-    <%= for {{year, month}, courses} <- @courses do %>
+    <%= for {type, courses} <- @courses do %>
         <li>
-            <b><%= month_to_string(month) %>, <%= year %></b>
+            <b><%= type %>-Kurse</b>
             <ul>
             <%= for course <- courses do %>
                 <li style="display: flex;">
                     <div style="flex: 1">
-                        <%= course.name %>
-                        <div style="color: #666">(<%= course.club_name %>)</div>
+                        <span><%= course.club_name %></span>
+                        <div style="color: #666">(<%= course.date.day %>. <%= month_to_string(course.date.month) %> <%= course.date.year %>)</div>
                     </div>
                     <div style="flex: 1; align-self: center;">
-                        <a phx-click="register" phx-value-course_id="<%= course.id %>">Jetzt anmelden</a>
+                        <button style="margin-bottom: 0"
+                                phx-click="<%= register_event(course) %>"
+                                phx-value-course_id="<%= course.id %>"
+                                phx-value-user_id="<%= @user_id %>">Anmelden</button>
                     </div>
                 </li>
             <% end %>

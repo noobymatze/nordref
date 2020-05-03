@@ -85,6 +85,7 @@ defmodule NordrefWeb do
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
 
+      import NordrefWeb.LiveHelpers
       import NordrefWeb.View.Helpers
       import NordrefWeb.ErrorHelpers
       import NordrefWeb.Gettext

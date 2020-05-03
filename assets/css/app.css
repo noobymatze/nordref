@@ -10,6 +10,10 @@ html {
     color: #333;
 }
 
+body {
+    font-size: 1.7rem;
+}
+
 .column--created-at {
     color: #666;
 }

@@ -31,7 +31,7 @@ defmodule NordrefWeb.Router do
     end
 
     live_dashboard "/dashboard"
-    live "/courses/registration", Live.CourseRegistrationLive
+    live "/courses/registration", CourseRegistrationLive.New
     get "/", UserController, :index
     resources "/clubs", ClubController
     get "/users/instructors", UserController, :instructors

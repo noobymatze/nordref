@@ -7,6 +7,7 @@ defmodule Nordref.Courses do
   alias Nordref.Repo
 
   alias Nordref.Courses.Course
+  alias Nordref.Courses.CourseView
 
   @doc """
   Release the given course.
@@ -33,7 +34,28 @@ defmodule Nordref.Courses do
 
   """
   def list_courses do
-    Repo.all(Course)
+    query =
+      from c in Course,
+        order_by: c.name,
+        select: c
+    Repo.all(query)
+  end
+
+  @doc """
+  Returns the list of courses views.
+
+  ## Examples
+
+      iex> list_courses_view()
+      [%CourseView{}, ...]
+
+  """
+  def list_courses_view do
+    query =
+      from c in CourseView,
+           order_by: c.name,
+           select: c
+    Repo.all(query)
   end
 
   @doc """

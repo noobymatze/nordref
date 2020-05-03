@@ -1,0 +1,27 @@
+<h1>Kursanmeldung</h1>
+
+<p>
+    Willkommen zur Kursanmeldung 2019! Bitte wähle einen der folgenden Kurse aus und
+    klicke auf "Jetzt anmelden", um dich für den Kurs anzumelden.
+</p>
+
+<ul class="courses">
+    <%= for {{year, month}, courses} <- @courses do %>
+        <li>
+            <b><%= month_to_string(month) %>, <%= year %></b>
+            <ul>
+            <%= for course <- courses do %>
+                <li style="display: flex;">
+                    <div style="flex: 1">
+                        <%= course.name %>
+                        <div style="color: #666">(<%= course.club_name %>)</div>
+                    </div>
+                    <div style="flex: 1; align-self: center;">
+                        <a phx-click="register" phx-value-course_id="<%= course.id %>">Jetzt anmelden</a>
+                    </div>
+                </li>
+            <% end %>
+            </ul>
+        </li>
+    <% end %>
+</ul>

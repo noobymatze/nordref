@@ -33,3 +33,11 @@ nav ul {
     padding: 12px;
     display: block;
 }
+
+a {
+    cursor: pointer;
+}
+
+.courses {
+    list-style: none;
+}

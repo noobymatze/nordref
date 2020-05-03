@@ -6,7 +6,7 @@ defmodule Nordref.Registrations.Registration do
     field :course_id, :id
     field :user_id, :id
 
-    timestamps(inserted_at: :created_at)
+    timestamps()
   end
 
   @doc false

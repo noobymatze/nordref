@@ -6,9 +6,18 @@ defmodule Nordref.AssociationsTest do
   describe "associations" do
     alias Nordref.Associations.Association
 
-    @valid_attrs %{}
-    @update_attrs %{}
-    @invalid_attrs %{}
+    @valid_attrs %{
+      name: "Test",
+      email: nil
+    }
+    @update_attrs %{
+      name: "Test2",
+      email: "bla@test.de"
+    }
+    @invalid_attrs %{
+      name: nil,
+      email: nil
+    }
 
     def association_fixture(attrs \\ %{}) do
       {:ok, association} =

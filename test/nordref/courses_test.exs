@@ -102,6 +102,15 @@ defmodule Nordref.CoursesTest do
       assert Courses.list_courses() == [course]
     end
 
+    test "get_course_by_name/1 returns the course" do
+      course = course_fixture()
+      assert Courses.get_course_by_name(course.name) == course
+    end
+
+    test "get_course_by_name/1 returns nil if no course exists" do
+      assert Courses.get_course_by_name("Test") == nil
+    end
+
     test "get_course!/1 returns the course with given id" do
       course = course_fixture()
       assert Courses.get_course!(course.id) == course
@@ -171,63 +180,6 @@ defmodule Nordref.CoursesTest do
     test "change_course/1 returns a course changeset" do
       course = course_fixture()
       assert %Ecto.Changeset{} = Courses.change_course(course)
-    end
-  end
-
-  describe "courses" do
-    alias Nordref.Courses.CourseRegistration
-
-    @valid_attrs %{}
-    @update_attrs %{}
-    @invalid_attrs %{}
-
-    def course_registration_fixture(attrs \\ %{}) do
-      {:ok, course_registration} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Courses.create_course_registration()
-
-      course_registration
-    end
-
-    test "list_courses/0 returns all courses" do
-      course_registration = course_registration_fixture()
-      assert Courses.list_courses() == [course_registration]
-    end
-
-    test "get_course_registration!/1 returns the course_registration with given id" do
-      course_registration = course_registration_fixture()
-      assert Courses.get_course_registration!(course_registration.id) == course_registration
-    end
-
-    test "create_course_registration/1 with valid data creates a course_registration" do
-      assert {:ok, %CourseRegistration{} = course_registration} = Courses.create_course_registration(@valid_attrs)
-    end
-
-    test "create_course_registration/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Courses.create_course_registration(@invalid_attrs)
-    end
-
-    test "update_course_registration/2 with valid data updates the course_registration" do
-      course_registration = course_registration_fixture()
-      assert {:ok, %CourseRegistration{} = course_registration} = Courses.update_course_registration(course_registration, @update_attrs)
-    end
-
-    test "update_course_registration/2 with invalid data returns error changeset" do
-      course_registration = course_registration_fixture()
-      assert {:error, %Ecto.Changeset{}} = Courses.update_course_registration(course_registration, @invalid_attrs)
-      assert course_registration == Courses.get_course_registration!(course_registration.id)
-    end
-
-    test "delete_course_registration/1 deletes the course_registration" do
-      course_registration = course_registration_fixture()
-      assert {:ok, %CourseRegistration{}} = Courses.delete_course_registration(course_registration)
-      assert_raise Ecto.NoResultsError, fn -> Courses.get_course_registration!(course_registration.id) end
-    end
-
-    test "change_course_registration/1 returns a course_registration changeset" do
-      course_registration = course_registration_fixture()
-      assert %Ecto.Changeset{} = Courses.change_course_registration(course_registration)
     end
   end
 end

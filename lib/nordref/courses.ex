@@ -59,6 +59,57 @@ defmodule Nordref.Courses do
   end
 
   @doc """
+  Gets the corresponding G course of the given course or nil
+  if none could be found.
+
+  ## Examples
+
+      iex> get_course_by_name("test")
+      %Course{}
+
+      iex> get_course("bla")
+      nil
+
+  """
+  def get_corresponding_g_course(%Course{} = course) do
+    case course.type do
+      "G2" ->
+        course.name
+        |> String.replace("G2", "G3")
+        |> Courses.get_course_by_name()
+
+      "G3" ->
+        course.name
+        |> String.replace("G3", "G2")
+        |> Courses.get_course_by_name()
+
+      _ ->
+        nil
+    end
+  end
+
+  @doc """
+  Gets a single course by name.
+
+  ## Examples
+
+      iex> get_course_by_name("test")
+      %Course{}
+
+      iex> get_course("bla")
+      nil
+
+  """
+  def get_course_by_name(name) do
+    query =
+      from c in Course,
+        where: c.name == ^name,
+        select: c
+
+    Repo.one(query)
+  end
+
+  @doc """
   Gets a single course.
 
   Raises `Ecto.NoResultsError` if the Course does not exist.

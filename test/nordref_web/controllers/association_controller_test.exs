@@ -3,9 +3,18 @@ defmodule NordrefWeb.AssociationControllerTest do
 
   alias Nordref.Associations
 
-  @create_attrs %{}
-  @update_attrs %{}
-  @invalid_attrs %{}
+  @create_attrs %{
+    name: "Test",
+    email: nil
+  }
+  @update_attrs %{
+    name: "Test2",
+    email: "bla@test.de"
+  }
+  @invalid_attrs %{
+    name: nil,
+    email: nil
+  }
 
   def fixture(:association) do
     {:ok, association} = Associations.create_association(@create_attrs)
@@ -34,7 +43,7 @@ defmodule NordrefWeb.AssociationControllerTest do
       assert redirected_to(conn) == Routes.association_path(conn, :show, id)
 
       conn = get(conn, Routes.association_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show Association"
+      assert html_response(conn, 200) =~ "Test"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do

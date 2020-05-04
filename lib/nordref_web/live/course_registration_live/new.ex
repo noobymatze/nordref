@@ -24,6 +24,19 @@ defmodule NordrefWeb.CourseRegistrationLive.New do
 
   def handle_event("register_g", params, socket) do
     course = Courses.get_course!(params["course_id"])
+    other_course =
+      case course.type do
+        "G2" ->
+          course.name
+          |> String.replace("G2", "G3")
+          |> Courses.get_course_by_name()
+
+        "G2" ->
+          course.name
+          |> String.replace("G2", "G3")
+          |> Courses.get_course_by_name()
+      end
+
     {:noreply, assign(socket, :selected_course, course)}
   end
 

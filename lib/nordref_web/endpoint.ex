@@ -7,8 +7,7 @@ defmodule NordrefWeb.Endpoint do
     signing_salt: "UJizEcF/"
   ]
 
-  socket "/live", Phoenix.LiveView.Socket,
-    websocket: [connect_info: [session: @session_options]]
+  socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
   socket "/socket", NordrefWeb.UserSocket,
     websocket: true,

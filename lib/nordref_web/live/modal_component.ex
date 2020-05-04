@@ -24,4 +24,3 @@ defmodule NordrefWeb.ModalComponent do
     {:noreply, push_patch(socket, to: socket.assigns.return_to)}
   end
 end
-

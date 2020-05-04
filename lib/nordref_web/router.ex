@@ -35,7 +35,7 @@ defmodule NordrefWeb.Router do
     get "/", UserController, :index
     resources "/clubs", ClubController
     get "/users/instructors", UserController, :instructors
-    resources "/users", UserController 
+    resources "/users", UserController
     get "/administration", AdministrationController, :index
     resources "/courses", CourseController
     get "/courses/release/:id", CourseController, :release

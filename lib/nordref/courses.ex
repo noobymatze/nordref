@@ -38,6 +38,7 @@ defmodule Nordref.Courses do
       from c in Course,
         order_by: c.name,
         select: c
+
     Repo.all(query)
   end
 
@@ -53,8 +54,9 @@ defmodule Nordref.Courses do
   def list_courses_view do
     query =
       from c in CourseView,
-           order_by: c.name,
-           select: c
+        order_by: c.name,
+        select: c
+
     Repo.all(query)
   end
 

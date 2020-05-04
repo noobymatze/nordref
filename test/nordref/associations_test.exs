@@ -48,12 +48,17 @@ defmodule Nordref.AssociationsTest do
 
     test "update_association/2 with valid data updates the association" do
       association = association_fixture()
-      assert {:ok, %Association{} = association} = Associations.update_association(association, @update_attrs)
+
+      assert {:ok, %Association{} = association} =
+               Associations.update_association(association, @update_attrs)
     end
 
     test "update_association/2 with invalid data returns error changeset" do
       association = association_fixture()
-      assert {:error, %Ecto.Changeset{}} = Associations.update_association(association, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Associations.update_association(association, @invalid_attrs)
+
       assert association == Associations.get_association!(association.id)
     end
 

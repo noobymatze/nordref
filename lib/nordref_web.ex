@@ -44,7 +44,7 @@ defmodule NordrefWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-          layout: {NordrefWeb.LayoutView, "live.html"}
+        layout: {NordrefWeb.LayoutView, "live.html"}
 
       unquote(view_helpers())
     end
@@ -89,10 +89,9 @@ defmodule NordrefWeb do
       import NordrefWeb.View.Helpers
       import NordrefWeb.ErrorHelpers
       import NordrefWeb.Gettext
-      alias  NordrefWeb.Router.Helpers, as: Routes
+      alias NordrefWeb.Router.Helpers, as: Routes
     end
   end
-
 
   @doc """
   When used, dispatch to the appropriate controller/view/etc.

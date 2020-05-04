@@ -12,6 +12,7 @@ defmodule NordrefWeb.CourseRegistrationLive.New do
       socket
       |> assign(:courses, fetch_courses())
       |> assign(:user_id, session["current_user_id"])
+
     {:ok, new_socket}
   end
 
@@ -24,6 +25,7 @@ defmodule NordrefWeb.CourseRegistrationLive.New do
 
   def handle_event("register_g", params, socket) do
     course = Courses.get_course!(params["course_id"])
+
     other_course =
       case course.type do
         "G2" ->
@@ -73,6 +75,7 @@ defmodule NordrefWeb.CourseRegistrationLive.New do
   end
 
   def selected_attr(nil, _), do: ""
+
   def selected_attr(course, id) do
     if course.id == id do
       "selected='selected'"

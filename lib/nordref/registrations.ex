@@ -10,6 +10,7 @@ defmodule Nordref.Registrations do
   alias Nordref.Registrations.RegistrationView
   alias Nordref.Users.User
   alias Nordref.Courses.Course
+  alias Nordref.Courses
   alias Nordref.Registrations.Register
 
   def list_registrations do
@@ -17,6 +18,42 @@ defmodule Nordref.Registrations do
   end
 
   def get_registration!(id), do: Repo.get!(Registration, id)
+
+  @doc """
+  Register the given user for two g courses.
+
+  The two courses will be registered independently, meaning
+  in two separate transactions.
+
+  The user is allowed to participate in a course iff:
+
+    1. There is a seat available.
+    2. They have not been signed up for a course
+       this season, except it is a G-course and the
+       given course is the corresponding G-course.
+
+  ## Examples
+
+      iex> register(user, course1, course2)
+      {{:ok, %Registration{}}, {:ok, %Registration{}}}
+
+      iex> register(user, course)
+      {{:error, :not_allowed}, {:error, :not_allowed}}
+
+      iex> register(user, course)
+      {:error, :not_available}
+  """
+  def register(%User{} = user, %Course{} = course1, %Course{} = course2) do
+    case {Courses.g?(course1), Courses.g?(course2)} do
+      {true, true} ->
+        [course1, course2]
+        |> Enum.map(fn course -> register(user, course) end)
+        |> List.to_tuple()
+
+      _ ->
+        {:error, :not_g_course}
+    end
+  end
 
   @doc """
   Register the given user for the given course.
@@ -40,19 +77,32 @@ defmodule Nordref.Registrations do
       {:error, :not_available}
   """
   def register(%User{} = user, %Course{} = course) do
-    cond do
-      not Register.seat_available?(user, course, registrations_for_course(course)) ->
-        {:error, :not_available}
+    Repo.transaction(fn ->
+      # Locking the course happens, so no other transaction can concurrently
+      # add another referee to the course. If we didn't do that, we may
+      # exceed the number of allowed participants per course.
+      #
+      # The lock will automatically be freed after the end of this transaction.
+      locked_course = Courses.get_and_lock_course(course.id)
 
-      not Register.allowed?(user, course) ->
-        {:error, :not_allowed}
+      cond do
+        not Register.seat_available?(user, course, registrations_for_course(course)) ->
+          Repo.rollback(:not_available)
 
-      true ->
-        create_registration(%{
-          user_id: user.id,
-          course_id: course.id
-        })
-    end
+        not Register.allowed?(user, course) ->
+          Repo.rollback(:not_allowed)
+
+        true ->
+          attrs = %{
+            user_id: user.id,
+            course_id: course.id
+          }
+
+          with {:ok, registration} <- create_registration(attrs) do
+            registration
+          end
+      end
+    end)
   end
 
   @doc """
@@ -89,7 +139,7 @@ defmodule Nordref.Registrations do
       %Registration{}
       |> Registration.changeset(attrs)
 
-    registration |> Repo.insert()
+    Repo.insert(registration)
   end
 
   @doc """
@@ -137,13 +187,12 @@ defmodule Nordref.Registrations do
     Check, if a seat is available for the user for the given course.
     """
     def seat_available?(%User{} = user, %Course{} = course, course_registrations) do
-      %{true => from_organizer, false => others} =
-        course_registrations
-        |> Enum.group_by(fn r -> r.club_id == course.organizer_id end)
+      {from_organizer, others} = course_registrations |> group_by_organizer(course)
 
       from_organizer_and_allowed? =
         user.club_id == course.organizer_id &&
-          length(from_organizer) < course.max_organizer_participants
+          length(from_organizer) <= course.max_organizer_participants &&
+          course.max_organizer_participants > 0
 
       max =
         course.max_participants -
@@ -155,9 +204,18 @@ defmodule Nordref.Registrations do
 
       from_others_and_allowed? =
         user.club_id != course.organizer_id &&
-          length(others) < max
+          length(others) <= max &&
+          max > 0
 
       from_others_and_allowed? or from_organizer_and_allowed?
+    end
+
+    defp group_by_organizer(course_registrations, %Course{} = course) do
+      result =
+        course_registrations
+        |> Enum.group_by(fn r -> r.club_id == course.organizer_id end)
+
+      {Map.get(result, true, []), Map.get(result, false, [])}
     end
 
     @doc """

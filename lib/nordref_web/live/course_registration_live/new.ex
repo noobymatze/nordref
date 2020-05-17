@@ -25,19 +25,14 @@ defmodule NordrefWeb.CourseRegistrationLive.New do
 
   def handle_event("register_g", params, socket) do
     course = Courses.get_course!(params["course_id"])
+    other_course = Courses.get_corresponding_g_course(course)
+    user = Users.get_user!(params["user_id"])
 
-    other_course =
-      case course.type do
-        "G2" ->
-          course.name
-          |> String.replace("G2", "G3")
-          |> Courses.get_course_by_name()
-
-        "G2" ->
-          course.name
-          |> String.replace("G2", "G3")
-          |> Courses.get_course_by_name()
-      end
+    if other_course == nil do
+      Registrations.register(user, course)
+    else
+      Registrations.register(user, course, other_course)
+    end
 
     {:noreply, assign(socket, :selected_course, course)}
   end
@@ -66,8 +61,12 @@ defmodule NordrefWeb.CourseRegistrationLive.New do
     end)
   end
 
+  def g?(course) do
+    Courses.g?(course)
+  end
+
   def register_event(course) do
-    if String.starts_with?(course.type, "G") do
+    if Courses.g?(course) do
       "register_g"
     else
       "register"

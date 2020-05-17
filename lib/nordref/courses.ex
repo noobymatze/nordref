@@ -61,6 +61,21 @@ defmodule Nordref.Courses do
   end
 
   @doc """
+  Check, if the given course is a G course.
+
+  ## Examples
+
+      iex> g?(%Course{type: "G2"})
+      true
+
+      iex> g?(%Course{type: "J"})
+      false
+  """
+  def g?(course) do
+    String.starts_with?(course.type, "G")
+  end
+
+  @doc """
   Gets the corresponding G course of the given course or nil
   if none could be found.
 
@@ -107,6 +122,27 @@ defmodule Nordref.Courses do
       from c in Course,
         where: c.name == ^name,
         select: c
+
+    Repo.one(query)
+  end
+
+  @doc """
+  Gets a single course and locks it for this transaction.
+
+  ## Examples
+
+      iex> get_course(123)
+      %Course{}
+
+      iex> get_course(456)
+      {:error, :not_found}
+
+  """
+  def get_and_lock_course(id) do
+    query =
+      from c in Course,
+        where: c.id == ^id,
+        lock: "FOR UPDATE"
 
     Repo.one(query)
   end

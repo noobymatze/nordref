@@ -159,9 +159,10 @@ defmodule Nordref.RegistrationsTest do
           season: season.year
         })
 
-      user = user_fixture(%{
-        club_id: course.organizer_id
-      })
+      user =
+        user_fixture(%{
+          club_id: course.organizer_id
+        })
 
       assert {:ok, %Registration{} = registration} = Registrations.register(user, course)
       assert user.id == registration.user_id

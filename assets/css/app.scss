@@ -1,6 +1,14 @@
 /* This file is for your main application css. */
 
-@import "./phoenix.css";
+@import "./phoenix.scss";
+
+
+
+:root {
+    --primary-color: #c9b8a4;
+    --secondary-color: #00a7a2;
+    --accent-color: #475d36;
+}
 
 * {
     box-sizing: border-box;
@@ -44,4 +52,8 @@ a {
 
 .courses {
     list-style: none;
+}
+
+.course-modal .phx-modal-content {
+    max-width: 720px;
 }

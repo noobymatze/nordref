@@ -5,6 +5,19 @@
     klicke auf "Jetzt anmelden", um dich für den Kurs anzumelden.
 </p>
 
+<div class="course-modal">
+<%= if @live_action in [:check] do %>
+  <%= live_modal @socket, NordrefWeb.CourseRegistrationLive.BothCoursesFormComponent,
+    id: "Test",
+    course: @course,
+    other_course: @other_course,
+    action: @live_action,
+    return_to: Routes.live_path(@socket, NordrefWeb.CourseRegistrationLive.New) %>
+<% end %>
+
+</div>
+
+
 <ul class="courses">
     <%= for {type, courses} <- @courses do %>
         <li>

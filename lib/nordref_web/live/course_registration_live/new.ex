@@ -16,11 +16,17 @@ defmodule NordrefWeb.CourseRegistrationLive.New do
     {:ok, new_socket}
   end
 
+  @impl true
+  def handle_params(params, _url, socket) do
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_event("register", params, socket) do
     course = Courses.get_course!(params["course_id"])
     user = Users.get_user!(params["user_id"])
     Registrations.register(user, course)
-    {:noreply, assign(socket, :selected_course, course)}
+    {:noreply, assign(socket, :course, course)}
   end
 
   def handle_event("register_g", params, socket) do
@@ -30,11 +36,14 @@ defmodule NordrefWeb.CourseRegistrationLive.New do
 
     if other_course == nil do
       Registrations.register(user, course)
+      {:noreply, assign(socket, :course, course)}
     else
-      Registrations.register(user, course, other_course)
+      {:noreply,
+       socket
+       |> assign(:live_action, :check)
+       |> assign(:course, course)
+       |> assign(:other_course, other_course)}
     end
-
-    {:noreply, assign(socket, :selected_course, course)}
   end
 
   defp fetch_courses do

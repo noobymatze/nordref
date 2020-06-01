@@ -93,12 +93,12 @@ defmodule Nordref.Courses do
       "G2" ->
         course.name
         |> String.replace("G2", "G3")
-        |> Courses.get_course_by_name()
+        |> get_course_by_name()
 
       "G3" ->
         course.name
         |> String.replace("G3", "G2")
-        |> Courses.get_course_by_name()
+        |> get_course_by_name()
 
       _ ->
         nil

@@ -6,7 +6,7 @@ defmodule NordrefWeb.CourseRegistrationLive.BothCoursesFormComponent do
 
   @impl true
   def handle_event("both", params, socket) do
-    Courses.get
+    Courses.get()
     {:noreply, socket}
   end
 

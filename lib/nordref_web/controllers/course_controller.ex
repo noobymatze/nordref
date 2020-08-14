@@ -4,6 +4,8 @@ defmodule NordrefWeb.CourseController do
   alias Nordref.Courses
   alias Nordref.Registrations
   alias Nordref.Courses.Course
+  alias Nordref.Seasons
+  alias Nordref.Clubs
 
   def index(conn, _params) do
     courses = Courses.list_courses()
@@ -12,7 +14,13 @@ defmodule NordrefWeb.CourseController do
 
   def new(conn, _params) do
     changeset = Courses.change_course(%Course{})
-    render(conn, "new.html", changeset: changeset, types: Course.types())
+
+    render(conn, "new.html",
+      changeset: changeset,
+      types: Course.types(),
+      seasons: seasons_options(),
+      clubs: organizer_options()
+    )
   end
 
   def create(conn, %{"course" => course_params}) do
@@ -36,7 +44,14 @@ defmodule NordrefWeb.CourseController do
   def edit(conn, %{"id" => id}) do
     course = Courses.get_course!(id)
     changeset = Courses.change_course(course)
-    render(conn, "edit.html", course: course, changeset: changeset, types: Course.types())
+
+    render(conn, "edit.html",
+      course: course,
+      changeset: changeset,
+      types: Course.types(),
+      seasons: seasons_options(),
+      clubs: organizer_options()
+    )
   end
 
   def update(conn, %{"id" => id, "course" => course_params}) do
@@ -76,5 +91,15 @@ defmodule NordrefWeb.CourseController do
     conn
     |> put_flash(:info, "Course deleted successfully.")
     |> redirect(to: Routes.course_path(conn, :index))
+  end
+
+  defp organizer_options do
+    Clubs.list_clubs()
+    |> Enum.reduce(%{}, fn ra, acc -> Map.put(acc, ra.name, ra.id) end)
+  end
+
+  defp seasons_options do
+    Seasons.list_seasons()
+    |> Enum.reduce(%{}, fn ra, acc -> Map.put(acc, ra.year, ra.year) end)
   end
 end

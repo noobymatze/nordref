@@ -155,13 +155,23 @@ defmodule NordrefWeb.CourseController do
         nil
       end
 
-    case corresponding_course do
-      nil ->
+    if corresponding_course != nil do
+      user = conn.assigns[:current_user]
+      if Registrations.registered_for_course?(corresponding_course, user) do
         register_single(conn, course)
-
-      _ ->
+      else
         conn
         |> render("register_g.html", course: course, corresponding_course: corresponding_course)
+      end
+    else
+      case corresponding_course do
+        nil ->
+          register_single(conn, course)
+
+        _ ->
+          conn
+          |> render("register_g.html", course: course, corresponding_course: corresponding_course)
+      end
     end
   end
 

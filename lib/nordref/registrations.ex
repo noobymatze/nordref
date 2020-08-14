@@ -159,6 +159,20 @@ defmodule Nordref.Registrations do
   end
 
   @doc """
+  Check, if the user has been registered for the given course.
+  """
+  def registered_for_course?(course, user) do
+    query =
+      from r in Registration,
+        join: c in Course,
+        on: c.id == r.course_id,
+        where: r.user_id == ^user.id and c.season == ^course.season,
+        select: count(r.id)
+
+    Repo.one(query) > 0
+  end
+
+  @doc """
   Export all registrations for the given season as CSV.
 
   ## Examples

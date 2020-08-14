@@ -31,7 +31,12 @@ defmodule NordrefWeb.CourseController do
         |> redirect(to: Routes.course_path(conn, :show, course))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset, types: Course.types())
+        render(conn, "new.html",
+          changeset: changeset,
+          types: Course.types(),
+          seasons: seasons_options(),
+          clubs: organizer_options()
+        )
     end
   end
 
@@ -64,7 +69,13 @@ defmodule NordrefWeb.CourseController do
         |> redirect(to: Routes.course_path(conn, :show, course))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", course: course, changeset: changeset, types: Course.types())
+        render(conn, "edit.html",
+          course: course,
+          changeset: changeset,
+          types: Course.types(),
+          seasons: seasons_options(),
+          clubs: organizer_options()
+        )
     end
   end
 
@@ -158,7 +169,7 @@ defmodule NordrefWeb.CourseController do
     user = conn.assigns[:current_user]
 
     case Registrations.register(user, course) do
-      {:ok, registration} ->
+      {:ok, _} ->
         conn
         |> put_flash(:info, "Du wurdest erfolgreich für den Kurs #{course.name} angemeldet!")
         |> redirect(to: Routes.course_path(conn, :registration))
@@ -188,7 +199,7 @@ defmodule NordrefWeb.CourseController do
       end
     end)
     |> Enum.to_list()
-    |> Enum.sort_by(fn {type, c} ->
+    |> Enum.sort_by(fn {type, _} ->
       cond do
         type == "F" ->
           0

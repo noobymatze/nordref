@@ -78,7 +78,8 @@ defmodule Nordref.UsersTest do
 
     test "list_users/0 returns all users" do
       user = user_fixture()
-      assert Users.list_users() == [user]
+      all_users = Users.list_users()
+      assert Enum.any?(all_users, fn u -> u == user end)
     end
 
     test "get_user!/1 returns the user with given id" do

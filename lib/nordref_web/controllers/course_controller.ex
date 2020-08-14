@@ -93,6 +93,115 @@ defmodule NordrefWeb.CourseController do
     |> redirect(to: Routes.course_path(conn, :index))
   end
 
+  def registration(conn, _params) do
+    courses = fetch_courses()
+
+    conn
+    |> render("register.html", courses: courses)
+  end
+
+  def register_g(conn, %{"course_id" => course_id} = params) do
+    user = conn.assigns[:current_user]
+    course = Courses.get_course!(course_id)
+    corresponding_course_id = params["corresponding_course_id"]
+
+    if corresponding_course_id == nil do
+      register_single(conn, course)
+    else
+      corresponding_course = Courses.get_course!(corresponding_course_id)
+
+      case Registrations.register(user, course, corresponding_course) do
+        {{:ok, _}, {:ok, _}} ->
+          conn
+          |> put_flash(:info, "Du wurdest erfolgreich für beide Kurse angemeldet!")
+          |> redirect(to: Routes.course_path(conn, :registration))
+
+        {{:ok, _}, {:error, _}} ->
+          conn
+          |> put_flash(:info, "Du wurdest erfolgreich für einen der beiden Kurse angemeldet!")
+          |> redirect(to: Routes.course_path(conn, :registration))
+
+        {{:error, _}, {:ok, _}} ->
+          conn
+          |> put_flash(:info, "Du wurdest erfolgreich für einen der beiden Kurse angemeldet!")
+          |> redirect(to: Routes.course_path(conn, :registration))
+
+        {{:error, _}, {:error, _}} ->
+          conn
+          |> put_flash(:error, "Du konntest für keinen der beiden Kurse angemeldet werden.")
+          |> redirect(to: Routes.course_path(conn, :registration))
+      end
+    end
+  end
+
+  def register(conn, %{"id" => id}) do
+    course = Courses.get_course!(id)
+
+    corresponding_course =
+      if Courses.g?(course) do
+        Courses.get_corresponding_g_course(course)
+      else
+        nil
+      end
+
+    case corresponding_course do
+      nil ->
+        register_single(conn, course)
+
+      _ ->
+        conn
+        |> render("register_g.html", course: course, corresponding_course: corresponding_course)
+    end
+  end
+
+  defp register_single(conn, course) do
+    user = conn.assigns[:current_user]
+
+    case Registrations.register(user, course) do
+      {:ok, registration} ->
+        conn
+        |> put_flash(:info, "Du wurdest erfolgreich für den Kurs #{course.name} angemeldet!")
+        |> redirect(to: Routes.course_path(conn, :registration))
+
+      {:error, :not_allowed} ->
+        conn
+        |> put_flash(:error, "Du bist schon für einen Kurs angemeldet, bitte melde dich dort ab.")
+        |> redirect(to: Routes.course_path(conn, :registration))
+
+      {:error, :not_available} ->
+        conn
+        |> put_flash(
+          :error,
+          "Es tut uns leid, aber es gibt keine freien Plätze mehr für den Kurs #{course.name}."
+        )
+        |> redirect(to: Routes.course_path(conn, :registration))
+    end
+  end
+
+  defp fetch_courses do
+    Courses.list_courses_view()
+    |> Enum.group_by(fn c ->
+      if String.starts_with?(c.type, "G") do
+        "G"
+      else
+        c.type
+      end
+    end)
+    |> Enum.to_list()
+    |> Enum.sort_by(fn {type, c} ->
+      cond do
+        type == "F" ->
+          0
+
+        type == "J" ->
+          1
+
+        String.starts_with?(type, "G") ->
+          2
+      end
+    end)
+  end
+
   defp organizer_options do
     Clubs.list_clubs()
     |> Enum.reduce(%{}, fn ra, acc -> Map.put(acc, ra.name, ra.id) end)

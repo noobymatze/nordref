@@ -246,7 +246,7 @@ defmodule Nordref.Registrations do
           select: %{id: r.id, type: c.type}
 
       registrations = Repo.all(query)
-      not registered?(registrations) or (one?(registrations, &g?/1) and g?(course))
+      not registered?(registrations) or (one?(registrations, &g?/1) and Courses.g?(course))
     end
 
     defp registered?(registrations) do

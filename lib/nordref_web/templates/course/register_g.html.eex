@@ -1,0 +1,9 @@
+<h1>Kursanmeldung</h1>
+
+<p>
+    Für den gewählten Kurs <%= @course.name %> gibt es einen korrespondierenden Kurs <%= @corresponding_course.name %>.
+    Möchtest du an beiden Kursen teilnehmen?
+</p>
+
+<%= button "Ja", to: Routes.course_path(@conn, :register_g, course_id: @course.id, corresponding_course_id: @corresponding_course.id) %>
+<%= button "Nein", to: Routes.course_path(@conn, :register_g, course_id: @course.id) %>

@@ -6,6 +6,7 @@ defmodule NordrefWeb.CourseControllerTest do
   alias Nordref.Clubs
   alias Nordref.Associations
   alias Nordref.Users
+  alias Nordref.Registrations
 
   @create_attrs %{
     date: ~N[2010-04-17 00:00:00],
@@ -217,6 +218,20 @@ defmodule NordrefWeb.CourseControllerTest do
 
       assert html_response(conn, 200) =~ "Nein"
       assert html_response(conn, 200) =~ "Ja"
+    end
+
+    test "save both registrations", %{conn: conn, course: course, user: user, club: club, season: season} do
+      {:ok, corresponding_course} =
+        Courses.create_course(%{@create_attrs | name: "Test G3", organizer_id: club.id, season: season.year})
+
+      conn =
+        conn
+        |> assign(:current_user, user)
+        |> post(Routes.course_path(conn, :register_g, course_id: course.id, corresponding_course_id: corresponding_course.id))
+
+      registrations = Registrations.list_registrations()
+      assert redirected_to(conn, 302) == Routes.course_path(conn, :registration)
+      assert length(registrations) == 2
     end
   end
 

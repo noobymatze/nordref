@@ -207,9 +207,20 @@ defmodule NordrefWeb.CourseControllerTest do
       assert redirected_to(conn, 302) == Routes.course_path(conn, :registration)
     end
 
-    test "redirect to register_g when a corresponding g course exists", %{conn: conn, course: course, user: user, club: club, season: season} do
+    test "redirect to register_g when a corresponding g course exists", %{
+      conn: conn,
+      course: course,
+      user: user,
+      club: club,
+      season: season
+    } do
       {:ok, _} =
-        Courses.create_course(%{@create_attrs | name: "Test G3", organizer_id: club.id, season: season.year})
+        Courses.create_course(%{
+          @create_attrs
+          | name: "Test G3",
+            organizer_id: club.id,
+            season: season.year
+        })
 
       conn =
         conn
@@ -220,14 +231,30 @@ defmodule NordrefWeb.CourseControllerTest do
       assert html_response(conn, 200) =~ "Ja"
     end
 
-    test "save both registrations", %{conn: conn, course: course, user: user, club: club, season: season} do
+    test "save both registrations", %{
+      conn: conn,
+      course: course,
+      user: user,
+      club: club,
+      season: season
+    } do
       {:ok, corresponding_course} =
-        Courses.create_course(%{@create_attrs | name: "Test G3", organizer_id: club.id, season: season.year})
+        Courses.create_course(%{
+          @create_attrs
+          | name: "Test G3",
+            organizer_id: club.id,
+            season: season.year
+        })
 
       conn =
         conn
         |> assign(:current_user, user)
-        |> post(Routes.course_path(conn, :register_g, course_id: course.id, corresponding_course_id: corresponding_course.id))
+        |> post(
+          Routes.course_path(conn, :register_g,
+            course_id: course.id,
+            corresponding_course_id: corresponding_course.id
+          )
+        )
 
       registrations = Registrations.list_registrations()
       assert redirected_to(conn, 302) == Routes.course_path(conn, :registration)

@@ -33,7 +33,15 @@
   <%= checkbox f, :released %>
   <%= error_tag f, :released %>
 
-  <div>
+  <%= label f, :organizer_id %>
+  <%= select f, :organizer_id, @clubs, prompt: "Bitte wähle den den Organisator aus." %>
+  <%= error_tag f, :organizer_id %>
+
+  <%= label f, :season %>
+  <%= select f, :season, @seasons, prompt: "Wähle die Season aus" %>
+  <%= error_tag f, :season %>
+
+<div>
     <%= submit "Save" %>
   </div>
 <% end %>

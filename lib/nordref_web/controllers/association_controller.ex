@@ -33,14 +33,26 @@ defmodule NordrefWeb.AssociationController do
     users = Users.list_admins_and_instructors(id)
 
     instructors = users |> Enum.filter(fn usr -> usr.role == "INSTRUCTOR" end)
-    #instructor_mails = instructors |> Enum.filter(fn usr -> usr.email != nil end) |> Enum.map( fn usr -> usr.email end) |> Enum.join(",")
+
+    # instructor_mails = instructors |> Enum.filter(fn usr -> usr.email != nil end) |> Enum.map( fn usr -> usr.email end) |> Enum.join(",")
 
     administrators = users |> Enum.filter(fn usr -> usr.role == "ADMIN" end)
-    #administrator_mails = administrators |> Enum.filter(fn usr -> usr.email != nil end) |> Enum.map( fn usr -> usr.email end) |> Enum.join(",")
 
-    user_mails =  users |> Enum.filter(fn usr -> usr.email != nil end) |> Enum.map( fn usr -> usr.email end) |> Enum.join(",")
+    # administrator_mails = administrators |> Enum.filter(fn usr -> usr.email != nil end) |> Enum.map( fn usr -> usr.email end) |> Enum.join(",")
 
-    render(conn, "show.html", association: association, instructors: instructors, administrators: administrators, user_mails: user_mails) #,instructor_mails: instructor_mails, administrator_mails: administrator_mails )
+    user_mails =
+      users
+      |> Enum.filter(fn usr -> usr.email != nil end)
+      |> Enum.map(fn usr -> usr.email end)
+      |> Enum.join(",")
+
+    # ,instructor_mails: instructor_mails, administrator_mails: administrator_mails )
+    render(conn, "show.html",
+      association: association,
+      instructors: instructors,
+      administrators: administrators,
+      user_mails: user_mails
+    )
   end
 
   def edit(conn, %{"id" => id}) do

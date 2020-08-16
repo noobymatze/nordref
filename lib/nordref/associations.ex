@@ -19,9 +19,9 @@ defmodule Nordref.Associations do
   """
   def list_associations do
     query =
-    from c in Association,
-      order_by: c.name,
-      select: c
+      from c in Association,
+        order_by: c.name,
+        select: c
 
     Repo.all(query)
   end

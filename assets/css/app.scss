@@ -1,6 +1,14 @@
 /* This file is for your main application css. */
 
-@import "./phoenix.css";
+@import "./phoenix.scss";
+
+
+
+:root {
+    --primary-color: #c9b8a4;
+    --secondary-color: #00a7a2;
+    --accent-color: #475d36;
+}
 
 * {
     box-sizing: border-box;
@@ -8,6 +16,10 @@
 
 html {
     color: #333;
+}
+
+body {
+    font-size: 1.7rem;
 }
 
 .column--created-at {
@@ -32,4 +44,16 @@ nav ul {
 .nav a {
     padding: 12px;
     display: block;
+}
+
+a {
+    cursor: pointer;
+}
+
+.courses {
+    list-style: none;
+}
+
+.course-modal .phx-modal-content {
+    max-width: 720px;
 }

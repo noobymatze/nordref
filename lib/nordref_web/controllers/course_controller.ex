@@ -105,10 +105,19 @@ defmodule NordrefWeb.CourseController do
   end
 
   def registration(conn, _params) do
-    courses = Courses.list_and_organize_courses()
+    season = Seasons.current_season()
 
-    conn
-    |> render("register.html", courses: courses)
+    if season == nil do
+      conn
+      |> put_status(:not_found)
+      |> put_view(NordrefWeb.ErrorView)
+      |> render(:"404")
+    else
+      courses = Courses.list_and_organize_courses(season)
+
+      conn
+      |> render("register.html", courses: courses)
+    end
   end
 
   def register(conn, %{"id" => id}) do

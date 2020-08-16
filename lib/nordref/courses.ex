@@ -8,6 +8,7 @@ defmodule Nordref.Courses do
 
   alias Nordref.Courses.Course
   alias Nordref.Courses.CourseView
+  alias Nordref.Seasons.Season
 
   @doc """
   Release the given course.
@@ -50,8 +51,8 @@ defmodule Nordref.Courses do
       iex> list_and_organize_courses()
       %{"F" => [%CourseView{}, ...]}
   """
-  defp list_and_organize_courses do
-    Courses.list_courses_view()
+  def list_and_organize_courses(%Season{} = season) do
+    list_courses_view(season)
     |> Enum.group_by(fn c ->
       if String.starts_with?(c.type, "G") do
         "G"
@@ -83,9 +84,10 @@ defmodule Nordref.Courses do
       [%CourseView{}, ...]
 
   """
-  def list_courses_view do
+  def list_courses_view(%Season{} = season) do
     query =
       from c in CourseView,
+        where: c.season == ^season.year,
         order_by: c.name,
         select: c
 

@@ -36,11 +36,11 @@ defmodule NordrefWeb.Router do
     get "/users/instructors", UserController, :instructors
     resources "/users", UserController
     get "/administration", AdministrationController, :index
-    resources "/courses", CourseController
     get "/courses/release/:id", CourseController, :release
     get "/courses/registration", CourseController, :registration
     post "/courses/registration/g", CourseController, :register_g
     post "/courses/registration/:id", CourseController, :register
+    resources "/courses", CourseController
     resources "/registrations", RegistrationController
     resources "/seasons", SeasonController
     resources "/associations", AssociationController

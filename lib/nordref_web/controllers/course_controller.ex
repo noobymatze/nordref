@@ -114,6 +114,7 @@ defmodule NordrefWeb.CourseController do
   def register(conn, %{"id" => id}) do
     user = conn.assigns[:current_user]
     course = Courses.get_course!(id)
+
     case Registrations.register(user, course, :check_for_corresponding) do
       {:ok, registration} ->
         conn

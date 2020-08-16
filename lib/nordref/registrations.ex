@@ -39,6 +39,7 @@ defmodule Nordref.Registrations do
   """
   def register(%User{} = user, %Course{} = course, :check_for_corresponding) do
     corresponding_course = Courses.get_corresponding_g_course(course)
+
     if corresponding_course != nil and not registered?(course, user) do
       {:error, {:register_for?, course, corresponding_course}}
     else

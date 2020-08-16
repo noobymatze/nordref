@@ -52,27 +52,42 @@ defmodule Nordref.Courses do
       %{"F" => [%CourseView{}, ...]}
   """
   def list_and_organize_courses(%Season{} = season) do
-    list_courses_view(season)
-    |> Enum.group_by(fn c ->
-      if String.starts_with?(c.type, "G") do
-        "G"
-      else
-        c.type
-      end
-    end)
-    |> Enum.to_list()
-    |> Enum.sort_by(fn {type, _} ->
-      cond do
-        type == "F" ->
-          0
+    # TODO: Check whether we should be using something else
+    now = NaiveDateTime.utc_now()
 
-        type == "J" ->
-          1
+    cond do
+      now <= season.start_registration ->
+        {:error, {:locked_until, season.start_registration}}
 
-        String.starts_with?(type, "G") ->
-          2
-      end
-    end)
+      season.end_registration <= now ->
+        {:error, {:locked_since, season.end_registration}}
+
+      :else ->
+        courses =
+          list_courses_view(season)
+          |> Enum.group_by(fn c ->
+            if String.starts_with?(c.type, "G") do
+              "G"
+            else
+              c.type
+            end
+          end)
+          |> Enum.to_list()
+          |> Enum.sort_by(fn {type, _} ->
+            cond do
+              type == "F" ->
+                0
+
+              type == "J" ->
+                1
+
+              String.starts_with?(type, "G") ->
+                2
+            end
+          end)
+
+        {:ok, courses}
+    end
   end
 
   @doc """

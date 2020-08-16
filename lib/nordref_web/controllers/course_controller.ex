@@ -113,10 +113,20 @@ defmodule NordrefWeb.CourseController do
       |> put_view(NordrefWeb.ErrorView)
       |> render(:"404")
     else
-      courses = Courses.list_and_organize_courses(season)
+      with {:ok, courses} <- Courses.list_and_organize_courses(season) do
+        conn
+        |> render("register.html", courses: courses)
+      else
+        {:error, {:locked_until, _start_registration}} ->
+          conn
+          |> put_flash(:error, "Die Kursanmeldung ist noch gesperrt.")
+          |> render("register.html", courses: [])
 
-      conn
-      |> render("register.html", courses: courses)
+        {:error, {:locked_since, _end_registration}} ->
+          conn
+          |> put_flash(:error, "Die Kursanmeldung ist schon beendet.")
+          |> render("register.html", courses: [])
+      end
     end
   end
 
@@ -125,7 +135,7 @@ defmodule NordrefWeb.CourseController do
     course = Courses.get_course!(id)
 
     case Registrations.register(user, course, :check_for_corresponding) do
-      {:ok, registration} ->
+      {:ok, _} ->
         conn
         |> put_flash(:info, "Du wurdest erfolgreich für den Kurs #{course.name} angemeldet!")
         |> redirect(to: Routes.course_path(conn, :registration))
@@ -142,7 +152,7 @@ defmodule NordrefWeb.CourseController do
 
     if corresponding_course_id == nil do
       case Registrations.register(user, course) do
-        {:ok, registration} ->
+        {:ok, _} ->
           conn
           |> put_flash(:info, "Du wurdest erfolgreich für den Kurs #{course.name} angemeldet!")
           |> redirect(to: Routes.course_path(conn, :registration))
@@ -183,7 +193,7 @@ defmodule NordrefWeb.CourseController do
         conn
         |> render("register_g.html", course: course, corresponding_course: corresponding_course)
 
-      {:error, {:not_allowed, course}} ->
+      {:error, {:not_allowed, _}} ->
         conn
         |> put_flash(:error, "Du bist schon für einen Kurs angemeldet, bitte melde dich dort ab.")
         |> redirect(to: Routes.course_path(conn, :registration))

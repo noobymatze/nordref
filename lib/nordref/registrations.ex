@@ -20,6 +20,33 @@ defmodule Nordref.Registrations do
   def get_registration!(id), do: Repo.get!(Registration, id)
 
   @doc """
+  Register the given user for the course or if a corresponding course exists,
+  ask for clarification, whether both should be registered.
+
+  ## Examples
+
+      iex> register(user, course)
+      {:ok, %Registration{}}
+
+      iex> register(user, course)
+      {:error, :not_allowed}
+
+      iex> register(user, course)
+      {:error, :not_available}
+
+      iex> register(user, course)
+      {:error, {:also_register_for?, corresponding_course}}
+  """
+  def register(%User{} = user, %Course{} = course, :check_for_corresponding) do
+    corresponding_course = Courses.get_corresponding_g_course(course)
+    if corresponding_course != nil and not registered?(course, user) do
+      {:error, {:register_for?, course, corresponding_course}}
+    else
+      register(user, course)
+    end
+  end
+
+  @doc """
   Register the given user for two g courses.
 
   The two courses will be registered independently, meaning
@@ -87,10 +114,10 @@ defmodule Nordref.Registrations do
 
       cond do
         not Register.seat_available?(user, course, registrations_for_course(course)) ->
-          Repo.rollback(:not_available)
+          Repo.rollback({:not_available, course})
 
         not Register.allowed?(user, course) ->
-          Repo.rollback(:not_allowed)
+          Repo.rollback({:not_allowed, course})
 
         true ->
           attrs = %{
@@ -161,7 +188,7 @@ defmodule Nordref.Registrations do
   @doc """
   Check, if the user has been registered for the given course.
   """
-  def registered_for_course?(course, user) do
+  defp registered?(course, user) do
     query =
       from r in Registration,
         join: c in Course,

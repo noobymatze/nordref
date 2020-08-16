@@ -43,6 +43,38 @@ defmodule Nordref.Courses do
   end
 
   @doc """
+  Returns a list of courses, grouped by their type and sorted by F, J, G2/G3.
+
+  ## Examples
+
+      iex> list_and_organize_courses()
+      %{"F" => [%CourseView{}, ...]}
+  """
+  defp list_and_organize_courses do
+    Courses.list_courses_view()
+    |> Enum.group_by(fn c ->
+      if String.starts_with?(c.type, "G") do
+        "G"
+      else
+        c.type
+      end
+    end)
+    |> Enum.to_list()
+    |> Enum.sort_by(fn {type, _} ->
+      cond do
+        type == "F" ->
+          0
+
+        type == "J" ->
+          1
+
+        String.starts_with?(type, "G") ->
+          2
+      end
+    end)
+  end
+
+  @doc """
   Returns the list of courses views.
 
   ## Examples

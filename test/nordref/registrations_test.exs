@@ -107,7 +107,7 @@ defmodule Nordref.RegistrationsTest do
           max_participants: 0
         })
 
-      assert {:error, :not_available} = Registrations.register(user, course)
+      assert {:error, {:not_available, _}} = Registrations.register(user, course)
     end
 
     test "register/1 errors, if user tries to register for same course again" do
@@ -123,7 +123,7 @@ defmodule Nordref.RegistrationsTest do
       assert user.id == registration.user_id
       assert course.id == registration.course_id
 
-      assert {:error, :not_allowed} = Registrations.register(user, course)
+      assert {:error, {:not_allowed, _}} = Registrations.register(user, course)
     end
 
     test "register/1 errors, if user tries to register for another F or J course" do
@@ -146,7 +146,7 @@ defmodule Nordref.RegistrationsTest do
       assert user.id == registration.user_id
       assert course.id == registration.course_id
 
-      assert {:error, :not_allowed} = Registrations.register(user, course2)
+      assert {:error, {:not_allowed, _}} = Registrations.register(user, course2)
     end
 
     test "register/1 ok, if user tries to register from organizer club" do

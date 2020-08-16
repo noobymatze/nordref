@@ -90,6 +90,20 @@ defmodule Nordref.Seasons do
   end
 
   @doc """
+  Returns the current season.
+  """
+  def current_season() do
+    now = NaiveDateTime.utc_now()
+
+    query =
+      from s in Season,
+        where: s.start <= ^now and ^now <= s.end,
+        select: s
+
+    Repo.one(query)
+  end
+
+  @doc """
   Returns an `%Ecto.Changeset{}` for tracking season changes.
 
   ## Examples

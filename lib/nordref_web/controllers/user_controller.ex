@@ -60,7 +60,6 @@ defmodule NordrefWeb.UserController do
     |> redirect(to: Routes.user_path(conn, :index))
   end
 
-
   def instructors(conn, _params) do
     users = Users.list_admins_and_instructors()
     render(conn, "index.html", users: users)

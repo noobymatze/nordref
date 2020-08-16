@@ -5,12 +5,14 @@ defmodule NordrefWeb.CourseControllerTest do
   alias Nordref.Seasons
   alias Nordref.Clubs
   alias Nordref.Associations
+  alias Nordref.Users
+  alias Nordref.Registrations
 
   @create_attrs %{
     date: ~N[2010-04-17 00:00:00],
     max_participants: 42,
     max_per_club: 42,
-    name: "some name",
+    name: "Test G2",
     max_organizer_participants: 42,
     released: true,
     type: "G2",
@@ -72,6 +74,24 @@ defmodule NordrefWeb.CourseControllerTest do
       |> Clubs.create_club()
 
     club
+  end
+
+  def user_fixture(club) do
+    create_attrs = %{
+      birthday: ~D[2010-04-17],
+      email: "some email",
+      first_name: "some first_name",
+      last_name: "some last_name",
+      mobile: "some mobile",
+      password: "some password",
+      phone: "some phone",
+      role: "SUPER_ADMIN",
+      username: "some username",
+      club_id: club.id
+    }
+
+    {:ok, user} = Users.create_user(create_attrs)
+    user
   end
 
   def fixture(:course) do
@@ -175,8 +195,93 @@ defmodule NordrefWeb.CourseControllerTest do
     end
   end
 
+  describe "register for course" do
+    setup [:setup_registration]
+
+    test "create registration", %{conn: conn, course: course, user: user} do
+      conn =
+        conn
+        |> assign(:current_user, user)
+        |> post(Routes.course_path(conn, :register, course.id))
+
+      assert redirected_to(conn, 302) == Routes.course_path(conn, :registration)
+    end
+
+    test "redirect to register_g when a corresponding g course exists", %{
+      conn: conn,
+      course: course,
+      user: user,
+      club: club,
+      season: season
+    } do
+      {:ok, _} =
+        Courses.create_course(%{
+          @create_attrs
+          | name: "Test G3",
+            organizer_id: club.id,
+            season: season.year
+        })
+
+      conn =
+        conn
+        |> assign(:current_user, user)
+        |> post(Routes.course_path(conn, :register, course.id))
+
+      assert html_response(conn, 200) =~ "Nein"
+      assert html_response(conn, 200) =~ "Ja"
+    end
+
+    test "save both registrations", %{
+      conn: conn,
+      course: course,
+      user: user,
+      club: club,
+      season: season
+    } do
+      {:ok, corresponding_course} =
+        Courses.create_course(%{
+          @create_attrs
+          | name: "Test G3",
+            organizer_id: club.id,
+            season: season.year
+        })
+
+      conn =
+        conn
+        |> assign(:current_user, user)
+        |> post(
+          Routes.course_path(conn, :register_g,
+            course_id: course.id,
+            corresponding_course_id: corresponding_course.id
+          )
+        )
+
+      registrations = Registrations.list_registrations()
+      assert redirected_to(conn, 302) == Routes.course_path(conn, :registration)
+      assert length(registrations) == 2
+    end
+  end
+
   defp create_course(_) do
     course = fixture(:course)
     {:ok, course: course}
+  end
+
+  defp setup_registration(_) do
+    season = season_fixture()
+    club = club_fixture()
+    user = user_fixture(club)
+
+    {:ok, course} =
+      Courses.create_course(%{
+        @create_attrs
+        | max_participants: 20,
+          max_per_club: 6,
+          max_organizer_participants: 6,
+          organizer_id: club.id,
+          season: season.year
+      })
+
+    {:ok, season: season, club: club, user: user, course: course}
   end
 end

@@ -3,9 +3,18 @@ defmodule NordrefWeb.AssociationControllerTest do
 
   alias Nordref.Associations
 
-  @create_attrs %{}
-  @update_attrs %{}
-  @invalid_attrs %{}
+  @create_attrs %{
+    name: "Test",
+    email: nil
+  }
+  @update_attrs %{
+    name: "Test2",
+    email: "bla@test.de"
+  }
+  @invalid_attrs %{
+    name: nil,
+    email: nil
+  }
 
   def fixture(:association) do
     {:ok, association} = Associations.create_association(@create_attrs)
@@ -34,7 +43,7 @@ defmodule NordrefWeb.AssociationControllerTest do
       assert redirected_to(conn) == Routes.association_path(conn, :show, id)
 
       conn = get(conn, Routes.association_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show Association"
+      assert html_response(conn, 200) =~ "Test"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -56,7 +65,9 @@ defmodule NordrefWeb.AssociationControllerTest do
     setup [:create_association]
 
     test "redirects when data is valid", %{conn: conn, association: association} do
-      conn = put(conn, Routes.association_path(conn, :update, association), association: @update_attrs)
+      conn =
+        put(conn, Routes.association_path(conn, :update, association), association: @update_attrs)
+
       assert redirected_to(conn) == Routes.association_path(conn, :show, association)
 
       conn = get(conn, Routes.association_path(conn, :show, association))
@@ -64,7 +75,9 @@ defmodule NordrefWeb.AssociationControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, association: association} do
-      conn = put(conn, Routes.association_path(conn, :update, association), association: @invalid_attrs)
+      conn =
+        put(conn, Routes.association_path(conn, :update, association), association: @invalid_attrs)
+
       assert html_response(conn, 200) =~ "Edit Association"
     end
   end
@@ -75,6 +88,7 @@ defmodule NordrefWeb.AssociationControllerTest do
     test "deletes chosen association", %{conn: conn, association: association} do
       conn = delete(conn, Routes.association_path(conn, :delete, association))
       assert redirected_to(conn) == Routes.association_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.association_path(conn, :show, association))
       end

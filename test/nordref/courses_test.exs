@@ -102,6 +102,15 @@ defmodule Nordref.CoursesTest do
       assert Courses.list_courses() == [course]
     end
 
+    test "get_course_by_name/1 returns the course" do
+      course = course_fixture()
+      assert Courses.get_course_by_name(course.name) == course
+    end
+
+    test "get_course_by_name/1 returns nil if no course exists" do
+      assert Courses.get_course_by_name("Test") == nil
+    end
+
     test "get_course!/1 returns the course with given id" do
       course = course_fixture()
       assert Courses.get_course!(course.id) == course

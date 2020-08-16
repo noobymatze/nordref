@@ -26,24 +26,24 @@ defmodule Nordref.Users do
     Repo.all(User)
   end
 
-
   def list_admins_and_instructors() do
     query =
-    from usr in User,
-      order_by: usr.last_name,
-      where: usr.role == "ADMIN" or usr.role == "INSTRUCTOR",
-      select: usr
+      from usr in User,
+        order_by: usr.last_name,
+        where: usr.role == "ADMIN" or usr.role == "INSTRUCTOR",
+        select: usr
 
     Repo.all(query)
   end
 
   def list_admins_and_instructors(id) do
     query =
-    from usr in User,
-      join: c in Club, on: c.id == usr.club_id,
-      order_by: usr.last_name,
-      where: (usr.role == "ADMIN" or usr.role == "INSTRUCTOR") and c.association_id == ^id,
-      select: usr
+      from usr in User,
+        join: c in Club,
+        on: c.id == usr.club_id,
+        order_by: usr.last_name,
+        where: (usr.role == "ADMIN" or usr.role == "INSTRUCTOR") and c.association_id == ^id,
+        select: usr
 
     Repo.all(query)
   end

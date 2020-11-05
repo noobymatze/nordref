@@ -48,20 +48,19 @@ defmodule Nordref.Users do
     Repo.all(query)
   end
 
-  @doc """
-  def list_users_by_roles([]) do 
-    list_users()
-  end
+  # def list_users_by_roles([]) do
+  #  list_users()
+  # end
 
-  def list_users_by_roles(roles) do
-    query =
-    from usr in User,
-      order_by: usr.last_name,
-      where: Enum.reduce(fn role, role_acc -> role_acc or role == usr.role end, roles),
-      select: usr
-    Repo.all(query)
-  end
-  """
+  # def list_users_by_roles(roles) do
+  #  query =
+  #    from usr in User,
+  #      order_by: usr.last_name,
+  #      where: Enum.reduce(fn role, role_acc -> role_acc or role == usr.role end, roles),
+  #      select: usr
+
+  #  Repo.all(query)
+  # end
 
   @doc """
   Gets a single user.

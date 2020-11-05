@@ -1,6 +1,7 @@
 defmodule NordrefWeb.View.Helpers do
   import Nordref.Permissions
   import Phoenix.HTML.Link
+  alias Calendar
 
   @doc """
   Generate a link to the given URL, which is only visible if the
@@ -35,5 +36,9 @@ defmodule NordrefWeb.View.Helpers do
       11 -> "November"
       12 -> "Dezember"
     end
+  end
+
+  def format_date_time(datetime) do
+    Calendar.strftime(datetime, "%d.%m.%Y")
   end
 end

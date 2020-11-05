@@ -1,4 +1,22 @@
-<h1>Listing Courses</h1>
+<h1>Kurse</h1>
+
+
+<ul class="courses">
+<%= for course <- @courses do %>
+  <li class="course">
+    <div>
+      <span class="course_name"><%= link course.name, to: Routes.course_path(@conn, :show, course) %></span>
+      <%= if course.released do %> (Freigegeben) <% end %>
+    </div>
+    <div class="course_date">
+      <%= format_date_time(course.date) %>
+    </div>
+  </li>
+<% end %>
+</ul>
+
+
+
 
 <table>
   <thead>

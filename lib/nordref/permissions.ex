@@ -20,6 +20,12 @@ defmodule Nordref.Permissions do
       {:delete_course, _course} ->
         User.super_admin?(user) || User.admin?(user)
 
+      {:delete_season, _season} ->
+        User.super_admin?(user) || User.admin?(user)
+
+      {:edit_season, _season} ->
+        User.super_admin?(user) || User.admin?(user)
+
       :view_seasons ->
         User.super_admin?(user) || User.admin?(user)
 

@@ -1,15 +1,47 @@
 <h1>Kurse</h1>
 
 
-<ul class="courses">
+<ul class="ml-0 pl-0 courses">
 <%= for course <- @courses do %>
-  <li class="course">
-    <div>
-      <span class="course_name"><%= link course.name, to: Routes.course_path(@conn, :show, course) %></span>
-      <%= if course.released do %> (Freigegeben) <% end %>
+  <li class="course d-flex">
+    <div class="course__info flex-grow-1">
+      <div>
+        <span class="course_name"><%= link course.name, to: Routes.course_path(@conn, :show, course) %></span>
+        <%= if course.released do %> (Freigegeben) <% end %>
+      </div>
+      <div class="course_date">
+        <%= format_date_time(course.date) %>
+      </div>
     </div>
-    <div class="course_date">
-      <%= format_date_time(course.date) %>
+    <div class="course__actions align-self-center">
+      <div class="dropdown">
+        <div class="dropdown-toggle dropdown-toggle--no-caret" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-ellipsis-v" style="font-size: 1.2rem;"></i>
+        </div>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <h6 class="dropdown-header">Aktionen</h6>
+          <div class="dropdown-divider"></div>
+
+          <%= link to: Routes.course_path(@conn, :show, course), class: "dropdown-item" do %>
+            <i class="fas fa-eye"></i>
+            Ansehen
+          <% end %>
+
+          <%= if has_permission?(@current_user, {:release_course, course}) and (not course.released) do %>
+            <%= link to: Routes.course_path(@conn, :release, course), class: "dropdown-item" do %>
+              <i class="fas fa-share-alt"></i>
+              Freigeben
+            <% end %>
+          <% end %>
+
+          <%= if has_permission?(@current_user, {:delete_course, course}) do %>
+            <%= link to: Routes.course_path(@conn, :delete, course), method: :delete, data: [confirm: "Bist du dir wirklich SICHER, dass du diesen Kurs löschen möchtest?"], class: "dropdown-item" do %>
+              <i class="text-danger fas fa-trash"></i>
+              Löschen
+            <% end %>
+          <% end %>
+        </div>
+      </div>
     </div>
   </li>
 <% end %>

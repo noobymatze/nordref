@@ -12,7 +12,7 @@ defmodule NordrefWeb.Plugs.Authorization do
     permission = opts[action]
     current_user = conn.assigns[:current_user]
 
-    if Permissions.can_access?(current_user, permission) do
+    if Permissions.has_permission?(current_user, permission) do
       conn
     else
       conn

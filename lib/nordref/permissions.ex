@@ -6,14 +6,20 @@ defmodule Nordref.Permissions do
 
   ## Examples
 
-      iex> can_access?(user, {:release_course, course})
+      iex> has_permission?(user, {:release_course, course})
       :ok
 
-      iex> can_access?(user, {:release_course, course})
+      iex> has_permission?(user, {:release_course, course})
       :ok
   """
-  def can_access?(%User{} = user, action) do
-    case action do
+  def has_permission?(%User{} = user, permission) do
+    case permission do
+      {:release_course, _course} ->
+        User.super_admin?(user) || User.admin?(user)
+
+      {:delete_course, _course} ->
+        User.super_admin?(user) || User.admin?(user)
+
       :view_seasons ->
         User.super_admin?(user) || User.admin?(user)
 
@@ -24,7 +30,7 @@ defmodule Nordref.Permissions do
         User.super_admin?(user) || User.admin?(user)
 
       _ ->
-        true
+        false
     end
   end
 end

@@ -1,6 +1,6 @@
 /* This file is for your main application css. */
 
-@import "./phoenix.scss";
+// @import "./phoenix.scss";
 
 
 
@@ -19,35 +19,17 @@ html {
 }
 
 body {
-    font-size: 1.7rem;
+    font-size: 1.0rem;
 }
 
-.column--created-at {
-    color: #666;
+// Remove the caret from dropdown toggles
+.dropdown-toggle--no-caret::after {
+  display: none;
+  content: '';
 }
 
-/* header */
-
-header {
-    border-bottom: 1px solid #eee;
-}
-
-.nav {
-    display: flex;
-
-}
-
-nav ul {
-    list-style: none;
-}
-
-.nav a {
-    padding: 12px;
-    display: block;
-}
-
-a {
-    cursor: pointer;
+.fas {
+  font-size: 0.9rem;
 }
 
 .courses {
@@ -75,3 +57,4 @@ a {
 .course_date {
   color: #666;
 }
+

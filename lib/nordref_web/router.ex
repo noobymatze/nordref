@@ -31,7 +31,7 @@ defmodule NordrefWeb.Router do
     end
 
     live_dashboard "/dashboard"
-    get "/", UserController, :index
+    get "/", PageController, :index
     resources "/clubs", ClubController
     get "/users/instructors", UserController, :instructors
     resources "/users", UserController

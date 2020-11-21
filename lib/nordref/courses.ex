@@ -43,6 +43,15 @@ defmodule Nordref.Courses do
     Repo.all(query)
   end
 
+  #def list_my_courses(%User{} = user) do
+  #  query =
+  #    from c in Course,
+  #         order_by: c.name,
+  #         select: c
+
+  #  Repo.all(query)
+  #end
+
   @doc """
   Returns a list of courses, grouped by their type and sorted by F, J, G2/G3.
 

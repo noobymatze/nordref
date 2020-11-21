@@ -14,7 +14,7 @@ defmodule NordrefWeb.SessionController do
       {:ok, user} ->
         conn
         |> put_session(:current_user_id, user.id)
-        |> redirect(to: "/courses")
+        |> redirect(to: Routes.page_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn

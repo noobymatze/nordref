@@ -2,6 +2,11 @@
 
 // @import "./phoenix.scss";
 
+$other-color: #FFB4A2;
+
+$primary-color: #E5989B;
+$secondary-color: #B5838D;
+$dark-color: #6D6875;
 
 
 :root {
@@ -22,13 +27,54 @@ body {
     font-size: 1.0rem;
 }
 
+header {
+  min-height: 100px;
+
+  a {
+    color: white;
+  }
+}
+
+.btn-primary {
+  background: $primary-color;
+  border-color: $primary-color;
+
+  &:hover, &:active{
+    background: $secondary-color !important;
+    border-color: $secondary-color !important;
+  }
+
+  &:focus {
+    box-shadow: 0 0 7px $primary-color !important;
+  }
+}
+
+
+h3 {
+  color: $primary-color;
+}
+
+.dropdown-circled {
+
+  .dropdown-toggle > .fas:before {
+    border-radius: 100%;
+    background: $primary-color;//#ddd; //$primary-color;
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 1.5rem;
+    color: white;
+    padding: 20px;
+    justify-content: center;
+  }
+}
+
 // Remove the caret from dropdown toggles
 .dropdown-toggle--no-caret::after {
   display: none;
   content: '';
 }
 
-.fas {
+.fas:before {
   font-size: 0.9rem;
 }
 

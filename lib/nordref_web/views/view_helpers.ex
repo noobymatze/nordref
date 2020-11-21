@@ -1,5 +1,6 @@
 defmodule NordrefWeb.View.Helpers do
   alias Nordref.Permissions
+  alias Nordref.Users.User
   import Phoenix.HTML.Link
   alias Calendar
 
@@ -14,6 +15,10 @@ defmodule NordrefWeb.View.Helpers do
   """
   def has_permission?(user, permission) do
     Permissions.has_permission?(user, permission)
+  end
+
+  def super_admin_or_admin?(user) do
+    User.super_admin?(user) || User.admin?(user)
   end
 
   @doc false

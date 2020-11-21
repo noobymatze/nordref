@@ -10,24 +10,85 @@
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body>
-    <%= if Map.has_key?(assigns, :current_user) do %>
-      <header>
-        <section class="container">
+  <%= if Map.has_key?(assigns, :current_user) do %>
+    <header class="p-3">
+        <section class="container-fluid">
+          <div class="row">
+            <%= if super_admin_or_admin?(@current_user) do %>
             <nav role="navigation">
             <ul class="nav">
-            <li class="nav-link"><%= link "Courses", to: Routes.course_path(@conn, :index) %></li>
-            <li class="nav-link"><%= link "Registration", to: Routes.registration_path(@conn, :index) %></li>
-            <li class="nav-link"><%= link "Seasons", to: Routes.season_path(@conn, :index) %></li>
-            <li class="nav-link"><%= link "Clubs", to: Routes.club_path(@conn, :index) %></li>
-            <li class="nav-link"><%= link "Users", to: Routes.user_path(@conn, :index) %></li>
-            <li class="nav-link"><%= link "Association", to: Routes.association_path(@conn, :index) %></li>
-            <li class="nav-link"><%= link "Administration", to: Routes.administration_path(@conn, :index) %></li>
-            <li class="nav-link"><%= link "Logout", to: Routes.session_path(@conn, :logout) %></li>
+            <li class="nav-link">
+                <%= link to: Routes.course_path(@conn, :index) do %>
+                <span class="fas fa-user"></span>
+                Kurse
+                <% end %>
+            </li>
+            <li class="nav-link">
+                <%= link to: Routes.registration_path(@conn, :index) do %>
+                <span class=""></span>
+                <% end %>
+            </li>
+            <li class="nav-link">
+                <%= link to: Routes.season_path(@conn, :index) do %>
+                <span class=""></span>
+                <% end %>
+            </li>
+            <li class="nav-link">
+                <%= link to: Routes.club_path(@conn, :index) do %>
+                <span class=""></span>
+                <% end %>
+            </li>
+            <li class="nav-link">
+                <%= link to: Routes.user_path(@conn, :index) do %>
+                <span class=""></span>
+                <% end %>
+            </li>
+            <li class="nav-link">
+                <%= link to: Routes.association_path(@conn, :index) do %>
+                <span class=""></span>
+                <% end %>
+            </li>
+            <li class="nav-link">
+                <%= link to: Routes.administration_path(@conn, :index) do %>
+                <span class=""></span>
+                <% end %>
+            </li>
+            <li class="nav-link">
+                <%= link to: Routes.session_path(@conn, :logout) do %>
+                <span class=""></span>
+                <% end %>
+            </li>
             </ul>
             </nav>
+            <% end %>
+            <div class="pt-4 col-md-2 offset-md-10 d-flex justify-content-end">
+
+              <div class="dropdown dropdown-circled">
+                <div class="dropdown-toggle dropdown-toggle--no-caret" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-user"></i>
+                </div>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <!-- <h6 class="dropdown-header">Aktionen</h6>
+                  <div class="dropdown-divider"></div> -->
+
+                  <%= link to: "test", class: "dropdown-item" do %>
+                  <i class="fas fa-database"></i>
+                  Meine Daten
+                  <% end %>
+
+                  <%= link to: Routes.session_path(@conn, :logout), class: "dropdown-item" do %>
+                  <i class="fas fa-sign-out-alt"></i>
+                  Abmelden
+                  <% end %>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
         </section>
       </header>
-    <% end %>
-    <%= @inner_content %>
+  <% end %>
+  <%= @inner_content %>
   </body>
 </html>

@@ -116,7 +116,7 @@ defmodule NordrefWeb.CourseController do
       registration = Courses.list_and_organize_courses(season)
 
       conn
-        |> render("register.html", registration: registration)
+      |> render("register.html", registration: registration)
     end
   end
 

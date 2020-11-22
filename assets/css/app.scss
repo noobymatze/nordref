@@ -39,22 +39,42 @@ header {
   background: $primary-color;
   border-color: $primary-color;
 
-  &:hover, &:active{
+  &:hover, &:active, &:focus, &:focus:active {
     background: $secondary-color !important;
     border-color: $secondary-color !important;
   }
 
-  &:focus {
+  &:focus,
+  &:focus:active {
     box-shadow: 0 0 7px $primary-color !important;
   }
 }
 
+.btn-secondary {
+  background: $dark-color;
+  border-color: $dark-color;
+
+  &:hover, &:active{
+    background: $dark-color !important;
+    border-color: $dark-color !important;
+  }
+
+  &:focus,
+  &:focus:active {
+    box-shadow: 0 0 7px $dark-color !important;
+  }
+}
 
 h3 {
   color: $primary-color;
 }
 
-.dropdown-circled {
+.dropdown--left .dropdown--menu {
+  left: -80px;
+  top: 10px;
+}
+
+.dropdown--circled {
 
   .dropdown-toggle > .fas:before {
     border-radius: 100%;

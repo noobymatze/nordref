@@ -22,6 +22,49 @@ defmodule Nordref.Seasons do
   end
 
   @doc """
+  Check whether the registration for this season is opened.
+
+  ## Examples
+
+    iex>registration_open?(season)
+    true
+
+  """
+  def registration_open?(%Season{} = season) do
+    now = NaiveDateTime.utc_now()
+
+    # If the start_registration is nil, we presume,
+    # registrations are not allowed
+    if season.start_registration == nil do
+      false
+    else
+      between?(now, season.start_registration, season.end_registration)
+    end
+  end
+
+  defp between?(date, start, ending, inclusive \\ true) do
+    cds =
+      if start == nil do
+        :lt
+      else
+        NaiveDateTime.compare(start, date)
+      end
+
+    cde =
+      if ending == nil do
+        :gt
+      else
+        NaiveDateTime.compare(date, ending)
+      end
+
+    if inclusive do
+      (cds == :lt or cds == :eq) and (cde == :gt or cde == :eq)
+    else
+      cds == :lt and cde == :gt
+    end
+  end
+
+  @doc """
   Gets a single season.
 
   Raises `Ecto.NoResultsError` if the Season does not exist.

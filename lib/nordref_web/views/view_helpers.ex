@@ -1,6 +1,7 @@
 defmodule NordrefWeb.View.Helpers do
   alias Nordref.Permissions
   alias Nordref.Users.User
+  alias Nordref.Seasons
   import Phoenix.HTML.Link
   alias Calendar
 
@@ -19,6 +20,14 @@ defmodule NordrefWeb.View.Helpers do
 
   def super_admin_or_admin?(user) do
     User.super_admin?(user) || User.admin?(user)
+  end
+
+  def club_admin?(user) do
+    User.club_admin?(user)
+  end
+
+  def registration_open?(season) do
+    Seasons.registration_open?(season)
   end
 
   @doc false

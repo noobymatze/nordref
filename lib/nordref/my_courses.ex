@@ -21,11 +21,10 @@ defmodule Nordref.MyCourses do
   def list_my_courses(%User{} = user) do
     query =
       from c in MyCoursesView,
-         where: c.user_id == ^user.id,
-         order_by: c.season,
-         select: c
+        where: c.user_id == ^user.id,
+        order_by: c.season,
+        select: c
 
     Repo.all(query)
   end
-
 end

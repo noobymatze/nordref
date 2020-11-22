@@ -7,6 +7,7 @@ defmodule Nordref.Clubs do
   alias Nordref.Repo
 
   alias Nordref.Clubs.Club
+  alias Nordref.Users.User
 
   @doc """
   Returns the list of clubs.
@@ -22,6 +23,26 @@ defmodule Nordref.Clubs do
       from c in Club,
         order_by: c.name,
         select: c
+
+    Repo.all(query)
+  end
+
+  @doc """
+  Returns a list of all club members, i.e. users, which are
+  a member of the given club.
+
+  ## Examples
+
+    iex> club_members(1)
+    [%User{}, ...]
+
+  """
+  def club_members(club_id) do
+    query =
+      from u in User,
+        where: u.club_id == ^club_id,
+        order_by: u.first_name,
+        select: u
 
     Repo.all(query)
   end

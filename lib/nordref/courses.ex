@@ -43,14 +43,14 @@ defmodule Nordref.Courses do
     Repo.all(query)
   end
 
-  #def list_my_courses(%User{} = user) do
+  # def list_my_courses(%User{} = user) do
   #  query =
   #    from c in Course,
   #         order_by: c.name,
   #         select: c
 
   #  Repo.all(query)
-  #end
+  # end
 
   @doc """
   Returns a list of courses, grouped by their type and sorted by F, J, G2/G3.
@@ -65,6 +65,9 @@ defmodule Nordref.Courses do
     now = NaiveDateTime.utc_now()
 
     cond do
+      season.start_registration == nil ->
+        {:error, :unavailable}
+
       now <= season.start_registration ->
         {:error, {:locked_until, season.start_registration}}
 

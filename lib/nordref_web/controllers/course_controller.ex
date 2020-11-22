@@ -105,7 +105,7 @@ defmodule NordrefWeb.CourseController do
   end
 
   def registration(conn, _params) do
-    season = Seasons.current_season()
+    season = conn.assigns[:current_season]
 
     if season == nil do
       conn
@@ -113,20 +113,10 @@ defmodule NordrefWeb.CourseController do
       |> put_view(NordrefWeb.ErrorView)
       |> render(:"404")
     else
-      with {:ok, courses} <- Courses.list_and_organize_courses(season) do
-        conn
-        |> render("register.html", courses: courses)
-      else
-        {:error, {:locked_until, _start_registration}} ->
-          conn
-          |> put_flash(:error, "Die Kursanmeldung ist noch gesperrt.")
-          |> render("register.html", courses: [])
+      registration = Courses.list_and_organize_courses(season)
 
-        {:error, {:locked_since, _end_registration}} ->
-          conn
-          |> put_flash(:error, "Die Kursanmeldung ist schon beendet.")
-          |> render("register.html", courses: [])
-      end
+      conn
+        |> render("register.html", registration: registration)
     end
   end
 

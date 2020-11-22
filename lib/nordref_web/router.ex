@@ -9,6 +9,7 @@ defmodule NordrefWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :put_root_layout, {NordrefWeb.LayoutView, :root}
+    plug NordrefWeb.Plugs.CurrentSeason
   end
 
   pipeline :api do
@@ -32,6 +33,7 @@ defmodule NordrefWeb.Router do
 
     live_dashboard "/dashboard"
     get "/", PageController, :index
+    get "/clubs/members", PageController, :club_members
     resources "/clubs", ClubController
     get "/users/instructors", UserController, :instructors
     resources "/users", UserController

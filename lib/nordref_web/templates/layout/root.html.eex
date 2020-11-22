@@ -63,7 +63,7 @@
             <% end %>
             <div class="pt-4 col-md-2 offset-md-10 d-flex justify-content-end">
 
-              <div class="dropdown dropdown-circled">
+              <div class="dropdown dropdown--circled dropdown--left">
                 <div class="dropdown-toggle dropdown-toggle--no-caret" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fas fa-user"></i>
                 </div>
@@ -71,7 +71,7 @@
                   <!-- <h6 class="dropdown-header">Aktionen</h6>
                   <div class="dropdown-divider"></div> -->
 
-                  <%= link to: "test", class: "dropdown-item" do %>
+                  <%= link to: Routes.user_path(@conn, :show, @current_user.id), class: "dropdown-item" do %>
                   <i class="fas fa-database"></i>
                   Meine Daten
                   <% end %>

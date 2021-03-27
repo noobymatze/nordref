@@ -1,48 +1,40 @@
-<h1>Show User</h1>
+<section class="row">
+  <div class="col-md-4 offset-md-4">
+    <h4 class="mt-5 mb-4">Benutzeransicht</h4>
 
-<ul>
+    <div class="row">
+      <div class="col-md-12">
+        <b>Stammdaten</b>
+      </div>
+      <div class="col-md-12">
+        <%= @user.first_name %> <%= @user.last_name %> (<%= @user.role %>)
+      </div>
+      <div class="col-md-12">
+        <%= format_date_time(@user.birthday) %>
+      </div>
+      <div class="col-md-12 mt-2">
+        <span><b>Kontakt</b></span>
+        <div>
+          E-Mail: <%= email_link @user.email %>
+        </div>
+        <%= if @user.phone do %>
+          Telefon: <span><%= phone_link @user.phone %></span>
+        <% end %>
+        <%= if @user.mobile do %>
+          Mobile: <span><%= phone_link @user.mobile %></span>
+        <% end %>
+      </div>
+    </div>
 
-  <li>
-    <strong>First name:</strong>
-    <%= @user.first_name %>
-  </li>
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <span><%= link "Bearbeiten", to: Routes.user_path(@conn, :edit, @user), class: "btn btn-primary" %></span>
+        <span><%= link "Zur Übersicht", to: Routes.user_path(@conn, :index), class: "btn btn-secondary" %></span>
+      </div>
+    </div>
 
-  <li>
-    <strong>Last name:</strong>
-    <%= @user.last_name %>
-  </li>
+    <h5 class="mt-5 mb-4">Lizenzen</h5>
 
-  <li>
-    <strong>Email:</strong>
-    <%= @user.email %>
-  </li>
 
-  <li>
-    <strong>Username:</strong>
-    <%= @user.username %>
-  </li>
-
-  <li>
-    <strong>Birthday:</strong>
-    <%= @user.birthday %>
-  </li>
-
-  <li>
-    <strong>Mobile:</strong>
-    <%= @user.mobile %>
-  </li>
-
-  <li>
-    <strong>Phone:</strong>
-    <%= @user.phone %>
-  </li>
-
-  <li>
-    <strong>Role:</strong>
-    <%= @user.role %>
-  </li>
-
-</ul>
-
-<span><%= link "Edit", to: Routes.user_path(@conn, :edit, @user) %></span>
-<span><%= link "Back", to: Routes.user_path(@conn, :index) %></span>
+  </div>
+</section>

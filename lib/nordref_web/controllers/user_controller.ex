@@ -11,7 +11,7 @@ defmodule NordrefWeb.UserController do
 
   def new(conn, _params) do
     changeset = Users.change_user(%User{})
-    render(conn, "new.html", changeset: changeset, roles: User.roles())
+    render(conn, "new.html", changeset: changeset, roles: User.role_options())
   end
 
   def create(conn, %{"user" => user_params}) do
@@ -22,7 +22,7 @@ defmodule NordrefWeb.UserController do
         |> redirect(to: Routes.user_path(conn, :show, user))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset, roles: User.roles())
+        render(conn, "new.html", changeset: changeset, roles: User.role_options())
     end
   end
 
@@ -34,7 +34,7 @@ defmodule NordrefWeb.UserController do
   def edit(conn, %{"id" => id}) do
     user = Users.get_user!(id)
     changeset = Users.change_user(user)
-    render(conn, "edit.html", user: user, changeset: changeset, roles: User.roles())
+    render(conn, "edit.html", user: user, changeset: changeset, roles: User.role_options())
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
@@ -47,7 +47,7 @@ defmodule NordrefWeb.UserController do
         |> redirect(to: Routes.user_path(conn, :show, user))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", user: user, changeset: changeset, roles: User.roles())
+        render(conn, "edit.html", user: user, changeset: changeset, roles: User.role_options())
     end
   end
 

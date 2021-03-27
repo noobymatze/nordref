@@ -2,3 +2,41 @@
 
 <div><%= link "Instruktoren", to: Routes.user_path(@conn, :instructors) %></div>
 <div><%= link "Dashboard", to: Routes.live_dashboard_path(@conn, :home) %></div>
+<%= link to: Routes.course_path(@conn, :index) do %>
+<ul>
+<li>
+<span class="fas fa-user"></span>
+Kurse
+<% end %>
+</li>
+<li class="nav-link">
+  <%= link to: Routes.registration_path(@conn, :index) do %>
+  <span class=""></span>
+  <% end %>
+</li>
+<li class="nav-link">
+  <%= link to: Routes.season_path(@conn, :index) do %>
+  <span class=""></span>
+  <% end %>
+</li>
+<li class="nav-link">
+  <%= link to: Routes.club_path(@conn, :index) do %>
+  <span class=""></span>
+  <% end %>
+</li>
+<li class="nav-link">
+  <%= link to: Routes.user_path(@conn, :index) do %>
+  <span class=""></span>
+  <% end %>
+</li>
+<li class="nav-link">
+  <%= link to: Routes.association_path(@conn, :index) do %>
+  <span class=""></span>
+  <% end %>
+</li>
+<li class="nav-link">
+  <%= link to: Routes.administration_path(@conn, :index) do %>
+  <span class=""></span>
+  <% end %>
+</li>
+</ul>

@@ -1,5 +1,10 @@
-<h1>Edit User</h1>
+<section class="row">
+  <div class="col-4 offset-4">
+    <h2 class="mt-5 mb-4">Benutzer bearbeiten</h2>
 
-<%= render "form.html", Map.put(assigns, :action, Routes.user_path(@conn, :update, @user)) %>
-
-<span><%= link "Back", to: Routes.user_path(@conn, :index) %></span>
+    <%= render "form.html", assigns
+    |> Map.put(:action, Routes.user_path(@conn, :update, @user))
+    |> Map.put(:back, Routes.user_path(@conn, :index))
+    %>
+  </div>
+</section>

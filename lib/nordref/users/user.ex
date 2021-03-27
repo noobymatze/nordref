@@ -50,6 +50,25 @@ defmodule Nordref.Users.User do
   end
 
   @doc """
+  Return all existing roles for a user.
+
+  ## Examples
+
+      iex> roles
+      ["SUPER_ADMIN", "ADMIN", "CLUB_ADMIN", "INSTRUCTOR", "USER"]
+
+  """
+  def role_options do
+    [
+      "Super-Admin": "SUPER_ADMIN",
+      Admin: "ADMIN",
+      Vereinsadmin: "CLUB_ADMIN",
+      Ausbilder: "INSTRUCTOR",
+      Benutzer: "USER"
+    ]
+  end
+
+  @doc """
   Check, if the given user is a `SUPER_ADMIN`.
 
   ## Examples

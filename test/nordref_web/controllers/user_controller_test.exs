@@ -71,14 +71,14 @@ defmodule NordrefWeb.UserControllerTest do
   describe "index" do
     test "lists all users", %{conn: conn} do
       conn = get(conn, Routes.user_path(conn, :index))
-      assert html_response(conn, 200) =~ "Listing Users"
+      assert html_response(conn, 200) =~ "Benutzer"
     end
   end
 
   describe "new user" do
     test "renders form", %{conn: conn} do
       conn = get(conn, Routes.user_path(conn, :new))
-      assert html_response(conn, 200) =~ "New User"
+      assert html_response(conn, 200) =~ "Benutzer"
     end
   end
 
@@ -93,7 +93,7 @@ defmodule NordrefWeb.UserControllerTest do
       assert redirected_to(conn) == Routes.user_path(conn, :show, id)
 
       conn = get(conn, Routes.user_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show User"
+      assert html_response(conn, 200) =~ "Benutzer"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -102,7 +102,7 @@ defmodule NordrefWeb.UserControllerTest do
       conn =
         post(conn, Routes.user_path(conn, :create), user: %{@invalid_attrs | club_id: club.id})
 
-      assert html_response(conn, 200) =~ "New User"
+      assert html_response(conn, 200) =~ "Benutzer"
     end
   end
 
@@ -111,7 +111,7 @@ defmodule NordrefWeb.UserControllerTest do
 
     test "renders form for editing chosen user", %{conn: conn, user: user} do
       conn = get(conn, Routes.user_path(conn, :edit, user))
-      assert html_response(conn, 200) =~ "Edit User"
+      assert html_response(conn, 200) =~ "Benutzer bearbeiten"
     end
   end
 
@@ -136,7 +136,7 @@ defmodule NordrefWeb.UserControllerTest do
           user: %{@invalid_attrs | club_id: user.club_id}
         )
 
-      assert html_response(conn, 200) =~ "Edit User"
+      assert html_response(conn, 200) =~ "Benutzer bearbeiten"
     end
   end
 

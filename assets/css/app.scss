@@ -4,7 +4,7 @@
 
 $other-color: #FFB4A2;
 
-$primary-color: #E5989B;
+$primary-color: #ad5c5c; //#E5989B;
 $secondary-color: #B5838D;
 $dark-color: #6D6875;
 
@@ -83,7 +83,7 @@ h3 {
     height: 1.5rem;
     font-size: 1.5rem;
     color: white;
-    padding: 20px;
+    padding: 10px;
     justify-content: center;
   }
 }
@@ -92,6 +92,10 @@ h3 {
 .dropdown-toggle--no-caret::after {
   display: none;
   content: '';
+}
+
+.dropdown--user .dropdown-menu {
+  left: -100px;
 }
 
 .fas:before {
@@ -122,5 +126,18 @@ h3 {
 
 .course_date {
   color: #666;
+}
+
+header {
+  border-bottom: 1px solid #ddd;
+}
+
+.list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.list--my-courses {
+
 }
 

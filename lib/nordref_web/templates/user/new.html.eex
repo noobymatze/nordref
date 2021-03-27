@@ -1,5 +1,11 @@
-<h1>New User</h1>
+<section class="row">
+  <div class="col-4 offset-4">
+    <h2 class="mt-5 mb-4">Benutzer anlegen</h2>
 
-<%= render "form.html", Map.put(assigns, :action, Routes.user_path(@conn, :create)) %>
-
-<span><%= link "Back", to: Routes.user_path(@conn, :index) %></span>
+    <%= render "form.html", assigns
+    |> Map.put(:action, Routes.user_path(@conn, :create))
+    |> Map.put(:back, Routes.user_path(@conn, :index))
+    |> Map.put(:disabled, false)
+    %>
+  </div>
+</section>

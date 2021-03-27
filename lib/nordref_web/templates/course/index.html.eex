@@ -1,3 +1,5 @@
+<section class="row">
+  <div class="col-4 offset-4">
 <h1>Kurse</h1>
 
 
@@ -46,3 +48,5 @@
   </li>
 <% end %>
 </ul>
+  </div>
+</section>

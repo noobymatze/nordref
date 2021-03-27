@@ -33,7 +33,7 @@ defmodule NordrefWeb.SeasonControllerTest do
   describe "index" do
     test "lists all seasons", %{conn: conn} do
       conn = get(conn, Routes.season_path(conn, :index))
-      assert html_response(conn, 200) =~ "Listing Seasons"
+      assert html_response(conn, 200) =~ "Saisons"
     end
   end
 

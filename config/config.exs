@@ -13,7 +13,7 @@ config :nordref,
 # Configures the endpoint
 config :nordref, NordrefWeb.Endpoint,
   live_view: [signing_salt: "dxHXlaBHdg9ift5bcpB6P338JeAP9HM5"],
-  url: [host: "localhost"],
+  url: [host: "0.0.0.0"],
   secret_key_base: "a6phcGyjlaEr1FtJRsX325eF0aj/hFTgUJt+NL4ZC46J8W72hqm5AGS6k+pqsky5",
   render_errors: [view: NordrefWeb.ErrorView, accepts: ~w(html json)],
   pubsub_server: Nordref.PubSub

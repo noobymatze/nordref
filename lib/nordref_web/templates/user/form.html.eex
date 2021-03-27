@@ -1,43 +1,80 @@
-<%= form_for @changeset, @action, fn f -> %>
+<%= form_for @changeset, @action, [class: "form"], fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+      Ups, es hat einige Fehler gegeben, bitte prüfe und korrigiere sie!
     </div>
   <% end %>
 
-  <%= label f, :first_name %>
-  <%= text_input f, :first_name %>
-  <%= error_tag f, :first_name %>
+  <div class="row">
+    <div class="form-group col">
+      <%= label f, :role, "Rolle" %>
+      <%= select f, :role, @roles, prompt: "Bitte wähle eine Rolle", class: "form-control" %>
+      <%= error_tag f, :role %>
+    </div>
+  </div>
 
-  <%= label f, :last_name %>
-  <%= text_input f, :last_name %>
-  <%= error_tag f, :last_name %>
+  <div class="row">
+    <div class="form-group col">
+      <%= label f, :first_name, "Vorname" %>
+      <%= text_input f,  :first_name, class: "form-control" %>
+      <%= error_tag f, :first_name %>
+    </div>
+    <div class="form-group col">
+      <%= label f, :last_name, "Nachname" %>
+      <%= text_input f, :last_name, class: "form-control" %>
+      <%= error_tag f, :last_name %>
+    </div>
+  </div>
 
-  <%= label f, :email %>
-  <%= text_input f, :email %>
-  <%= error_tag f, :email %>
+  <div class="row">
+    <div class="col form-group">
+    <%= label f, :email, "E-Mail" %>
+    <%= email_input f, :email, class: "form-control" %>
+    <%= error_tag f, :email %>
+    </div>
+  </div>
 
-  <%= label f, :username %>
-  <%= text_input f, :username, disabled: (assigns[:user] != nil && assigns[:user].username == "admin") %>
-  <%= error_tag f, :username %>
+  <div class="row">
+    <div class="col form-group">
+    <%= label f, :username, "Benutzername" %>
+    <%= text_input f, :username, disabled: (assigns[:user] != nil && assigns[:user].username == "admin"), class: "form-control" %>
+    <%= error_tag f, :username %>
+    </div>
+  </div>
 
-  <%= label f, :birthday %>
-  <%= date_select f, :birthday %>
-  <%= error_tag f, :birthday %>
+  <div class="row">
+    <div class="form-group col">
+    <%= label f, :birthday, "Geburtstag" %>
+    <div class="form-control border-0 pl-0 pt-0">
+      <%= date_select f, :birthday, builder: fn b -> %>
+        <%= b.(:day, prompt: "Tag") %>
+        <%= b.(:month, prompt: "Monat") %>
+        <%= b.(:year, prompt: "Jahr", options: 2001..1930) %>
+      <% end %>
+    </div>
+    <%= error_tag f, :birthday %>
+    </div>
+  </div>
 
-  <%= label f, :mobile %>
-  <%= text_input f, :mobile %>
-  <%= error_tag f, :mobile %>
+  <div class="row">
+    <div class="form-group col">
+      <%= label f, :phone, "Telefon" %>
+      <%= text_input f, :phone, class: "form-control" %>
+      <%= error_tag f, :phone %>
+    </div>
+    <div class="form-group col">
+      <%= label f, :mobile, "Mobil" %>
+      <%= text_input f, :mobile, class: "form-control" %>
+      <%= error_tag f, :mobile %>
+    </div>
+  </div>
 
-  <%= label f, :phone %>
-  <%= text_input f, :phone %>
-  <%= error_tag f, :phone %>
-
-  <%= label f, :role %>
-  <%= select f, :role, @roles, prompt: "Bitte wähle eine Rolle" %>
-  <%= error_tag f, :role %>
-
-  <div>
-    <%= submit "Save" %>
+  <div class="row mt-3">
+    <div class="form-group col">
+      <%= submit "Speichern", class: "btn btn-primary" %>
+    </div>
+    <div class="col text-right">
+      <%= link "Zur Übersicht", to: @back, class: "btn btn-secondary" %>
+    </div>
   </div>
 <% end %>

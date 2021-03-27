@@ -11,8 +11,59 @@
   </head>
   <body>
   <%= if Map.has_key?(assigns, :current_user) do %>
-    <header class="p-3">
+    <header class="p-2">
         <section class="container-fluid">
+          <div class="row pt-4">
+            <div class="col-3 d-flex">
+              <div class="align-self-center">
+                <a href="<%= Routes.page_path(@conn, :index) %>">
+                  <img src="<%= Routes.static_path(@conn, "/images/whistle.png") %>"/>
+                </a>
+              </div>
+            </div>
+            <div class="col-3 offset-6 d-flex justify-content-end">
+
+              <div class="dropdown dropdown--user dropdown--circled dropdown--left">
+                <div class="dropdown-toggle dropdown-toggle--no-caret" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-user"></i>
+                </div>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <%= link to: Routes.page_path(@conn, :index), class: "dropdown-item" do %>
+                  <i class="fas fa-calendar-alt"></i>
+                  Meine Kurse
+                  <% end %>
+
+                  <%= link to: Routes.user_path(@conn, :show, @current_user.id), class: "dropdown-item" do %>
+                  <i class="fas fa-info-circle"></i>
+                  Meine Daten
+                  <% end %>
+
+                  <%= if club_admin?(@current_user) do %>
+                    <%= link to: Routes.page_path(@conn, :club_members), class: "dropdown-item" do %>
+                    <i class="fas fa-cubes"></i>
+                    Mein Verein
+                    <% end %>
+                  <% end %>
+
+                  <%= if super_admin_or_admin?(@current_user) do %>
+                    <%= link to: Routes.administration_path(@conn, :index), class: "dropdown-item" do %>
+                    <i class="fas fa-wrench"></i>
+                    Administration
+                    <% end %>
+                  <% end %>
+
+                  <%= link to: Routes.session_path(@conn, :logout), class: "dropdown-item" do %>
+                  <i class="fas fa-sign-out-alt"></i>
+                  Abmelden
+                  <% end %>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+        <!-- <section class="container-fluid">
           <div class="row">
             <%= if super_admin_or_admin?(@current_user) do %>
             <nav role="navigation">
@@ -61,32 +112,8 @@
             </ul>
             </nav>
             <% end %>
-            <div class="pt-4 col-md-2 offset-md-10 d-flex justify-content-end">
-
-              <div class="dropdown dropdown--circled dropdown--left">
-                <div class="dropdown-toggle dropdown-toggle--no-caret" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="fas fa-user"></i>
-                </div>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <!-- <h6 class="dropdown-header">Aktionen</h6>
-                  <div class="dropdown-divider"></div> -->
-
-                  <%= link to: Routes.user_path(@conn, :show, @current_user.id), class: "dropdown-item" do %>
-                  <i class="fas fa-database"></i>
-                  Meine Daten
-                  <% end %>
-
-                  <%= link to: Routes.session_path(@conn, :logout), class: "dropdown-item" do %>
-                  <i class="fas fa-sign-out-alt"></i>
-                  Abmelden
-                  <% end %>
-
-                </div>
-              </div>
-
-            </div>
           </div>
-        </section>
+        </section> -->
       </header>
   <% end %>
   <%= @inner_content %>

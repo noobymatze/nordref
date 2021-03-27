@@ -107,7 +107,7 @@ defmodule NordrefWeb.CourseControllerTest do
   describe "index" do
     test "lists all courses", %{conn: conn} do
       conn = get(conn, Routes.course_path(conn, :index))
-      assert html_response(conn, 200) =~ "Listing Courses"
+      assert html_response(conn, 200) =~ "Kurse"
     end
   end
 

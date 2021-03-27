@@ -3,6 +3,7 @@ defmodule NordrefWeb.View.Helpers do
   alias Nordref.Users.User
   alias Nordref.Seasons
   import Phoenix.HTML.Link
+  import Phoenix.HTML.Tag
   alias Calendar
 
   @doc """
@@ -50,5 +51,15 @@ defmodule NordrefWeb.View.Helpers do
 
   def format_date_time(datetime) do
     Calendar.strftime(datetime, "%d.%m.%Y")
+  end
+
+  def email_link(email, opts \\ []) do
+    opts = Keyword.put_new(opts, :href, "mailto:#{email}")
+    content_tag(:a, email, opts)
+  end
+
+  def phone_link(phone, opts \\ []) do
+    opts = Keyword.put_new(opts, :href, "tel:#{phone}")
+    content_tag(:a, phone, opts)
   end
 end

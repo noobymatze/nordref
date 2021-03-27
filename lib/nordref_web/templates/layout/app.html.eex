@@ -1,4 +1,4 @@
-<main role="main" class="container">
+<main role="main" class="container-fluid">
   <%= Enum.map(get_flash(@conn), fn {flash_key, flash_message} -> %>
     <p class="alert alert-<%= flash_key %>"><%= flash_message %></p>
   <% end) %>

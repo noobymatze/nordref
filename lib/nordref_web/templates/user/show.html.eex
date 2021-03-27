@@ -12,18 +12,21 @@
       <div class="col-md-12">
         <%= format_date_time(@user.birthday) %>
       </div>
+      <%= if @user.email || @user.phone || @user.mobile do %>
       <div class="col-md-12 mt-2">
-        <span><b>Kontakt</b></span>
-        <div>
-          E-Mail: <%= email_link @user.email %>
-        </div>
+        <div><b>Kontakt</b></div>
         <%= if @user.phone do %>
-          Telefon: <span><%= phone_link @user.phone %></span>
+        Telefon: <span><%= phone_link @user.phone %></span>
+        <% end %>
+        <div>E-Mail: <span><%= email_link @user.email %></span></div>
+        <%= if @user.phone do %>
+          <div>Telefon: <span><%= phone_link @user.phone %></span></div>
         <% end %>
         <%= if @user.mobile do %>
-          Mobile: <span><%= phone_link @user.mobile %></span>
+          <div>Mobile: <span><%= phone_link @user.mobile %></span></div>
         <% end %>
       </div>
+      <% end %>
     </div>
 
     <div class="row mt-3">
@@ -35,6 +38,7 @@
 
     <h5 class="mt-5 mb-4">Lizenzen</h5>
 
+    <%= license_table(@licenses) %>
 
   </div>
 </section>

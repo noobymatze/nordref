@@ -2,6 +2,7 @@ defmodule NordrefWeb.UserController do
   use NordrefWeb, :controller
 
   alias Nordref.Users
+  alias Nordref.Licenses
   alias Nordref.Users.User
 
   def index(conn, _params) do
@@ -28,7 +29,8 @@ defmodule NordrefWeb.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
-    render(conn, "show.html", user: user)
+    licenses = Licenses.list_licenses(user)
+    render(conn, "show.html", user: user, licenses: licenses)
   end
 
   def edit(conn, %{"id" => id}) do

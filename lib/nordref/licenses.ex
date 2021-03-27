@@ -9,6 +9,25 @@ defmodule Nordref.Licenses do
   alias Nordref.Licenses.License
 
   @doc """
+  Returns the list of licenses for a given user
+
+  ## Examples
+
+      iex> list_licenses(%User{})
+      [%License{}, ...]
+
+  """
+  def list_licenses(user) do
+    query =
+      from l in License,
+        where: l.user_id == ^user.id,
+        order_by: l.season,
+        select: l
+
+    Repo.all(query)
+  end
+
+  @doc """
   Returns the list of licenses.
 
   ## Examples

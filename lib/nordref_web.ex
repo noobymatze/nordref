@@ -87,6 +87,7 @@ defmodule NordrefWeb do
 
       import NordrefWeb.LiveHelpers
       import NordrefWeb.View.Helpers
+      import NordrefWeb.View.Helpers.Table
       import NordrefWeb.ErrorHelpers
       import NordrefWeb.Gettext
       alias NordrefWeb.Router.Helpers, as: Routes

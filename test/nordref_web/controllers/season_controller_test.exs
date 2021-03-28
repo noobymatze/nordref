@@ -52,7 +52,7 @@ defmodule NordrefWeb.SeasonControllerTest do
       assert redirected_to(conn) == Routes.season_path(conn, :show, id)
 
       conn = get(conn, Routes.season_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show Season"
+      assert html_response(conn, 200) =~ "Saison"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -66,7 +66,7 @@ defmodule NordrefWeb.SeasonControllerTest do
 
     test "renders form for editing chosen season", %{conn: conn, season: season} do
       conn = get(conn, Routes.season_path(conn, :edit, season))
-      assert html_response(conn, 200) =~ "Edit Season"
+      assert html_response(conn, 200) =~ "Saison bearbeiten"
     end
   end
 
@@ -83,7 +83,7 @@ defmodule NordrefWeb.SeasonControllerTest do
 
     test "renders errors when data is invalid", %{conn: conn, season: season} do
       conn = put(conn, Routes.season_path(conn, :update, season), season: @invalid_attrs)
-      assert html_response(conn, 200) =~ "Edit Season"
+      assert html_response(conn, 200) =~ "Saison bearbeiten"
     end
   end
 

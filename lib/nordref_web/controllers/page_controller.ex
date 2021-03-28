@@ -10,7 +10,7 @@ defmodule NordrefWeb.PageController do
     render(conn, "index.html", courses: courses)
   end
 
-  def club_members(conn, params) do
+  def club_members(conn, _params) do
     current_user = conn.assigns[:current_user]
     club_members = Clubs.club_members(current_user.club_id)
     render(conn, "club_members.html", club_members: club_members)

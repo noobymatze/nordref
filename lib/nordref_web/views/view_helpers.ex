@@ -3,7 +3,6 @@ defmodule NordrefWeb.View.Helpers do
   alias Nordref.Users.User
   alias Nordref.Seasons
   import Phoenix.HTML
-  import Phoenix.HTML.Link
   import Phoenix.HTML.Tag
   import Phoenix.HTML.Form
   import NordrefWeb.Gettext

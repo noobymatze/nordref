@@ -1,6 +1,5 @@
 defmodule NordrefWeb.Plugs.CurrentSeason do
   import Plug.Conn
-  import Phoenix.Controller
   alias Nordref.Seasons
 
   def init(opts) do

@@ -6,7 +6,6 @@ defmodule Nordref.MyCourses do
   import Ecto.Query, warn: false
   alias Nordref.Repo
 
-  alias Nordref.Courses.Course
   alias Nordref.Users.User
   alias Nordref.Courses.MyCoursesView
 

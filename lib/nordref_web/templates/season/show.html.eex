@@ -1,34 +1,42 @@
-<h1>Show Season</h1>
+<section class="row">
+  <div class="col-4 offset-4">
+    <h2 class="mt-5 mb-4">Saison</h2>
 
-<ul>
+    <div class="row">
+      <div class="col-md-12">
+        <span class="course_name">Saison <%= @season.year %></span>
+      </div>
+      <div class="col-md-12 course_date">
+        <%= format_date_time(@season.start) %> - <%= format_date_time(@season.end) %>
+      </div>
+    </div>
 
-  <li>
-    <strong>Year:</strong>
-    <%= @season.year %>
-  </li>
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <b>Registrierungen</b>
+      </div>
+      <%= if @season.start_registration || @season.end_registration do %>
+      <div class="col-md-12">
+        <%= format_date_time(@season.start_registration) %> - <%= format_date_time(@season.end_registration) %>
+      </div>
+      <% else %>
+      <div class="col-md-12">
+        Kein Registrierungszeitraum festgelegt
+      </div>
+      <% end %>
+    </div>
 
-  <li>
-    <strong>Start:</strong>
-    <%= @season.start %>
-  </li>
+    <div class="row mt-4">
+      <div class="col-md-3">
+        <%= link "Bearbeiten", class: "btn btn-primary d-block", to: Routes.season_path(@conn, :edit, @season) %>
+      </div>
+      <div class="col-md-6">
+        <%= link "Registrierungen herunterladen", class: "btn btn-secondary d-block", to: Routes.season_path(@conn, :download_registrations, @season.year) %>
+      </div>
+      <div class="col-md-3">
+        <%= link "Zur Übersicht", class: "btn btn-secondary d-block", to: Routes.season_path(@conn, :index) %>
+      </div>
+    </div>
 
-  <li>
-    <strong>End:</strong>
-    <%= @season.end %>
-  </li>
-
-  <li>
-    <strong>Start registration:</strong>
-    <%= @season.start_registration %>
-  </li>
-
-  <li>
-    <strong>End registration:</strong>
-    <%= @season.end_registration %>
-  </li>
-
-</ul>
-
-<span><%= link "Edit", to: Routes.season_path(@conn, :edit, @season) %></span>
-<span><%= link "Back", to: Routes.season_path(@conn, :index) %></span>
-<span><%= link "Download Registrations", to: Routes.season_path(@conn, :download_registrations, @season.year) %></span>
+  </div>
+</section>

@@ -2,8 +2,11 @@ defmodule NordrefWeb.View.Helpers do
   alias Nordref.Permissions
   alias Nordref.Users.User
   alias Nordref.Seasons
+  import Phoenix.HTML
   import Phoenix.HTML.Link
   import Phoenix.HTML.Tag
+  import Phoenix.HTML.Form
+  import NordrefWeb.Gettext
   alias Calendar
 
   @doc """
@@ -61,5 +64,33 @@ defmodule NordrefWeb.View.Helpers do
   def phone_link(phone, opts \\ []) do
     opts = Keyword.put_new(opts, :href, "tel:#{phone}")
     content_tag(:a, phone, opts)
+  end
+
+  def localized_datetime_select(form, field, opts \\ []) do
+    opts =
+      opts
+      |> Keyword.put(:month,
+        options: [
+          {gettext("January"), "1"},
+          {gettext("February"), "2"},
+          {gettext("March"), "3"},
+          {gettext("April"), "4"},
+          {gettext("May"), "5"},
+          {gettext("June"), "6"},
+          {gettext("July"), "7"},
+          {gettext("August"), "8"},
+          {gettext("September"), "9"},
+          {gettext("October"), "10"},
+          {gettext("November"), "11"},
+          {gettext("December"), "12"}
+        ]
+      )
+      |> Keyword.put_new(:builder, fn b ->
+        ~e"""
+        <%= b.(:day, []) %> <%= b.(:month, []) %> <%= b.(:year, []) %> - <%= b.(:hour, []) %> : <%= b.(:minute, []) %>
+        """
+      end)
+
+    datetime_select(form, field, opts)
   end
 end

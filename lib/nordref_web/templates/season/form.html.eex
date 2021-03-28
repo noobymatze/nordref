@@ -1,31 +1,63 @@
-<%= form_for @changeset, @action, fn f -> %>
+<%= form_for @changeset, @action, [class: "form"], fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+      <p>Ups, es sind Fehler aufgetreten. Bitte prüfe und korrigiere sie!</p>
     </div>
   <% end %>
 
-  <%= label f, :year %>
-  <%= number_input f, :year %>
-  <%= error_tag f, :year %>
-
-  <%= label f, :start %>
-  <%= datetime_select f, :start %>
-  <%= error_tag f, :start %>
-
-  <%= label f, :end %>
-  <%= datetime_select f, :end %>
-  <%= error_tag f, :end %>
-
-  <%= label f, :start_registration %>
-  <%= datetime_select f, :start_registration %>
-  <%= error_tag f, :start_registration %>
-
-  <%= label f, :end_registration %>
-  <%= datetime_select f, :end_registration %>
-  <%= error_tag f, :end_registration %>
-
-  <div>
-    <%= submit "Save" %>
+<div class="row">
+  <div class="form-group col">
+    <%= label f, :year, "Jahr" %>
+    <%= number_input f, :year, class: "form-control" %>
+    <%= error_tag f, :year %>
   </div>
+</div>
+
+<div class="row">
+  <div class="form-group col">
+    <%= label f, :start, "Beginn" %>
+    <div class="form-control border-0 pl-0 pt-0">
+      <%= localized_datetime_select f, :start %>
+    </div>
+    <%= error_tag f, :start %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="form-group col">
+    <%= label f, :end, "Ende" %>
+    <div class="form-control border-0 pl-0 pt-0">
+      <%= localized_datetime_select f, :end %>
+    </div>
+    <%= error_tag f, :end %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="form-group col">
+  <%= label f, :start_registration, "Beginn der Registrierung" %>
+  <div class="form-control border-0 pl-0 pt-0">
+    <%= localized_datetime_select f, :start_registration %>
+  </div>
+  <%= error_tag f, :start_registration %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="form-group col">
+  <%= label f, :end_registration, "Ende der Registrierung" %>
+    <div class="form-control border-0 pl-0 pt-0">
+      <%= localized_datetime_select f, :end_registration %>
+    </div>
+  <%= error_tag f, :end_registration %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="form-group col">
+  <div>
+    <%= submit "Speichern", class: "btn btn-primary" %>
+  </div>
+  </div>
+</div>
 <% end %>

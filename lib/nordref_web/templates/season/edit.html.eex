@@ -1,5 +1,9 @@
-<h1>Edit Season</h1>
+<section class="row">
+  <div class="col-4 offset-4">
+    <h2 class="mt-5 mb-4">Saison bearbeiten</h2>
 
-<%= render "form.html", Map.put(assigns, :action, Routes.season_path(@conn, :update, @season)) %>
+    <%= render "form.html", Map.put(assigns, :action, Routes.season_path(@conn, :update, @season)) %>
 
-<span><%= link "Back", to: Routes.season_path(@conn, :index) %></span>
+    <span><%= link "Back", to: Routes.season_path(@conn, :index) %></span>
+  </div>
+</section>

@@ -19,7 +19,6 @@ defmodule Nordref.Registrations do
 
   def get_registration!(id), do: Repo.get!(Registration, id)
 
-
   @doc """
   Register the given user for two g courses.
 

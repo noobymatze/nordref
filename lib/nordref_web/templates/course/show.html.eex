@@ -1,64 +1,70 @@
-<h1>Show Course</h1>
+<section class="row">
+  <div class="col-md-6 offset-md-3">
+  <h2 class="mt-5 mb-4">Kursansicht</h2>
 
-<ul>
 
-  <li>
-    <strong>Name:</strong>
-    <%= @course.name %>
-  </li>
+  <ul>
 
-  <li>
-    <strong>Max participants:</strong>
-    <%= @course.max_participants %>
-  </li>
+    <li>
+      <strong>Name:</strong>
+      <%= @course.name %>
+    </li>
 
-  <li>
-    <strong>Max per club:</strong>
-    <%= @course.max_per_club %>
-  </li>
+    <li>
+      <strong>Max participants:</strong>
+      <%= @course.max_participants %>
+    </li>
 
-  <li>
-    <strong>Organizer participants:</strong>
-    <%= @course.max_organizer_participants %>
-  </li>
+    <li>
+      <strong>Max per club:</strong>
+      <%= @course.max_per_club %>
+    </li>
 
-  <li>
-    <strong>Type:</strong>
-    <%= @course.type %>
-  </li>
+    <li>
+      <strong>Organizer participants:</strong>
+      <%= @course.max_organizer_participants %>
+    </li>
 
-  <li>
-    <strong>Date:</strong>
-    <%= @course.date %>
-  </li>
+    <li>
+      <strong>Type:</strong>
+      <%= @course.type %>
+    </li>
 
-  <li>
-    <strong>Released:</strong>
-    <%= @course.released %>
-  </li>
+    <li>
+      <strong>Date:</strong>
+      <%= @course.date %>
+    </li>
 
-</ul>
+    <li>
+      <strong>Released:</strong>
+      <%= @course.released %>
+    </li>
 
-<span><%= link "Edit", to: Routes.course_path(@conn, :edit, @course) %></span>
-<span><%= link "Back", to: Routes.course_path(@conn, :index) %></span>
+  </ul>
 
-<h2 class="mt-5">Registrations (<%= length(@registrations) %>)</h2>
+  <span><%= link "Edit", to: Routes.course_path(@conn, :edit, @course) %></span>
+  <span><%= link "Back", to: Routes.course_path(@conn, :index) %></span>
 
-<table class="table">
-  <thead>
-    <th>Name</th>
-    <th>E-Mail</th>
-    <th>Verein</th>
-    <th>Angemeldet am</th>
-  </thead>
-  <tbody>
-    <%= for r <- @registrations do %>
-      <tr>
-        <td><%= r.first_name %> <%= r.last_name %></td>
-        <td><a href="mailto:<%= r.email %>"><%= r.email %></a></td>
-        <td><%= r.club_name %></td>
-        <td class="column column--created-at"><%= r.inserted_at %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+  <h2 class="mt-5 mb-4">Registrations (<%= length(@registrations) %>)</h2>
+
+  <table class="table">
+    <thead>
+      <th>Name</th>
+      <th>E-Mail</th>
+      <th>Verein</th>
+      <th>Angemeldet am</th>
+    </thead>
+    <tbody>
+      <%= for r <- @registrations do %>
+        <tr>
+          <td><%= r.first_name %> <%= r.last_name %></td>
+          <td><a href="mailto:<%= r.email %>"><%= r.email %></a></td>
+          <td><%= r.club_name %></td>
+          <td class="column column--created-at"><%= r.inserted_at %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</div>
+</section>
